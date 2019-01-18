@@ -1,9 +1,11 @@
+package .com.epam.brest.courses;
+
 import java.util.Scanner;
 
 /**
  * @author Vladislav Kondratuk
  */
-
+//use BigDecimal
 public class DeliveryCost {
 
     static private double costPerKm = 0.85;
