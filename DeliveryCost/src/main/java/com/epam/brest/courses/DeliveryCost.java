@@ -1,7 +1,9 @@
 package com.epam.brest.courses;
 
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Properties;
 import java.util.Scanner;
 
@@ -11,54 +13,53 @@ import java.util.Scanner;
 
 public class DeliveryCost {
 
-    private double costPerKm;
-    private double costPerKg;
-    private double weight;
-    private double distance;
+    private BigDecimal costPerKm;
+    private BigDecimal costPerKg;
+    private BigDecimal weight;
+    private BigDecimal distance;
 
-    public void setCostPerKg(double costPerKg) {
+    public void setCostPerKg(BigDecimal costPerKg) {
         this.costPerKg = costPerKg;
     }
 
-    public double getCostPerKg() {
+    public BigDecimal getCostPerKg() {
         return costPerKg;
     }
-    public void setCostPerKm(double costPerKm) {
+    public void setCostPerKm(BigDecimal costPerKm) {
         this.costPerKm = costPerKm;
     }
 
-    public double getCostPerKm() {
+    public BigDecimal getCostPerKm() {
         return costPerKm;
     }
 
-    public void setWeight(double weight) {
+    public void setWeight(BigDecimal weight) {
         this.weight = weight;
     }
 
-    public double getWeight() {
+    public BigDecimal getWeight() {
         return weight;
     }
 
-    public void setDistance(double distance) {
+    public void setDistance(BigDecimal distance) {
         this.distance = distance;
     }
 
-    public double getDistance() {
+    public BigDecimal getDistance() {
         return distance;
     }
 
-    public double totalCost(double weight, double distance) {
-        return getCostPerKg() * weight + getCostPerKm() * distance;
-    }
-
     public void inputWeightAndDistance(){
+        BigDecimal costForWeight, costForDistance, totalCost;
         Scanner input = new Scanner(System.in);
-        DeliveryCost dC = new DeliveryCost();
-
-        FileInputStream inputFile;
+        InputStream inputFile;
         Properties inputProperty = new Properties();
+
+        System.out.println("Total cost =  (Cost per km) * (Distance) + (Cost per kg) * (Weight)");
+
         try {
-            inputFile = new FileInputStream("/home/vlad/development/DeliveryCost/src/main/resources/tariffPrices.properties");
+            //relative path to file
+            inputFile = DeliveryCost.class.getResourceAsStream("/tariffPrices.properties");
             inputProperty.load(inputFile);
 
             double minWeightTariff = Double.parseDouble(inputProperty.getProperty("minWeightTariff"));
@@ -71,39 +72,59 @@ public class DeliveryCost {
 
             System.out.print("Enter weight: ");
             double weight = input.nextDouble();
-            dC.setDistance(weight);
+            setDistance(BigDecimal.valueOf(weight));
 
             System.out.print("Enter distance: ");
             double distance = input.nextDouble();
-            dC.setWeight(distance);
+            setWeight(BigDecimal.valueOf(distance));
 
 
-            if (weight <= minWeightTariff) {
-                dC.setCostPerKg(0.07);
+            if (weight < minWeightTariff) {
+                setCostPerKg(BigDecimal.valueOf(0.07));
             }
-            if (weight >= minWeightTariff & weight <= averageWeightTariff) {
-                dC.setCostPerKg(0.14);
+            else if  (weight >= minWeightTariff | weight <= averageWeightTariff) {
+                setCostPerKg(BigDecimal.valueOf(0.14));
             }
-            if (weight >= maxWeightTariff) {
-                dC.setCostPerKg(0.21);
-            }
-
-            if (distance <= minDistanceTariff) {
-                dC.setCostPerKm(0.7);
-            }
-            if (distance >= minDistanceTariff & weight <= averageDistanceTariff) {
-                dC.setCostPerKm(0.85);
-            }
-            if (distance >= maxDistanceTariff) {
-                dC.setCostPerKm(0.9);
+            else if (weight >= maxWeightTariff) {
+                setCostPerKg(BigDecimal.valueOf(0.21));
+            }else {
+                setCostPerKg(BigDecimal.valueOf(0));
             }
 
-            System.out.printf("Total delivery cost = %.2f rub", dC.totalCost(dC.getWeight(), dC.getDistance()));
+            if (distance < minDistanceTariff) {
+                setCostPerKm(BigDecimal.valueOf(0.6));
+            }
+            else if (distance >= minDistanceTariff | weight <= averageDistanceTariff) {
+                setCostPerKm(BigDecimal.valueOf(0.85));
+            }
+            else if (distance >= maxDistanceTariff) {
+                setCostPerKm(BigDecimal.valueOf(0.9));
+            }else {
+                setCostPerKm(BigDecimal.valueOf(0));
+            }
+
+            costForDistance = getCostPerKm().multiply(getDistance());
+            costForDistance = costForDistance.setScale(2, RoundingMode.CEILING);
+            System.out.println("Cost for distance: " + costForDistance + " rub");
+
+            costForWeight = getCostPerKg().multiply(getWeight());
+            costForWeight = costForWeight.setScale(2, RoundingMode.CEILING);
+            System.out.println("Cost for weight: " + costForWeight + " rub");
+
+            //BigDecimal output
+            totalCost = costForDistance.add(costForWeight);
+            totalCost = totalCost.setScale(2, RoundingMode.CEILING);
+            System.out.println("Total cost =  " + getCostPerKm() + "(Cost per km) * " + getDistance() + "(Distance) + "
+                    + getCostPerKg() + "(Cost per kg) * " + getWeight() + "(Weight)");
+            System.out.println("Total cost: " + totalCost + " rub");
+
 
         } catch (IOException e) {
             System.out.println("Input exception, file not found: " + e);
         }
     }
+
+
 
     public static void main(String args[]) {
         DeliveryCost dC = new DeliveryCost();
