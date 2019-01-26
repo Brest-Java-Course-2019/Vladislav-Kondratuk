@@ -2,10 +2,14 @@ package com.epam.brest.courses;
 
 import com.epam.brest.courses.calc.DataItem;
 import com.epam.brest.courses.calc.CalculatorImp;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.InputMismatchException;
 import java.util.Properties;
 import java.util.Scanner;
 
@@ -14,6 +18,8 @@ import java.util.Scanner;
  */
 
 public class DeliveryCost {
+
+    private static final Logger LOGGER = LogManager.getLogger();
 
     public static void main(String args[]) {
 
@@ -46,33 +52,44 @@ public class DeliveryCost {
                 double distance = input.nextDouble();
                 dataItem.setWeight(BigDecimal.valueOf(distance));
 
-                if (weight < minWeightTariff) {
+                if (weight <= 0) {
+                    LOGGER.info("-> Weight can be less or equal 0");
+                    return;
+                } else if (weight < minWeightTariff) {
                     dataItem.setCostPerKg(BigDecimal.valueOf(0.07));
-                } else if (weight >= averageWeightTariff & weight < maxWeightTariff) {
+                } else if (weight >= minWeightTariff & weight <= averageWeightTariff) {
                     dataItem.setCostPerKg(BigDecimal.valueOf(0.14));
-                } else if (weight >= maxWeightTariff) {
+                } else if (weight >= averageWeightTariff & weight <= maxWeightTariff) {
                     dataItem.setCostPerKg(BigDecimal.valueOf(0.21));
                 } else {
-                    dataItem.setCostPerKg(BigDecimal.valueOf(0));
+                    dataItem.setCostPerKg(BigDecimal.valueOf(0.25));
                 }
 
-                if (distance < minDistanceTariff) {
+                if (distance <= 0) {
+                    LOGGER.info("-> Distance can be less or equal 0");
+                    return;
+                } else if (distance < minDistanceTariff) {
                     dataItem.setCostPerKm(BigDecimal.valueOf(0.6));
-                } else if (distance >= averageDistanceTariff & distance < maxDistanceTariff) {
+                } else if (distance >= minDistanceTariff & distance <= averageDistanceTariff) {
                     dataItem.setCostPerKm(BigDecimal.valueOf(0.85));
-                } else if (distance >= maxDistanceTariff) {
+                } else if (distance >= averageDistanceTariff & distance <= maxDistanceTariff) {
                     dataItem.setCostPerKm(BigDecimal.valueOf(0.9));
                 } else {
-                    dataItem.setCostPerKm(BigDecimal.valueOf(0));
+                    dataItem.setCostPerKm(BigDecimal.valueOf(0.95));
                 }
 
-                System.out.format("Cost per 1 km  = %.2f rub%n", dataItem.getCostPerKm());
-                System.out.format("Cost per 1 kg  = %.2f rub%n", dataItem.getCostPerKg());
+                LOGGER.info("-> Cost per 1 kg = {}", dataItem.getCostPerKg()
+                        .setScale(2, RoundingMode.CEILING));
+
+                LOGGER.info("-> Cost per 1 km = {}", dataItem.getCostPerKm()
+                        .setScale(2, RoundingMode.CEILING));
 
                 BigDecimal calcResult = new CalculatorImp().calc(dataItem);
-                System.out.format("Delivery cost = %.2f rub%n", calcResult);
 
-            } catch (java.util.InputMismatchException e) {
+                LOGGER.info("-> Delivery cost = {}", calcResult
+                        .setScale(2, RoundingMode.CEILING));
+
+            } catch (InputMismatchException e) {
                 System.out.println("Input type exception: " + e);
             }
         } catch (IOException e) {

@@ -16,18 +16,18 @@ public class CalculatorImpTest {
 
     @BeforeAll
     static void setup() {
-        System.out.println("@BeforeAll - executes once before all test methods in this class");
+        System.out.println("@Start CalculatorImpTest");
     }
 
     @BeforeEach
     void init() {
-        System.out.println("@BeforeEach");
+        System.out.println("@Start test");
 
         dataItem = new DataItem();
-        dataItem.setWeight(new BigDecimal("1"));
+        dataItem.setWeight(new BigDecimal("2"));
         dataItem.setDistance(new BigDecimal("2"));
-        dataItem.setCostPerKg(new BigDecimal("3"));
-        dataItem.setCostPerKm(new BigDecimal("4"));
+        dataItem.setCostPerKg(new BigDecimal("2"));
+        dataItem.setCostPerKm(new BigDecimal("2"));
     }
 
     @Test
@@ -35,7 +35,7 @@ public class CalculatorImpTest {
         System.out.println("@Test 1");
 
         BigDecimal calcResult = calculator.calc(dataItem);
-        Assertions.assertEquals(new BigDecimal("11"), calcResult);
+        Assertions.assertEquals(new BigDecimal("8"), calcResult);
     }
 
     @Test
@@ -45,18 +45,18 @@ public class CalculatorImpTest {
         BigDecimal calcResult = calculator.calc(dataItem);
 
         Assertions.assertThrows(AssertionFailedError.class, () -> {
-            Assertions.assertEquals(new BigDecimal("12"), calcResult);
+            Assertions.assertEquals(new BigDecimal("7"), calcResult);
         });
-    }
-
-    @AfterAll
-    static void afterAll() {
-        System.out.println("@AfterAll");
     }
 
     @AfterEach
     void afterEach() {
-        System.out.println("@AfterEach");
+        System.out.println("@End test");
+    }
+
+    @AfterAll
+    static void afterAll() {
+        System.out.println("@End CalculatorImpTest");
     }
 
 
