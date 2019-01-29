@@ -1,8 +1,5 @@
-package com.epam.brest.courses;
+package com.epam.brest.courses.calc;
 
-import com.epam.brest.courses.calc.Calculator;
-import com.epam.brest.courses.calc.CalculatorImp;
-import com.epam.brest.courses.calc.DataItem;
 import org.opentest4j.AssertionFailedError;
 import org.junit.jupiter.api.*;
 

@@ -4,8 +4,9 @@ import java.math.BigDecimal;
 
 public class CalculatorImp implements Calculator {
 
-    @Override //проверка переопределение базового класса
+    @Override
     public BigDecimal calc(DataItem dataItem) {
-        return dataItem.getWeight().multiply(dataItem.getCostPerKg()).add(dataItem.getDistance().multiply(dataItem.getCostPerKm()));
+        return dataItem.getWeight().multiply(dataItem.getCostPerKg())
+                .add(dataItem.getDistance().multiply(dataItem.getCostPerKm()));
     }
 }

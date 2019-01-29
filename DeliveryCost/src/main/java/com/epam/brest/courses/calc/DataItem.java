@@ -16,6 +16,7 @@ public class DataItem {
     public BigDecimal getCostPerKg() {
         return costPerKg;
     }
+
     public void setCostPerKm(BigDecimal costPerKm) {
         this.costPerKm = costPerKm;
     }
