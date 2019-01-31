@@ -1,4 +1,4 @@
-package com.epam.brest.courses.input_parametrs;
+package com.epam.brest.courses.tariff_prices;
 
 public class InputParameterToCompare {
 
