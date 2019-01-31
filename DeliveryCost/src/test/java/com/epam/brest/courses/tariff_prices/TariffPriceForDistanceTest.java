@@ -6,16 +6,34 @@ import java.math.BigDecimal;
 
 public class TariffPriceForDistanceTest {
 
-    TariffPriceForDistance tariffPriceForDistance;
+    TariffPriceForDistance tariffPriceForDistance = new TariffPriceForDistance();
 
     @Test
-    void testDefineTariffPrice() {
+    void testDefineMinTariff() {
 
-        Assertions.assertThrows(NullPointerException.class, () -> {
-            Assertions.assertEquals(BigDecimal.valueOf(0.85), tariffPriceForDistance
-                    .defineTariffPrice(51, 50, 120, 300));
-        });
+        Assertions.assertEquals(BigDecimal.valueOf(0.7), tariffPriceForDistance
+                .defineTariffPrice(42, 50, 120, 300));
+    }
 
+    @Test
+    void testDefineAverageTariff() {
+
+        Assertions.assertEquals(BigDecimal.valueOf(0.85), tariffPriceForDistance
+                .defineTariffPrice(99, 50, 120, 300));
+    }
+
+    @Test
+    void testDefineMaxTariff() {
+
+        Assertions.assertEquals(BigDecimal.valueOf(0.9), tariffPriceForDistance
+                .defineTariffPrice(231, 50, 120, 300));
+    }
+
+    @Test
+    void testDefineMoreMaxTariff() {
+
+        Assertions.assertEquals(BigDecimal.valueOf(0.9), tariffPriceForDistance
+                .defineTariffPrice(432, 50, 120, 300));
     }
 
 }
