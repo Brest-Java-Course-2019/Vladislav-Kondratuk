@@ -32,7 +32,7 @@ public class TariffPriceForDistanceTest {
     @Test
     void testDefineMoreMaxTariff() {
 
-        Assertions.assertEquals(BigDecimal.valueOf(0.9), tariffPriceForDistance
+        Assertions.assertEquals(BigDecimal.valueOf(0.95), tariffPriceForDistance
                 .defineTariffPrice(432, 50, 120, 300));
     }
 
