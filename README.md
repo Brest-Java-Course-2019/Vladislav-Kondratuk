@@ -10,8 +10,8 @@ Test Java project to study technologies such as git, maven, continuous integrati
 
 ### Prerequisites
 
-install jdk8__
-install git__
+install jdk8<br />
+install git<br />
 install maven3+
 
 ### Installing
