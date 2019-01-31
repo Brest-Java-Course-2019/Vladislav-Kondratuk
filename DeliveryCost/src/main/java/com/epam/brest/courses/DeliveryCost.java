@@ -2,12 +2,10 @@ package com.epam.brest.courses;
 
 import com.epam.brest.courses.calc.DataItem;
 import com.epam.brest.courses.calc.CalculatorImp;
-import com.epam.brest.courses.input_parametrs.InputDistance;
-import com.epam.brest.courses.tariff_prices.DistanceTariffPrices;
-import com.epam.brest.courses.input_parametrs.InputWeight;
+import com.epam.brest.courses.input_parametrs.InputParameterToCompare;
 import com.epam.brest.courses.tariff_prices.TariffPriceForDistance;
 import com.epam.brest.courses.tariff_prices.TariffPriceForWeight;
-import com.epam.brest.courses.tariff_prices.WeightTariffPrices;
+import com.epam.brest.courses.tariff_prices.TariffPrices;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import java.io.IOException;
@@ -28,11 +26,9 @@ public class DeliveryCost {
 
     public static void main(String args[]) {
 
-        WeightTariffPrices weightPrices = new WeightTariffPrices();
-        DistanceTariffPrices distancePrices = new DistanceTariffPrices();
+        TariffPrices tariffPrices = new TariffPrices();
         DataItem dataItem = new DataItem();
-        InputDistance inputDistance = new InputDistance();
-        InputWeight inputWeight = new InputWeight();
+        InputParameterToCompare inputParameter = new InputParameterToCompare();
         TariffPriceForWeight tariffPriceForWeight = new TariffPriceForWeight();
         TariffPriceForDistance tariffPriceForDistance = new TariffPriceForDistance();
 
@@ -40,7 +36,7 @@ public class DeliveryCost {
         InputStream inputFile;
         Properties inputProperty = new Properties();
 
-        inputFile = DeliveryCost.class.getResourceAsStream("/tariffPrices.properties");
+        inputFile = DeliveryCost.class.getResourceAsStream("/tariff_prices.properties");
         try {
             inputProperty.load(inputFile);
         } catch (IOException e) {
@@ -48,18 +44,18 @@ public class DeliveryCost {
         }
 
         try {
-            weightPrices.setMinWeightTariff(Double.parseDouble
+            tariffPrices.setMinWeightTariff(Double.parseDouble
                     (inputProperty.getProperty("minWeightTariff")));
-            weightPrices.setAverageWeightTariff(Double.parseDouble
+            tariffPrices.setAverageWeightTariff(Double.parseDouble
                     (inputProperty.getProperty("averageWeightTariff")));
-            weightPrices.setMaxWeightTariff(Double.parseDouble
+            tariffPrices.setMaxWeightTariff(Double.parseDouble
                     (inputProperty.getProperty("maxWeightTariff")));
 
-            distancePrices.setMinDistanceTariff(Double.parseDouble
+            tariffPrices.setMinDistanceTariff(Double.parseDouble
                     (inputProperty.getProperty("minDistanceTariff")));
-            distancePrices.setAverageDistanceTariff(Double.parseDouble
+            tariffPrices.setAverageDistanceTariff(Double.parseDouble
                     (inputProperty.getProperty("averageDistanceTariff")));
-            distancePrices.setMaxDistanceTariff(Double.parseDouble
+            tariffPrices.setMaxDistanceTariff(Double.parseDouble
                     (inputProperty.getProperty("maxDistanceTariff")));
         } catch (NumberFormatException e) {
             LOGGER.error("Input mismatch type exception: ", e);
@@ -69,27 +65,27 @@ public class DeliveryCost {
 
         try {
             System.out.print("Enter weight: ");
-            inputWeight.setWeight(input.nextDouble());
-            dataItem.setDistance(BigDecimal.valueOf(inputWeight.getWeight()));
+            inputParameter.setWeightToCompare(input.nextDouble());
+            dataItem.setDistance(BigDecimal.valueOf(inputParameter.getWeightToCompare()));
 
-            if (inputWeight.getWeight() <= 0) {
+            if (inputParameter.getWeightToCompare() <= 0) {
                 LOGGER.info("-> Weight can't be less or equal 0");
             } else {
                 dataItem.setCostPerKg(tariffPriceForWeight.defineTariffPrice
-                        (inputWeight.getWeight(), weightPrices.getMinWeightTariff(),
-                                weightPrices.getAverageWeightTariff(), weightPrices.getMaxWeightTariff()));
+                        (inputParameter.getWeightToCompare(), tariffPrices.getMinWeightTariff(),
+                                tariffPrices.getAverageWeightTariff(), tariffPrices.getMaxWeightTariff()));
             }
 
             System.out.print("Enter distance: ");
-            inputDistance.setDistance(input.nextDouble());
-            dataItem.setWeight(BigDecimal.valueOf(inputDistance.getDistance()));
+            inputParameter.setDistanceToCompare(input.nextDouble());
+            dataItem.setWeight(BigDecimal.valueOf(inputParameter.getDistanceToCompare()));
 
-            if (inputDistance.getDistance() <= 0) {
+            if (inputParameter.getDistanceToCompare() <= 0) {
                 LOGGER.info("-> Distance can't be less or equal 0");
             } else {
                 dataItem.setCostPerKm(tariffPriceForDistance.defineTariffPrice
-                        (inputDistance.getDistance(), distancePrices.getMinDistanceTariff(),
-                                distancePrices.getAverageDistanceTariff(), distancePrices.getMaxDistanceTariff()));
+                        (inputParameter.getDistanceToCompare(), tariffPrices.getMinDistanceTariff(),
+                                tariffPrices.getAverageDistanceTariff(), tariffPrices.getMaxDistanceTariff()));
             }
 
             LOGGER.info("-> Cost per 1 kg = {}", dataItem.getCostPerKg()
