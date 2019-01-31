@@ -1,0 +1,6 @@
+language: java
+jdk:
+  - oraclejdk8
+before_script: cd DeliveryCost/
+after_success:
+  - mvn clean test cobertura:cobertura coveralls:report
