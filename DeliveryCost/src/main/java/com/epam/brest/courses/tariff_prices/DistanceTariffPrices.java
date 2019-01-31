@@ -1,4 +1,4 @@
-package com.epam.brest.courses.tariffPrices;
+package com.epam.brest.courses.tariff_prices;
 
 public class DistanceTariffPrices {
 

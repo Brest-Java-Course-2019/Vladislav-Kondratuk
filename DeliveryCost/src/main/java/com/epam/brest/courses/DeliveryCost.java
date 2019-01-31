@@ -2,12 +2,12 @@ package com.epam.brest.courses;
 
 import com.epam.brest.courses.calc.DataItem;
 import com.epam.brest.courses.calc.CalculatorImp;
-import com.epam.brest.courses.inputParametrs.InputDistance;
-import com.epam.brest.courses.tariffPrices.DistanceTariffPrices;
-import com.epam.brest.courses.inputParametrs.InputWeight;
-import com.epam.brest.courses.tariffPrices.TariffPriceForDistance;
-import com.epam.brest.courses.tariffPrices.TariffPriceForWeight;
-import com.epam.brest.courses.tariffPrices.WeightTariffPrices;
+import com.epam.brest.courses.input_parametrs.InputDistance;
+import com.epam.brest.courses.tariff_prices.DistanceTariffPrices;
+import com.epam.brest.courses.input_parametrs.InputWeight;
+import com.epam.brest.courses.tariff_prices.TariffPriceForDistance;
+import com.epam.brest.courses.tariff_prices.TariffPriceForWeight;
+import com.epam.brest.courses.tariff_prices.WeightTariffPrices;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import java.io.IOException;

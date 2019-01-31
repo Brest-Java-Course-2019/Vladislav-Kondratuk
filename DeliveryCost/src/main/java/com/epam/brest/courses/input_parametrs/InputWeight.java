@@ -1,4 +1,4 @@
-package com.epam.brest.courses.inputParametrs;
+package com.epam.brest.courses.input_parametrs;
 
 public class InputWeight {
 
