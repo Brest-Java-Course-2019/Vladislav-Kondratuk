@@ -9,10 +9,10 @@ public class TariffPriceForDistanceImp implements TariffPriceForDistance {
         if (compareDistance.getDistanceToCompare() < tariffPriceDistance.getMinDistanceTariff()) {
             return BigDecimal.valueOf(0.7);
         } else if (compareDistance.getDistanceToCompare() >= tariffPriceDistance.getMinDistanceTariff()
-                && compareDistance.getDistanceToCompare() <= tariffPriceDistance.getAverageDistanceTariff()) {
+                && compareDistance.getDistanceToCompare() < tariffPriceDistance.getAverageDistanceTariff()) {
             return BigDecimal.valueOf(0.85);
         } else if (compareDistance.getDistanceToCompare() >= tariffPriceDistance.getAverageDistanceTariff()
-                && compareDistance.getDistanceToCompare() <= tariffPriceDistance.getMaxDistanceTariff()) {
+                && compareDistance.getDistanceToCompare() < tariffPriceDistance.getMaxDistanceTariff()) {
             return BigDecimal.valueOf(0.9);
         } else {
             return BigDecimal.valueOf(0.95);

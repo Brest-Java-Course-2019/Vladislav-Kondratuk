@@ -2,7 +2,10 @@ package com.epam.brest.courses;
 
 import com.epam.brest.courses.calc.DataItem;
 import com.epam.brest.courses.calc.CalculatorImp;
-import com.epam.brest.courses.tariff_prices.*;
+import com.epam.brest.courses.tariff_prices.TariffPriceForDistanceImp;
+import com.epam.brest.courses.tariff_prices.TariffPriceForWeightImp;
+import com.epam.brest.courses.tariff_prices.TariffPrices;
+import com.epam.brest.courses.tariff_prices.InputParameterToCompare;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import java.io.IOException;
@@ -21,7 +24,7 @@ public class DeliveryCost {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
 
         TariffPrices tariffPriceWeight = new TariffPrices();
         TariffPrices tariffPriceDistance = new TariffPrices();
@@ -38,7 +41,7 @@ public class DeliveryCost {
         try {
             inputProperty.load(inputFile);
         } catch (IOException e) {
-            LOGGER.error("Input exception, file not found: ", e);
+            LOGGER.error("Input exception, file not found: \n", e);
         }
 
         try {
@@ -56,48 +59,48 @@ public class DeliveryCost {
             tariffPriceDistance.setMaxDistanceTariff(Double.parseDouble
                     (inputProperty.getProperty("maxDistanceTariff")));
         } catch (NumberFormatException e) {
-            LOGGER.error("Input mismatch type exception: ", e);
+            LOGGER.error("Input mismatch type exception: \n", e);
         }
 
-        LOGGER.info("-> Total cost =  (Cost per km) * (Distance) + (Cost per kg) * (Weight)");
+        LOGGER.info("-> Total cost =  (Cost per km) * (Distance) + (Cost per kg) * (Weight)\n");
 
         try {
-            System.out.print("Enter weight: ");
+            LOGGER.info("Enter weight: ");
             inputParameter.setWeightToCompare(input.nextDouble());
             dataItem.setDistance(BigDecimal.valueOf(inputParameter.getWeightToCompare()));
 
             if (inputParameter.getWeightToCompare() <= 0) {
-                LOGGER.info("-> Weight can't be less or equal 0");
+                LOGGER.warn("-> Weight can't be less or equal 0\n");
             } else {
                 dataItem.setCostPerKg
                         (new TariffPriceForWeightImp().defineTariffPrice(tariffPriceWeight, compareWeight));
             }
 
 
-            System.out.print("Enter distance: ");
+            LOGGER.info("Enter distance: ");
             inputParameter.setDistanceToCompare(input.nextDouble());
             dataItem.setWeight(BigDecimal.valueOf(inputParameter.getDistanceToCompare()));
 
             if (inputParameter.getDistanceToCompare() <= 0) {
-                LOGGER.info("-> Distance can't be less or equal 0");
+                LOGGER.warn("-> Distance can't be less or equal 0\n");
             } else {
                 dataItem.setCostPerKm
                         (new TariffPriceForDistanceImp().defineTariffPrice(tariffPriceDistance, compareDistance));
             }
 
-            LOGGER.info("-> Cost per 1 kg = {}", dataItem.getCostPerKg()
+            LOGGER.info("-> Cost per 1 kg = {}\n", dataItem.getCostPerKg()
                     .setScale(2, RoundingMode.CEILING));
 
-            LOGGER.info("-> Cost per 1 km = {}", dataItem.getCostPerKm()
+            LOGGER.info("-> Cost per 1 km = {}\n", dataItem.getCostPerKm()
                     .setScale(2, RoundingMode.CEILING));
 
             BigDecimal calcResult = new CalculatorImp().calc(dataItem);
 
-            LOGGER.info("-> Delivery cost = {}", calcResult
+            LOGGER.info("-> Delivery cost = {}\n", calcResult
                     .setScale(2, RoundingMode.CEILING));
 
         } catch (InputMismatchException e) {
-            LOGGER.error("Input type exception: ", e);
+            LOGGER.error("Input type exception: \n", e);
         }
     }
 }
