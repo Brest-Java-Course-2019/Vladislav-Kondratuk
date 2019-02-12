@@ -1,91 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="98e426e3-259c-445b-a52b-c6b0ad86bdd6" name="Default Changelist" comment="initial model">
-      <change afterPath="$PROJECT_DIR$/../.idea/develpoment.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__junit_junit_4_12.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apiguardian_apiguardian_api_1_0_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_hamcrest_hamcrest_core_1_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_jupiter_junit_jupiter_api_5_2_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_jupiter_junit_jupiter_engine_5_2_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_platform_junit_platform_commons_1_2_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_platform_junit_platform_engine_1_2_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_vintage_junit_vintage_engine_5_2_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_opentest4j_opentest4j_1_1_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_aop_5_1_4_RELEASE.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_beans_5_1_4_RELEASE.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_context_5_1_4_RELEASE.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_core_5_1_4_RELEASE.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_expression_5_1_4_RELEASE.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_jcl_5_1_4_RELEASE.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.travis.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dao/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dao/target/checkstyle-cachefile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dao/target/checkstyle-checker.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dao/target/checkstyle-result.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dao/target/cpd.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dao/target/generated-classes/cobertura/cobertura.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dao/target/maven-archiver/pom.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dao/target/maven-pmd-plugin-default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dao/target/pmd.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hr-db/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hr-db/src/main/resources/db/migration/data/initial_data.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hr-db/src/main/resources/db/migration/data/initial_data.sql.bak" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hr-db/src/main/resources/db/migration/schema/initial_schema.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hr-db/src/main/resources/db/migration/schema/initial_schema.sql.bak" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hr-db/target/checkstyle-cachefile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hr-db/target/checkstyle-checker.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hr-db/target/checkstyle-result.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hr-db/target/classes/db/migration/data/initial_data.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hr-db/target/classes/db/migration/schema/initial_schema.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hr-db/target/cpd.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hr-db/target/generated-classes/cobertura/cobertura.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hr-db/target/generated-classes/cobertura/db/migration/data/initial_data.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hr-db/target/generated-classes/cobertura/db/migration/schema/initial_schema.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hr-db/target/maven-archiver/pom.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hr-db/target/maven-pmd-plugin-default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hr-db/target/pmd.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/src/main/java/com/epam/brest/courses/model/Car.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/src/main/java/com/epam/brest/courses/model/Client.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/src/main/java/com/epam/brest/courses/model/RentalOrder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/target/checkstyle-cachefile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/target/checkstyle-checker.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/target/checkstyle-result.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/target/cobertura/cobertura.ser" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/target/cpd.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/target/generated-classes/cobertura/cobertura.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/target/maven-archiver/pom.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/target/maven-pmd-plugin-default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/target/pmd.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/specification/er_model/rental_car.mwb.bak" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/target/checkstyle-cachefile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/target/checkstyle-checker.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/target/checkstyle-result.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/target/cpd.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/target/generated-classes/cobertura/cobertura.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/target/maven-archiver/pom.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/target/maven-pmd-plugin-default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/target/pmd.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../CourseProject/RentalCarSpecification.odt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../CourseProject/RentalCarSpecification.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/specification/RentalCarSpecification.pdf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../CourseProject/rental_car.mwb" beforeDir="false" afterPath="$PROJECT_DIR$/specification/er_model/rental_car.mwb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../DeliveryCost/README.md" afterDir="false" />
+    <list default="true" id="98e426e3-259c-445b-a52b-c6b0ad86bdd6" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../.idea/develpoment.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <ignored path="$PROJECT_DIR$/dao/target/" />
@@ -205,8 +128,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="295">
-              <caret line="46" column="11" selection-start-line="46" selection-start-column="11" selection-end-line="46" selection-end-column="11" />
+            <state relative-caret-position="715">
+              <caret line="48" column="11" selection-start-line="48" selection-start-column="11" selection-end-line="48" selection-end-column="11" />
             </state>
           </provider>
         </entry>
@@ -245,7 +168,6 @@
         <option value="$PROJECT_DIR$/hr-db/src/main/resources/db/migration/data/initial_data.sql" />
         <option value="$PROJECT_DIR$/hr-db/README.md" />
         <option value="$PROJECT_DIR$/README.md" />
-        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/.travis.yml" />
         <option value="$PROJECT_DIR$/model/src/main/java/Car.java" />
         <option value="$PROJECT_DIR$/model/src/main/java/Client.java" />
@@ -253,6 +175,7 @@
         <option value="$PROJECT_DIR$/model/src/main/java/com/epam/brest/courses/RentalOrder.java" />
         <option value="$PROJECT_DIR$/model/src/main/java/com/epam/brest/courses/Client.java" />
         <option value="$PROJECT_DIR$/model/src/main/java/com/epam/brest/courses/Car.java" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -270,8 +193,9 @@
     </treeState>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="-110" />
     <option name="y" value="149" />
-    <option name="width" value="1226" />
+    <option name="width" value="1236" />
     <option name="height" value="349" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -287,6 +211,11 @@
               <item name="rental-cars" type="b2602c69:ProjectViewProjectNode" />
               <item name="RentalCars" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="rental-cars" type="b2602c69:ProjectViewProjectNode" />
+              <item name="RentalCars" type="462c0819:PsiDirectoryNode" />
+              <item name="specification" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -296,9 +225,9 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1549984526217" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1549985039917" />
     <property name="jdk.selected.JAVA_MODULE" value="1.8" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/.." />
     <property name="project.structure.last.edited" value="Problems" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -340,6 +269,14 @@
       <option name="presentableId" value="Default" />
       <updated>1549974696566</updated>
     </task>
+    <task id="LOCAL-00001" summary="initial model">
+      <created>1549984537853</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1549984537854</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -351,10 +288,10 @@
       <window_info id="Capture Tool" order="2" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info id="Image Layers" order="4" />
-      <window_info content_ui="combo" id="Project" order="5" visible="true" weight="0.25" />
+      <window_info active="true" content_ui="combo" id="Project" order="5" visible="true" weight="0.25" />
       <window_info id="Structure" order="6" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Messages" weight="0.32899022" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="0" visible="true" weight="0.32899022" />
+      <window_info anchor="bottom" id="Terminal" order="0" visible="true" weight="0.32899022" />
       <window_info anchor="bottom" id="Event Log" order="1" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="2" />
       <window_info anchor="bottom" id="Message" order="3" />
@@ -602,8 +539,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="295">
-          <caret line="46" column="11" selection-start-line="46" selection-start-column="11" selection-end-line="46" selection-end-column="11" />
+        <state relative-caret-position="715">
+          <caret line="48" column="11" selection-start-line="48" selection-start-column="11" selection-end-line="48" selection-end-column="11" />
         </state>
       </provider>
     </entry>

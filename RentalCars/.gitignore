@@ -1,4 +1,3 @@
-
 # Compiled class file
 *.class
 
@@ -16,8 +15,11 @@
 
 ## Plugin-specific files:
 
-# IntelliJ
-/out/
+# IntelligIdea files
+*.iml
+.idea
+out
+target
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
