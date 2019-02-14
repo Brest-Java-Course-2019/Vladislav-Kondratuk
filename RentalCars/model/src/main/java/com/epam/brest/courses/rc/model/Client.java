@@ -1,4 +1,4 @@
-package com.epam.brest.courses.model;
+package com.epam.brest.courses.rc.model;
 
 public class Client {
 
@@ -40,5 +40,15 @@ public class Client {
 
     public void setOrderId(Integer orderId) {
         this.orderId = orderId;
+    }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "clientId=" + clientId +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", orderId=" + orderId +
+                '}';
     }
 }

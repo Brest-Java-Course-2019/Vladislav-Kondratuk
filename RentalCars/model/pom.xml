@@ -7,7 +7,7 @@
 
     <parent>
         <artifactId>rental-cars</artifactId>
-        <groupId>com.epam.brest.courses</groupId>
+        <groupId>com.epam.brest.courses.rc</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 

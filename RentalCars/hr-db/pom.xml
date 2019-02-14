@@ -5,13 +5,62 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <artifactId>rental-cars</artifactId>
-        <groupId>com.epam.brest.courses</groupId>
-        <version>1.0-SNAPSHOT</version>
-    </parent>
-
     <artifactId>hr-db</artifactId>
+    <groupId>com.epam.brest.courses.rc</groupId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <properties>
+        <postgresql.version>42.2.5</postgresql.version>
+    </properties>
+
+    <profiles>
+        <profile>
+            <id>local</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <serverName>localhost</serverName>
+                <portNumber>5432</portNumber>
+                <dbName>hrdb</dbName>
+                <userName>hrdba</userName>
+                <password>admin123</password>
+            </properties>
+        </profile>
+    </profiles>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <configuration>
+                    <driver>org.postgresql.Driver</driver>
+                    <url>jdbc:postgresql://${serverName}:${portNumber}/${dbName}</url>
+                    <user>${userName}</user>
+                    <password>${password}</password>
+                    <table>schema_version</table>
+                    <sqlMigrationSeparator>__</sqlMigrationSeparator>
+                    <encoding>UTF-8</encoding>
+                    <placeholderReplacement>false</placeholderReplacement>
+                    <validateOnMigrate>true</validateOnMigrate>
+                    <cleanOnValidationError>false</cleanOnValidationError>
+                    <ignoreFutureMigrations>false</ignoreFutureMigrations>
+
+                    <cleanDisabled>false</cleanDisabled>
+                    <skip>false</skip>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.postgresql</groupId>
+                        <artifactId>postgresql</artifactId>
+                        <version>${postgresql.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
 
 
 </project>

@@ -1,4 +1,4 @@
-package com.epam.brest.courses.model;
+package com.epam.brest.courses.rc.model;
 
 import java.math.BigDecimal;
 
@@ -72,5 +72,18 @@ public class Car {
 
     public void setRentalCost(BigDecimal rentalCost) {
         this.rentalCost = rentalCost;
+    }
+
+    @Override
+    public String toString() {
+        return "Car{" +
+                "carId=" + carId +
+                ", carName='" + carName + '\'' +
+                ", yearIssue=" + yearIssue +
+                ", bodyType='" + bodyType + '\'' +
+                ", transmission='" + transmission + '\'' +
+                ", orderId=" + orderId +
+                ", rentalCost=" + rentalCost +
+                '}';
     }
 }

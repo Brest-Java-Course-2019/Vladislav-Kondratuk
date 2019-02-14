@@ -4,16 +4,16 @@ DROP TABLE IF EXISTS car;
 DROP TABLE IF EXISTS client;
 
 -- rental_order
-CREATE TABLE rental_order (
+CREATE TABLE rental (
   order_id SERIAL NOT NULL,
   order_num INTEGER NULL,
 --reg_date CURRENT_TIMESTAMP(2) NULL,
   rental_time DECIMAL(2) NOT NULL DEFAULT 0,
   total_cost DECIMAL(10,2) NOT NULL DEFAULT 0,
-  PRIMARY KEY (order_id);
+  PRIMARY KEY (order_id)
 );
 
---car
+-- car
 CREATE TABLE car (
   car_id SERIAL NOT NULL,
   car_name VARCHAR(100) NOT NULL,
@@ -31,12 +31,12 @@ CREATE TABLE car (
       ON UPDATE NO ACTION
 );
 
---client
+-- client
 CREATE TABLE client (
   client_id SERIAL NOT NULL,
   first_name VARCHAR(45) NULL,
   last_name VARCHAR(45) NULL,
---add_date CURRENT_TIMESTAMP(2) NULL,
+-- add_date CURRENT_TIMESTAMP(2) NULL,
   order_id INTEGER NOT NULL,
   PRIMARY KEY (client_id),
       CONSTRAINT client_to_rental_order_fk

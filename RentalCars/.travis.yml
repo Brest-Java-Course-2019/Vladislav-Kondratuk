@@ -1,6 +1,0 @@
-language: java
-jdk:
-  - oraclejdk8
-before_script: cd RentalCars/
-after_success:
-  - mvn clean test cobertura:cobertura coveralls:report
