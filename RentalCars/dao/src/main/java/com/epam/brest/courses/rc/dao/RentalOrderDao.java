@@ -11,4 +11,9 @@ public interface RentalOrderDao {
 
     Optional<RentalOrder> findById(Integer orderId);
 
+    Optional<RentalOrder> add(RentalOrder order);
+
+    void update(RentalOrder order);
+
+    void delete(int orderId);
 }
