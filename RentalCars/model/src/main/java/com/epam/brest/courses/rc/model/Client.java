@@ -8,8 +8,6 @@ public class Client {
 
     private String lastName;
 
-    private Integer orderId;
-
     public Integer getClientId() {
         return clientId;
     }
@@ -34,21 +32,12 @@ public class Client {
         this.lastName = lastName;
     }
 
-    public Integer getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(Integer orderId) {
-        this.orderId = orderId;
-    }
-
     @Override
     public String toString() {
         return "Client{" +
                 "clientId=" + clientId +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", orderId=" + orderId +
                 '}';
     }
 }

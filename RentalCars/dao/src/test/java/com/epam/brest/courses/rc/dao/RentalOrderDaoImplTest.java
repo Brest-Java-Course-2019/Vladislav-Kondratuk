@@ -52,8 +52,8 @@ class RentalOrderDaoImplTest {
         assertNotNull(order);
         assertEquals(ORDER_ID, order.getOrderId().intValue());
         assertEquals(ORDER_NUMBER, order.getOrderNumber().intValue());
-        Assertions.assertEquals(RENTAL_TIME, order.getRentalTime());
-        Assertions.assertEquals(TOTAL_COST, order.getTotalCost());
+        assertEquals(RENTAL_TIME, order.getRentalTime());
+        assertEquals(TOTAL_COST, order.getTotalCost());
     }
 
     @Test

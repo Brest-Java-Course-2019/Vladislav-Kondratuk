@@ -51,7 +51,7 @@ public class RentalOrderDaoImpl implements RentalOrderDao {
 
     @Override
     public Optional<RentalOrder> findById(Integer orderId) {
-        LOGGER.debug("findAll({})", orderId);
+        LOGGER.debug("findById({})", orderId);
         SqlParameterSource namedParameters = new MapSqlParameterSource(ORDER_ID, orderId);
         RentalOrder rentalOrder = namedParameterJdbcTemplate.queryForObject(FIND_BY_ID, namedParameters,
                 BeanPropertyRowMapper.newInstance(RentalOrder.class));

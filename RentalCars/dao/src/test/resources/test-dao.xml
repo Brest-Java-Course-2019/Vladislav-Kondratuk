@@ -12,4 +12,8 @@
         <constructor-arg ref="namedParameterJdbcTemplate"/>
     </bean>
 
+    <bean id="clientDao" class="com.epam.brest.courses.rc.dao.ClientDaoImpl">
+        <constructor-arg ref="namedParameterJdbcTemplate"/>
+    </bean>
+
 </beans>
