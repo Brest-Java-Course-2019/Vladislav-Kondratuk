@@ -20,7 +20,11 @@
         </dependency>
         <dependency>
             <groupId>com.epam.brest.courses.rc</groupId>
-            <artifactId>test</artifactId>
+            <artifactId>dao-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.epam.brest.courses.rc</groupId>
+            <artifactId>test-db</artifactId>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>

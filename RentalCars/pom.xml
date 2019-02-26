@@ -14,8 +14,9 @@
 
     <modules>
         <module>model</module>
+        <module>dao-api</module>
         <module>dao</module>
-        <module>test</module>
+        <module>test-db</module>
     </modules>
 
     <distributionManagement>
@@ -43,12 +44,17 @@
             </dependency>
             <dependency>
                 <groupId>com.epam.brest.courses.rc</groupId>
+                <artifactId>dao-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.epam.brest.courses.rc</groupId>
                 <artifactId>dao</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.epam.brest.courses.rc</groupId>
-                <artifactId>test</artifactId>
+                <artifactId>test-db</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

@@ -8,11 +8,11 @@
         <constructor-arg name="dataSource" ref="dataSource"/>
     </bean>
 
-    <bean id="rentalOrderDao" class="com.epam.brest.courses.rc.dao.RentalOrderDaoImpl">
+    <bean id="clientDao" class="com.epam.brest.courses.rc.dao.ClientDaoImpl">
         <constructor-arg ref="namedParameterJdbcTemplate"/>
     </bean>
 
-    <bean id="clientDao" class="com.epam.brest.courses.rc.dao.ClientDaoImpl">
+    <bean id="rentalOrderDao" class="com.epam.brest.courses.rc.dao.RentalOrderDaoImpl">
         <constructor-arg ref="namedParameterJdbcTemplate"/>
     </bean>
 

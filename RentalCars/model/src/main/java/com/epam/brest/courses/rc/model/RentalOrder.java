@@ -1,16 +1,20 @@
 package com.epam.brest.courses.rc.model;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 
 public class RentalOrder {
 
+
     private Integer orderId;
 
-    private Integer orderNumber;
+    private Integer clientId;
+
+    private Integer carId;
 
     private BigDecimal rentalTime;
 
-    private BigDecimal totalCost;
+    private Date regDate;
 
     public Integer getOrderId() {
         return orderId;
@@ -18,14 +22,6 @@ public class RentalOrder {
 
     public void setOrderId(Integer orderId) {
         this.orderId = orderId;
-    }
-
-    public Integer getOrderNumber() {
-        return orderNumber;
-    }
-
-    public void setOrderNumber(Integer orderNumber) {
-        this.orderNumber = orderNumber;
     }
 
     public BigDecimal getRentalTime() {
@@ -36,21 +32,38 @@ public class RentalOrder {
         this.rentalTime = rentalTime;
     }
 
-    public BigDecimal getTotalCost() {
-        return totalCost;
+    public Integer getClientId() {
+        return clientId;
     }
 
-    public void setTotalCost(BigDecimal totalCost) {
-        this.totalCost = totalCost;
+    public void setClientId(Integer clientId) {
+        this.clientId = clientId;
+    }
+
+    public Integer getCarId() {
+        return carId;
+    }
+
+    public void setCarId(Integer carId) {
+        this.carId = carId;
+    }
+
+    public Date getRegDate() {
+        return regDate;
+    }
+
+    public void setRegDate(Date regDate) {
+        this.regDate = regDate;
     }
 
     @Override
     public String toString() {
         return "RentalOrder{" +
                 "orderId=" + orderId +
-                ", orderNumber=" + orderNumber +
+                ", clientId=" + clientId +
+                ", carId=" + carId +
                 ", rentalTime=" + rentalTime +
-                ", totalCost=" + totalCost +
+                ", regDate=" + regDate +
                 '}';
     }
 }

@@ -6,15 +6,9 @@ public class Car {
 
     private Integer carId;
 
-    private String carName;
+    private String carDescription;
 
-    private Integer yearIssue;
-
-    private String bodyType;
-
-    private String transmission;
-
-    private Integer orderId;
+    private String carNumber;
 
     private BigDecimal rentalCost;
 
@@ -26,44 +20,20 @@ public class Car {
         this.carId = carId;
     }
 
-    public String getCarName() {
-        return carName;
+    public String getCarDescription() {
+        return carDescription;
     }
 
-    public void setCarName(String carName) {
-        this.carName = carName;
+    public void setCarDescription(String carDescription) {
+        this.carDescription = carDescription;
     }
 
-    public Integer getYearIssue() {
-        return yearIssue;
+    public String getCarNumber() {
+        return carNumber;
     }
 
-    public void setYearIssue(Integer yearIssue) {
-        this.yearIssue = yearIssue;
-    }
-
-    public String getBodyType() {
-        return bodyType;
-    }
-
-    public void setBodyType(String bodyType) {
-        this.bodyType = bodyType;
-    }
-
-    public String getTransmission() {
-        return transmission;
-    }
-
-    public void setTransmission(String transmission) {
-        this.transmission = transmission;
-    }
-
-    public Integer getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(Integer orderId) {
-        this.orderId = orderId;
+    public void setCarNumber(String carNumber) {
+        this.carNumber = carNumber;
     }
 
     public BigDecimal getRentalCost() {
@@ -74,16 +44,5 @@ public class Car {
         this.rentalCost = rentalCost;
     }
 
-    @Override
-    public String toString() {
-        return "Car{" +
-                "carId=" + carId +
-                ", carName='" + carName + '\'' +
-                ", yearIssue=" + yearIssue +
-                ", bodyType='" + bodyType + '\'' +
-                ", transmission='" + transmission + '\'' +
-                ", orderId=" + orderId +
-                ", rentalCost=" + rentalCost +
-                '}';
-    }
+
 }

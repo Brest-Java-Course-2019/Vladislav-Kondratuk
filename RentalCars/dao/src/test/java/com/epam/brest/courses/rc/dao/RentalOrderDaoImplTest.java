@@ -12,6 +12,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,12 +25,15 @@ class RentalOrderDaoImplTest {
 
     private static final int FULL_RENTAL_ORDER_LIST = 4;
     private static final int ORDER_ID = 2;
-    private static final int ORDER_NUMBER = 224;
     private static final BigDecimal RENTAL_TIME = BigDecimal.valueOf(1);
-    private static final BigDecimal TOTAL_COST = BigDecimal.valueOf(0.85);
-    private static final int NEW_ORDER_NUMBER = 543;
     private static final BigDecimal NEW_RENTAL_TIME = BigDecimal.valueOf(2);
-    private static final BigDecimal NEW_TOTAL_COST = BigDecimal.valueOf(1.7);
+    private static final String REG_DATE = "2019-01-26";
+    private static final int CLIENT_ID = 2;
+    private static final int CAR_ID = 2;
+    private static final int NEW_CLIENT_ID = 2;
+    private static final int NEW_CAR_ID = 1;
+    private static final String NEW_REG_DATE = "2019-02-12";
+    private static final String UNEXPECTED_REG_DATE = "2002-02-13";
     @Autowired
     private RentalOrderDao rentalOrderDao;
 
@@ -50,10 +54,11 @@ class RentalOrderDaoImplTest {
     void findById() {
         RentalOrder order = rentalOrderDao.findById(2).get();
         assertNotNull(order);
+        assertEquals(CLIENT_ID, order.getClientId().intValue());
+        assertEquals(CAR_ID, order.getCarId().intValue());
         assertEquals(ORDER_ID, order.getOrderId().intValue());
-        assertEquals(ORDER_NUMBER, order.getOrderNumber().intValue());
         assertEquals(RENTAL_TIME, order.getRentalTime());
-        assertEquals(TOTAL_COST, order.getTotalCost());
+        assertEquals(Date.valueOf(REG_DATE), order.getRegDate());
     }
 
     @Test
@@ -61,9 +66,10 @@ class RentalOrderDaoImplTest {
         Stream<RentalOrder> orderBeforeInsert = rentalOrderDao.findAll();
 
         RentalOrder order = new RentalOrder();
-        order.setOrderNumber(NEW_ORDER_NUMBER);
+        order.setClientId(NEW_CLIENT_ID);
+        order.setCarId(NEW_CAR_ID);
         order.setRentalTime(NEW_RENTAL_TIME);
-        order.setTotalCost(NEW_TOTAL_COST);
+        order.setRegDate(Date.valueOf(NEW_REG_DATE));
         RentalOrder newOrder = rentalOrderDao.add(order).get();
         assertNotNull(newOrder.getOrderId());
 
@@ -74,9 +80,10 @@ class RentalOrderDaoImplTest {
     @Test
     void createDuplicateDepartment() {
         RentalOrder order2 = new RentalOrder();
-        order2.setOrderNumber(NEW_ORDER_NUMBER);
+        order2.setClientId(NEW_CLIENT_ID);
+        order2.setCarId(NEW_CAR_ID);
         order2.setRentalTime(NEW_RENTAL_TIME);
-        order2.setTotalCost(NEW_RENTAL_TIME);
+        order2.setRegDate(Date.valueOf(NEW_REG_DATE));
         RentalOrder newOrder = rentalOrderDao.add(order2).get();
         assertNotNull(newOrder.getOrderId());
 
@@ -88,22 +95,25 @@ class RentalOrderDaoImplTest {
     @Test
     void update() {
         RentalOrder order = new RentalOrder();
-        order.setOrderNumber(NEW_ORDER_NUMBER);
+        order.setClientId(NEW_CLIENT_ID);
+        order.setCarId(NEW_CAR_ID);
         order.setRentalTime(NEW_RENTAL_TIME);
-        order.setTotalCost(NEW_TOTAL_COST);
+        order.setRegDate(Date.valueOf(NEW_REG_DATE));
         RentalOrder newOrder = rentalOrderDao.add(order).get();
         assertNotNull(newOrder.getOrderId());
 
-        order.setOrderNumber(NEW_ORDER_NUMBER + 1);
+        order.setClientId(NEW_CLIENT_ID + 1);
+        order.setCarId(NEW_CAR_ID + 1);
         order.setRentalTime(NEW_RENTAL_TIME.add(BigDecimal.valueOf(5)));
-        order.setTotalCost(NEW_TOTAL_COST.add(BigDecimal.valueOf(0.21)));
+        order.setRegDate(Date.valueOf(UNEXPECTED_REG_DATE));
         rentalOrderDao.update(order);
 
         RentalOrder updatedOrder = rentalOrderDao.findById(order.getOrderId()).get();
 
-        assertEquals(NEW_ORDER_NUMBER + 1, updatedOrder.getOrderNumber().intValue());
+        assertEquals(NEW_CLIENT_ID + 1, updatedOrder.getClientId().intValue());
+        assertEquals(NEW_CAR_ID + 1, updatedOrder.getCarId().intValue());
         assertEquals(NEW_RENTAL_TIME.add(BigDecimal.valueOf(5)), updatedOrder.getRentalTime());
-        assertEquals(NEW_TOTAL_COST.add(BigDecimal.valueOf(0.21)), updatedOrder.getTotalCost());
+        assertEquals(Date.valueOf(UNEXPECTED_REG_DATE), updatedOrder.getRegDate());
     }
 
     @Test

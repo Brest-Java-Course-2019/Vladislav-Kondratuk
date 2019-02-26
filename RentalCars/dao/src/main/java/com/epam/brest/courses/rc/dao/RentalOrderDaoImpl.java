@@ -21,20 +21,20 @@ import java.util.stream.Stream;
 public class RentalOrderDaoImpl implements RentalOrderDao {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RentalOrderDaoImpl.class);
-    private static final String SELECT_ALL = "select orderId, orderNumber, rentalTime, totalCost from rentalOrder";
-    private static final String FIND_BY_ID = "select orderId, orderNumber, rentalTime, totalCost from rentalOrder " +
+    private static final String SELECT_ALL = "select orderId, clientId, carId, rentalTime, regDate from rentalOrder";
+    private static final String FIND_BY_ID = "select orderId, clientId, carId, rentalTime, regDate from rentalOrder " +
             "where orderId =:orderId ";
-    private static final String CHECK_COUNT_ORDER_NUMBER = "select count(orderId) from rentalOrder where orderNumber " +
-            "= :orderNumber";
-    private static final String INSERT = "insert into rentalOrder (orderNumber, rentalTime, totalCost) " +
-            "values (:orderNumber, :rentalTime, :totalCost)";
-    private static final String UPDATE = "update rentalOrder set orderNumber = :orderNumber," +
-            " rentalTime = :rentalTime, totalCost = :totalCost  where orderId = :orderId";
+    private static final String CHECK_COUNT_ORDER_NUMBER = "select count(orderId) from rentalOrder where regDate " +
+            "= :regDate";
+    private static final String INSERT = "insert into rentalOrder (clientId, carId, rentalTime, regDate) " +
+            "values (:clientId, :carId, :rentalTime, :regDate)";
+    private static final String UPDATE = "update rentalOrder set clientId = :clientId, carId = :carId, rentalTime = :rentalTime, regDate = :regDate where orderId = :orderId";
     private static final String DELETE = "delete from rentalOrder where orderId = :orderId";
-    private static final String ORDER_NUMBER = "orderNumber";
     private static final String RENTAL_TIME = "rentalTime";
-    private static final String TOTAL_COST = "totalCost";
     private static final String ORDER_ID = "orderId";
+    private static final String CLIENT_ID = "clientId";
+    private static final String CAR_ID = "carId";
+    private static final String REG_DATE = "regDate";
 
     final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
@@ -62,22 +62,23 @@ public class RentalOrderDaoImpl implements RentalOrderDao {
     public Optional<RentalOrder> add(RentalOrder order) {
         LOGGER.debug("add({})", order);
         return Optional.of(order)
-                .filter(this::isOrderNumberUnique)
+                .filter(this::isOrderRegDate)
                 .map(this::insertRentalOrder)
                 .orElseThrow(() -> new IllegalArgumentException("RentalOrder with the same number already exist in DB."));
     }
 
-    private boolean isOrderNumberUnique(RentalOrder order) {
+    private boolean isOrderRegDate(RentalOrder order) {
         return namedParameterJdbcTemplate.queryForObject(CHECK_COUNT_ORDER_NUMBER,
-                new MapSqlParameterSource(ORDER_NUMBER, order.getOrderNumber()),
+                new MapSqlParameterSource(REG_DATE, order.getRegDate()),
                 Integer.class) == 0;
     }
 
     private Optional<RentalOrder> insertRentalOrder(RentalOrder order) {
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
-        mapSqlParameterSource.addValue(ORDER_NUMBER, order.getOrderNumber());
+        mapSqlParameterSource.addValue(CLIENT_ID, order.getClientId());
+        mapSqlParameterSource.addValue(CAR_ID, order.getCarId());
         mapSqlParameterSource.addValue(RENTAL_TIME, order.getRentalTime());
-        mapSqlParameterSource.addValue(TOTAL_COST, order.getTotalCost());
+        mapSqlParameterSource.addValue(REG_DATE, order.getRegDate());
 
         KeyHolder generatedKeyHolder = new GeneratedKeyHolder();
         int result = namedParameterJdbcTemplate.update(INSERT, mapSqlParameterSource, generatedKeyHolder);
@@ -93,9 +94,10 @@ public class RentalOrderDaoImpl implements RentalOrderDao {
         public RentalOrder mapRow(ResultSet resultSet, int i) throws SQLException {
             RentalOrder rentalOrder = new RentalOrder();
             rentalOrder.setOrderId(resultSet.getInt(ORDER_ID));
-            rentalOrder.setOrderNumber(resultSet.getInt(ORDER_NUMBER));
+            rentalOrder.setClientId(resultSet.getInt(CLIENT_ID));
+            rentalOrder.setCarId(resultSet.getInt(CAR_ID));
             rentalOrder.setRentalTime(resultSet.getBigDecimal(RENTAL_TIME));
-            rentalOrder.setTotalCost(resultSet.getBigDecimal(TOTAL_COST));
+            rentalOrder.setRegDate(resultSet.getDate(REG_DATE));
             return rentalOrder;
         }
     }

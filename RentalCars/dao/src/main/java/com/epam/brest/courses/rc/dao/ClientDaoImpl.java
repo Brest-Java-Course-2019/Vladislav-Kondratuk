@@ -20,18 +20,22 @@ import java.util.stream.Stream;
 public class ClientDaoImpl implements ClientDao {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ClientDaoImpl.class);
-    private static final String SELECT_ALL = "select clientId, firstName, lastName from client";
-    private static final String FIND_BY_ID = "select clientId, firstName, lastName from client " +
-            "where clientId = :clientId";
+    private static final String SELECT_ALL = "select clientId, passportNumber, firstName, lastName, addDate " +
+            "from client";
+    private static final String FIND_BY_ID = "select clientId, passportNumber, firstName, lastName, addDate " +
+            "from client where clientId = :clientId";
     private static final String CHECK_COUNT_LAST_NAME ="select count(clientId) from client " +
-            "where lastName = :lastName";
-    private static final String UPDATE = "update client set firstName = :firstName," +
-            " lastName = :lastName where clientId = :clientId";
+            "where passportNumber = :passportNumber";
+    private static final String UPDATE = "update client set passportNumber = :passportNumber, firstName = :firstName," +
+            " lastName = :lastName, addDate = :addDate where clientId = :clientId";
     private static final String CLIENT_ID = "clientId";
     private static final String FIRST_NAME = "firstName";
     private static final String LAST_NAME = "lastName";
-    private static final String INSERT = "insert into client (firstName, lastName) values (:firstName, :lastName)";
+    private static final String INSERT = "insert into client (passportNumber, firstName, lastName, addDate) " +
+            "values (:passportNumber, :firstName, :lastName, :addDate)";
     private static final String DELETE = "delete from client where clientId = :clientId";
+    private static final String ADD_DATE = "addDate";
+    private static final String PASSPORT_NUMBER = "passportNumber";
 
     final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
@@ -66,13 +70,15 @@ public class ClientDaoImpl implements ClientDao {
 
     private boolean isLastNameUnique(Client client) {
         return namedParameterJdbcTemplate.queryForObject(CHECK_COUNT_LAST_NAME,
-                new MapSqlParameterSource(LAST_NAME, client.getLastName()), Integer.class) == 0;
+                new MapSqlParameterSource(PASSPORT_NUMBER, client.getPassportNumber()), Integer.class) == 0;
     }
 
     private Optional<Client> insertClient(Client client) {
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
+        mapSqlParameterSource.addValue(PASSPORT_NUMBER, client.getPassportNumber());
         mapSqlParameterSource.addValue(FIRST_NAME, client.getFirstName());
         mapSqlParameterSource.addValue(LAST_NAME, client.getLastName());
+        mapSqlParameterSource.addValue(ADD_DATE, client.getAddDate());
 
         KeyHolder generatedKeyHolder = new GeneratedKeyHolder();
         int result = namedParameterJdbcTemplate.update(INSERT, mapSqlParameterSource, generatedKeyHolder);
@@ -88,8 +94,10 @@ public class ClientDaoImpl implements ClientDao {
         public Client mapRow(ResultSet resultSet, int i) throws SQLException {
             Client client = new Client();
             client.setClientId(resultSet.getInt(CLIENT_ID));
+            client.setPassportNumber(resultSet.getString(PASSPORT_NUMBER));
             client.setFirstName(resultSet.getString(FIRST_NAME));
             client.setLastName(resultSet.getString(LAST_NAME));
+            client.setAddDate(resultSet.getDate(ADD_DATE));
             return client;
         }
     }
@@ -108,7 +116,7 @@ public class ClientDaoImpl implements ClientDao {
         mapSqlParameterSource.addValue(CLIENT_ID, clientId);
         Optional.of(namedParameterJdbcTemplate.update(DELETE, mapSqlParameterSource))
                 .filter(this::successfullyUpdated)
-                .orElseThrow(() -> new RuntimeException("Failed to delete rentalOrder from DB"));
+                .orElseThrow(() -> new RuntimeException("Failed to delete client from DB"));
     }
 
     private boolean successfullyUpdated(int numRowsUpdated) {
