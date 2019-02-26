@@ -1,6 +1,6 @@
-INSERT INTO car (carDescription, carNumber, rentalCost) VALUES ('ford focus', 'BY2312', 0.7);
+INSERT INTO car (carDescription, carNumber, rentalCost) VALUES ('ford focus', 'BY2312', 0.70);
 INSERT INTO car (carDescription, carNumber, rentalCost) VALUES ('bmw m3', 'BY4132', 0.85);
-INSERT INTO car (carDescription, carNumber, rentalCost) VALUES ('audi a8', 'BY2562', 0.7);
+INSERT INTO car (carDescription, carNumber, rentalCost) VALUES ('audi a8', 'BY2562', 0.70);
 
 INSERT INTO client (passportNumber, firstName, lastName, addDate) VALUES ('AB42123', 'Alex', 'Petrov', '2019-01-21');
 INSERT INTO client (passportNumber, firstName, lastName, addDate) VALUES ('AB75612', 'Anna', 'Hrabrova', '2019-01-24');

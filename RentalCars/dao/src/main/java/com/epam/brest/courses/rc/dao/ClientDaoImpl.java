@@ -24,7 +24,7 @@ public class ClientDaoImpl implements ClientDao {
             "from client";
     private static final String FIND_BY_ID = "select clientId, passportNumber, firstName, lastName, addDate " +
             "from client where clientId = :clientId";
-    private static final String CHECK_COUNT_LAST_NAME ="select count(clientId) from client " +
+    private static final String CHECK_COUNT_PASSPORT_NUMBER ="select count(clientId) from client " +
             "where passportNumber = :passportNumber";
     private static final String UPDATE = "update client set passportNumber = :passportNumber, firstName = :firstName," +
             " lastName = :lastName, addDate = :addDate where clientId = :clientId";
@@ -63,13 +63,13 @@ public class ClientDaoImpl implements ClientDao {
     public Optional<Client> add(Client client) {
         LOGGER.debug("add({})", client);
         return Optional.of(client)
-                .filter(this::isLastNameUnique)
+                .filter(this::isPassportNumberUnique)
                 .map(this::insertClient)
                 .orElseThrow(() -> new IllegalArgumentException("Client with the same number already exist in DB."));
     }
 
-    private boolean isLastNameUnique(Client client) {
-        return namedParameterJdbcTemplate.queryForObject(CHECK_COUNT_LAST_NAME,
+    private boolean isPassportNumberUnique(Client client) {
+        return namedParameterJdbcTemplate.queryForObject(CHECK_COUNT_PASSPORT_NUMBER,
                 new MapSqlParameterSource(PASSPORT_NUMBER, client.getPassportNumber()), Integer.class) == 0;
     }
 
