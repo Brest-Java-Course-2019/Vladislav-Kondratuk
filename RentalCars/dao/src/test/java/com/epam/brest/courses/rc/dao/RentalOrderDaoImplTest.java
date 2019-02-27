@@ -1,6 +1,7 @@
 package com.epam.brest.courses.rc.dao;
 
 import com.epam.brest.courses.rc.model.RentalOrder;
+import com.epam.brest.courses.rc.stub.RentalOrderStub;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,6 +13,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Date;
 import java.util.stream.Stream;
 
@@ -23,8 +25,10 @@ import static org.junit.jupiter.api.Assertions.*;
 @Rollback
 class RentalOrderDaoImplTest {
 
+    private static final String STUB_CAR_NUMBER = "BY2312";
     private static final int FULL_RENTAL_ORDER_LIST = 4;
     private static final int ORDER_ID = 2;
+    private static final int STUB_ORDER_ID = 1;
     private static final BigDecimal RENTAL_TIME = BigDecimal.valueOf(1);
     private static final BigDecimal NEW_RENTAL_TIME = BigDecimal.valueOf(2);
     private static final String REG_DATE = "2019-01-26";
@@ -34,6 +38,10 @@ class RentalOrderDaoImplTest {
     private static final int NEW_CAR_ID = 1;
     private static final String NEW_REG_DATE = "2019-02-12";
     private static final String UNEXPECTED_REG_DATE = "2002-02-13";
+    private static final String STUB_PASSPORT_NUMBER = "AB42123";
+    private static final BigDecimal STUB_RENTAL_TIME = BigDecimal.valueOf(2);
+    private static final BigDecimal STUB_TOTAL_COST = BigDecimal.valueOf(1.4).setScale(2, RoundingMode.CEILING);
+    private static final Date STUB_REG_DATE = Date.valueOf("2019-01-22");
     @Autowired
     private RentalOrderDao rentalOrderDao;
 
@@ -41,6 +49,13 @@ class RentalOrderDaoImplTest {
     void findAll() {
         Stream<RentalOrder> orders = rentalOrderDao.findAll();
         assertNotNull(orders);
+    }
+
+    @Test
+    void findAllStubs() {
+        Stream<RentalOrderStub> stubs = rentalOrderDao.findAllStubs();
+        assertNotNull(stubs);
+        assertTrue(stubs.count() > 0);
     }
 
     @Test
@@ -60,6 +75,19 @@ class RentalOrderDaoImplTest {
         assertEquals(RENTAL_TIME, order.getRentalTime());
         assertEquals(Date.valueOf(REG_DATE), order.getRegDate());
     }
+
+    @Test
+    void findStubById() {
+        RentalOrderStub orderStub = rentalOrderDao.findStubById(1).get();
+        assertNotNull(orderStub);
+        assertEquals(orderStub.getOrderId().intValue(), STUB_ORDER_ID);
+        assertEquals(orderStub.getPassportNumber(), STUB_PASSPORT_NUMBER);
+        assertEquals(orderStub.getCarNumber(), STUB_CAR_NUMBER);
+        assertEquals(orderStub.getRentalTime(), STUB_RENTAL_TIME);
+        assertEquals(orderStub.getTotalCost(), STUB_TOTAL_COST);
+        assertEquals(orderStub.getRegDate(), STUB_REG_DATE);
+    }
+
 
     @Test
     void create() {

@@ -1,6 +1,7 @@
 package com.epam.brest.courses.rc.dao;
 
 import com.epam.brest.courses.rc.model.RentalOrder;
+import com.epam.brest.courses.rc.stub.RentalOrderStub;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -35,6 +36,15 @@ public class RentalOrderDaoImpl implements RentalOrderDao {
     private static final String CLIENT_ID = "clientId";
     private static final String CAR_ID = "carId";
     private static final String REG_DATE = "regDate";
+    private static final String SELECT_ALL_STUBS = "SELECT r.orderId, r.rentalTime, cr.carNumber, cr.rentalCost, cl.passportNumber, " +
+            "(r.rentalTime * cr.rentalCost) as totalCost, r.regDate FROM rentalOrder r LEFT JOIN car cr ON (cr.carId = r.carId) " +
+            "LEFT JOIN client cl ON (cl.clientId = r.clientId) GROUP BY r.orderId ";
+    private static final String PASSPORT_NUMBER = "passportNumber";
+    private static final String CAR_NUMBER = "carNumber";
+    private static final String TOTAL_COST = "totalCost";
+    private static final String SELECT_ALL_STUBS_BY_ID = "SELECT r.orderId, r.rentalTime, cr.carNumber, cr.rentalCost, cl.passportNumber, " +
+            "(r.rentalTime * cr.rentalCost) as totalCost, r.regDate FROM rentalOrder r LEFT JOIN car cr ON (cr.carId = r.carId) " +
+            "LEFT JOIN client cl ON (cl.clientId = r.clientId) WHERE orderId = :orderId GROUP BY r.orderId ";
 
     final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
@@ -50,6 +60,22 @@ public class RentalOrderDaoImpl implements RentalOrderDao {
     }
 
     @Override
+    public Stream<RentalOrderStub> findAllStubs() {
+        LOGGER.debug("findAllStubs()");
+        List<RentalOrderStub> rentalOrderList =
+                namedParameterJdbcTemplate
+                        .query(SELECT_ALL_STUBS,
+                                (resultSet, i) -> new RentalOrderStub()
+                                        .orderId(resultSet.getInt(ORDER_ID))
+                                        .passportNumber(resultSet.getString(PASSPORT_NUMBER))
+                                        .carNumber(resultSet.getString(CAR_NUMBER))
+                                        .rentalTime(resultSet.getBigDecimal(RENTAL_TIME))
+                                        .totalCost(resultSet.getBigDecimal(TOTAL_COST))
+                                        .regDate(resultSet.getDate(REG_DATE)));
+        return rentalOrderList.stream();
+    }
+
+    @Override
     public Optional<RentalOrder> findById(Integer orderId) {
         LOGGER.debug("findById({})", orderId);
         SqlParameterSource namedParameters = new MapSqlParameterSource(ORDER_ID, orderId);
@@ -57,6 +83,16 @@ public class RentalOrderDaoImpl implements RentalOrderDao {
                 BeanPropertyRowMapper.newInstance(RentalOrder.class));
         return Optional.ofNullable(rentalOrder);
     }
+
+    @Override
+    public Optional<RentalOrderStub> findStubById(Integer orderId) {
+        LOGGER.debug("findStubById({})", orderId);
+        SqlParameterSource sqlParameterSource = new MapSqlParameterSource(ORDER_ID, orderId);
+        RentalOrderStub orderStub = namedParameterJdbcTemplate.queryForObject(SELECT_ALL_STUBS_BY_ID, sqlParameterSource,
+                BeanPropertyRowMapper.newInstance(RentalOrderStub.class));
+        return Optional.ofNullable(orderStub);
+    }
+
 
     @Override
     public Optional<RentalOrder> add(RentalOrder order) {
