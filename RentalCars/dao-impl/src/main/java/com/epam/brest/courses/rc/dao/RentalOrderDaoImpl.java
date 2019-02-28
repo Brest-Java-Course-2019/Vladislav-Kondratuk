@@ -25,8 +25,8 @@ public class RentalOrderDaoImpl implements RentalOrderDao {
     private static final String SELECT_ALL = "select orderId, clientId, carId, rentalTime, regDate from rentalOrder";
     private static final String FIND_BY_ID = "select orderId, clientId, carId, rentalTime, regDate from rentalOrder " +
             "where orderId =:orderId ";
-    private static final String CHECK_COUNT_ORDER_NUMBER = "select count(orderId) from rentalOrder where regDate " +
-            "= :regDate";
+    private static final String CHECK_COUNT_ORDER_ID = "select count(orderId) from rentalOrder where orderId " +
+            "= :orderId";
     private static final String INSERT = "insert into rentalOrder (clientId, carId, rentalTime, regDate) " +
             "values (:clientId, :carId, :rentalTime, :regDate)";
     private static final String UPDATE = "update rentalOrder set clientId = :clientId, carId = :carId, rentalTime = :rentalTime, regDate = :regDate where orderId = :orderId";
@@ -100,12 +100,12 @@ public class RentalOrderDaoImpl implements RentalOrderDao {
         return Optional.of(order)
                 .filter(this::isOrderRegDate)
                 .map(this::insertRentalOrder)
-                .orElseThrow(() -> new IllegalArgumentException("RentalOrder with the same number already exist in DB."));
+                .orElseThrow(() -> new IllegalArgumentException("RentalOrder with the same id already exist in DB."));
     }
 
     private boolean isOrderRegDate(RentalOrder order) {
-        return namedParameterJdbcTemplate.queryForObject(CHECK_COUNT_ORDER_NUMBER,
-                new MapSqlParameterSource(REG_DATE, order.getRegDate()),
+        return namedParameterJdbcTemplate.queryForObject(CHECK_COUNT_ORDER_ID,
+                new MapSqlParameterSource(ORDER_ID, order.getOrderId()),
                 Integer.class) == 0;
     }
 
