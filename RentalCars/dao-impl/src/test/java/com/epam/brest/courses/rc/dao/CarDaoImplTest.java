@@ -1,6 +1,7 @@
 package com.epam.brest.courses.rc.dao;
 
 import com.epam.brest.courses.rc.model.Car;
+import com.epam.brest.courses.rc.stub.CarStub;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,6 +32,9 @@ class CarDaoImplTest {
     private static final BigDecimal RENTAL_COST = BigDecimal.valueOf(0.7).setScale(2, RoundingMode.CEILING);
     private static final String NEW_CAR_DESCRIPTION = "volkswagen passat";
     private static final BigDecimal NEW_RENTAL_COST = BigDecimal.valueOf(0.8).setScale(2, RoundingMode.CEILING);
+    private static final int STUB_CAR_ID = 2;
+    private static final String STUB_CAR_DESCRIPTION = "bmw m3";
+    private static final BigDecimal STUB_RENTAL_COST = BigDecimal.valueOf(0.85).setScale(2, RoundingMode.CEILING);
     @Autowired
     private CarDao carDao;
 
@@ -48,6 +52,13 @@ class CarDaoImplTest {
     }
 
     @Test
+    void findAllStubs() {
+        Stream<CarStub> carStubs = carDao.findAllStubs();
+        assertNotNull(carStubs);
+        assertTrue(carStubs.count() > 0);
+    }
+
+    @Test
     void findById() {
         Car car = carDao.findById(1).get();
         assertNotNull(car);
@@ -55,6 +66,15 @@ class CarDaoImplTest {
         assertEquals(CAR_DESCRIPTION, car.getCarDescription());
         assertEquals(CAR_NUMBER, car.getCarNumber());
         assertEquals(RENTAL_COST, car.getRentalCost());
+    }
+
+    @Test
+    void findStubById() {
+        CarStub carStub = carDao.findStubById(2).get();
+        assertNotNull(carStub);
+        assertEquals(carStub.getCarId().intValue(), STUB_CAR_ID);
+        assertEquals(carStub.getCarDescription(), STUB_CAR_DESCRIPTION);
+        assertEquals(carStub.getRentalCost(), STUB_RENTAL_COST);
     }
 
     @Test
@@ -82,9 +102,7 @@ class CarDaoImplTest {
         Car newCar = carDao.add(car2).get();
         assertNotNull(newCar.getCarId());
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            carDao.add(car2);
-        });
+        Assertions.assertThrows(IllegalArgumentException.class, () -> carDao.add(car2));
     }
 
     @Test
@@ -120,8 +138,6 @@ class CarDaoImplTest {
 
         carDao.delete(newCar.getCarId());
 
-        Assertions.assertThrows(DataAccessException.class, () -> {
-            carDao.findById(car.getCarId());
-        });
+        Assertions.assertThrows(DataAccessException.class, () -> carDao.findById(car.getCarId()));
     }
 }

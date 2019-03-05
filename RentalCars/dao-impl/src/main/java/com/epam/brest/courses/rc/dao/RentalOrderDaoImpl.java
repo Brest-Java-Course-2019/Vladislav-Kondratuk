@@ -43,7 +43,7 @@ public class RentalOrderDaoImpl implements RentalOrderDao {
     private static final String PASSPORT_NUMBER = "passportNumber";
     private static final String CAR_NUMBER = "carNumber";
     private static final String TOTAL_COST = "totalCost";
-    private static final String SELECT_ALL_STUBS_BY_ID = "SELECT r.orderId, r.rentalTime, cr.carNumber, cr.rentalCost, cl.passportNumber, " +
+    private static final String SELECT_STUB_BY_ID = "SELECT r.orderId, r.rentalTime, cr.carNumber, cr.rentalCost, cl.passportNumber, " +
             "(r.rentalTime * cr.rentalCost) as totalCost, r.regDate FROM rentalOrder r LEFT JOIN car cr ON (cr.carId = r.carId) " +
             "LEFT JOIN client cl ON (cl.clientId = r.clientId) WHERE orderId = :orderId GROUP BY r.orderId ";
     private static final String SELECT_ALL_STUBS_BY_DATE = "SELECT r.orderId, r.rentalTime, cr.carNumber, cr.rentalCost, cl.passportNumber, " +
@@ -92,7 +92,7 @@ public class RentalOrderDaoImpl implements RentalOrderDao {
     public Optional<RentalOrderStub> findStubById(Integer orderId) {
         LOGGER.debug("findStubById({})", orderId);
         SqlParameterSource sqlParameterSource = new MapSqlParameterSource(ORDER_ID, orderId);
-        RentalOrderStub orderStub = namedParameterJdbcTemplate.queryForObject(SELECT_ALL_STUBS_BY_ID, sqlParameterSource,
+        RentalOrderStub orderStub = namedParameterJdbcTemplate.queryForObject(SELECT_STUB_BY_ID, sqlParameterSource,
                 BeanPropertyRowMapper.newInstance(RentalOrderStub.class));
         return Optional.ofNullable(orderStub);
     }
