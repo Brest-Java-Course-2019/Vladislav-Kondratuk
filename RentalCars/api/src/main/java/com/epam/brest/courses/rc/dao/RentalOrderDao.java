@@ -1,5 +1,6 @@
 package com.epam.brest.courses.rc.dao;
 
+import com.epam.brest.courses.rc.model.RegDateInterval;
 import com.epam.brest.courses.rc.model.RentalOrder;
 import com.epam.brest.courses.rc.stub.RentalOrderStub;
 
@@ -17,6 +18,8 @@ public interface RentalOrderDao {
     Optional<RentalOrderStub> findStubById(Integer orderId);
 
     Optional<RentalOrder> add(RentalOrder order);
+
+    Stream<RentalOrderStub> findStubByDate(RegDateInterval interval);
 
     void update(RentalOrder order);
 

@@ -1,5 +1,6 @@
 package com.epam.brest.courses.rc.dao;
 
+import com.epam.brest.courses.rc.model.RegDateInterval;
 import com.epam.brest.courses.rc.model.RentalOrder;
 import com.epam.brest.courses.rc.stub.RentalOrderStub;
 import org.slf4j.Logger;
@@ -45,6 +46,9 @@ public class RentalOrderDaoImpl implements RentalOrderDao {
     private static final String SELECT_ALL_STUBS_BY_ID = "SELECT r.orderId, r.rentalTime, cr.carNumber, cr.rentalCost, cl.passportNumber, " +
             "(r.rentalTime * cr.rentalCost) as totalCost, r.regDate FROM rentalOrder r LEFT JOIN car cr ON (cr.carId = r.carId) " +
             "LEFT JOIN client cl ON (cl.clientId = r.clientId) WHERE orderId = :orderId GROUP BY r.orderId ";
+    private static final String SELECT_ALL_STUBS_BY_DATE = "SELECT r.orderId, r.rentalTime, cr.carNumber, cr.rentalCost, cl.passportNumber, " +
+            "(r.rentalTime * cr.rentalCost) as totalCost, r.regDate FROM rentalOrder r LEFT JOIN car cr ON (cr.carId = r.carId) " +
+            "LEFT JOIN client cl ON (cl.clientId = r.clientId) WHERE r.regDate >= :startInterval AND r.regDate <= :endInterval GROUP BY r.orderId ";
 
     final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
@@ -93,7 +97,6 @@ public class RentalOrderDaoImpl implements RentalOrderDao {
         return Optional.ofNullable(orderStub);
     }
 
-
     @Override
     public Optional<RentalOrder> add(RentalOrder order) {
         LOGGER.debug("add({})", order);
@@ -101,6 +104,18 @@ public class RentalOrderDaoImpl implements RentalOrderDao {
                 .filter(this::isOrderRegDate)
                 .map(this::insertRentalOrder)
                 .orElseThrow(() -> new IllegalArgumentException("RentalOrder with the same id already exist in DB."));
+    }
+
+    @Override
+    public Stream<RentalOrderStub> findStubByDate(RegDateInterval interval) {
+        LOGGER.debug("findStubByDate({}, {})", interval);
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("startInterval", interval.getRegStartInterval());
+        parameterSource.addValue("endInterval", interval.getRegEndInterval());
+        List<RentalOrderStub> rentalOrderList =
+                namedParameterJdbcTemplate
+                        .query(SELECT_ALL_STUBS_BY_DATE, parameterSource, new RentalOrderStubRowMapper());
+        return rentalOrderList.stream();
     }
 
     private boolean isOrderRegDate(RentalOrder order) {
@@ -135,6 +150,21 @@ public class RentalOrderDaoImpl implements RentalOrderDao {
             rentalOrder.setRentalTime(resultSet.getBigDecimal(RENTAL_TIME));
             rentalOrder.setRegDate(resultSet.getDate(REG_DATE));
             return rentalOrder;
+        }
+    }
+
+    private class RentalOrderStubRowMapper implements RowMapper<RentalOrderStub>{
+
+        @Override
+        public RentalOrderStub mapRow(ResultSet resultSet, int i) throws SQLException {
+            RentalOrderStub orderStub = new RentalOrderStub();
+            orderStub.setOrderId(resultSet.getInt(ORDER_ID));
+            orderStub.setPassportNumber(resultSet.getString(PASSPORT_NUMBER));
+            orderStub.setCarNumber(resultSet.getString(CAR_NUMBER));
+            orderStub.setRentalTime(resultSet.getBigDecimal(RENTAL_TIME));
+            orderStub.setTotalCost(resultSet.getBigDecimal(TOTAL_COST));
+            orderStub.setRegDate(resultSet.getDate(REG_DATE));
+            return orderStub;
         }
     }
 

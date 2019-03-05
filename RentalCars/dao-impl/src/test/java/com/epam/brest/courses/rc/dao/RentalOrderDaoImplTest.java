@@ -1,8 +1,8 @@
 package com.epam.brest.courses.rc.dao;
 
+import com.epam.brest.courses.rc.model.RegDateInterval;
 import com.epam.brest.courses.rc.model.RentalOrder;
 import com.epam.brest.courses.rc.stub.RentalOrderStub;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +42,10 @@ class RentalOrderDaoImplTest {
     private static final BigDecimal STUB_RENTAL_TIME = BigDecimal.valueOf(2);
     private static final BigDecimal STUB_TOTAL_COST = BigDecimal.valueOf(1.4).setScale(2, RoundingMode.CEILING);
     private static final Date STUB_REG_DATE = Date.valueOf("2019-01-22");
+    private static final RegDateInterval REG_DATE_INTERVAL1 = new RegDateInterval("2019-01-18",
+            "2019-01-26");
+    private static final RegDateInterval REG_DATE_INTERVAL2 = new RegDateInterval("2019-02-06",
+            "2019-02-09");
     @Autowired
     private RentalOrderDao rentalOrderDao;
 
@@ -88,6 +92,15 @@ class RentalOrderDaoImplTest {
         assertEquals(orderStub.getRegDate(), STUB_REG_DATE);
     }
 
+    @Test
+    void findStubByDate() {
+        Stream<RentalOrderStub> orderStubs1 = rentalOrderDao.findStubByDate(REG_DATE_INTERVAL1);
+        Stream<RentalOrderStub> orderStubs2 = rentalOrderDao.findStubByDate(REG_DATE_INTERVAL2);
+        assertNotNull(orderStubs1);
+        assertNotNull(orderStubs2);
+        assertEquals(2, orderStubs1.count());
+        assertEquals(1, orderStubs2.count());
+    }
 
     @Test
     void create() {
@@ -115,7 +128,7 @@ class RentalOrderDaoImplTest {
         RentalOrder newOrder = rentalOrderDao.add(order2).get();
         assertNotNull(newOrder.getOrderId());
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             rentalOrderDao.add(order2);
         });
     }
@@ -150,7 +163,7 @@ class RentalOrderDaoImplTest {
         RentalOrder order = orders.findFirst().get();
         rentalOrderDao.delete(order.getOrderId());
 
-        Assertions.assertThrows(DataAccessException.class, () -> {
+        assertThrows(DataAccessException.class, () -> {
             rentalOrderDao.findById(order.getOrderId());
         });
     }
