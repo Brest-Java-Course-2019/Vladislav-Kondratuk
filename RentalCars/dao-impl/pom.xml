@@ -20,7 +20,7 @@
         </dependency>
         <dependency>
             <groupId>com.epam.brest.courses.rc</groupId>
-            <artifactId>dao-api</artifactId>
+            <artifactId>api</artifactId>
         </dependency>
         <dependency>
             <groupId>com.epam.brest.courses.rc</groupId>

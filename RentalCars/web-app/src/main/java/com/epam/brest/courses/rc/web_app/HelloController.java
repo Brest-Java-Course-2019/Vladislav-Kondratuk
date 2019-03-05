@@ -11,13 +11,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class HelloController {
 
-    @GetMapping(value = "/")
-    public String defaultPageRedirect() {
-        return "redirect:hello";
-    }
+    /**
+     * Goto edit hello page.
+     *
+     * @return view name
+     */
 
     @GetMapping(value = "/hello")
-    public String hello(@RequestParam(value = "name", required = false, defaultValue = "Jetty") String name,
+    public String hello(@RequestParam(value = "name", required = false, defaultValue = "Thymeleaf") String name,
                         Model model) {
         model.addAttribute("name", name);
         return "hello";
