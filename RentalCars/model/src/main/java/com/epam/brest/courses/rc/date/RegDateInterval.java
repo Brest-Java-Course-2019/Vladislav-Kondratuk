@@ -1,4 +1,4 @@
-package com.epam.brest.courses.rc.model;
+package com.epam.brest.courses.rc.date;
 
 import java.sql.Date;
 

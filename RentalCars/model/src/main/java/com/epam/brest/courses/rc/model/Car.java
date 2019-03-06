@@ -44,5 +44,13 @@ public class Car {
         this.rentalCost = rentalCost;
     }
 
-
+    @Override
+    public String toString() {
+        return "Car{" +
+                "carId=" + carId +
+                ", carDescription='" + carDescription + '\'' +
+                ", carNumber='" + carNumber + '\'' +
+                ", rentalCost=" + rentalCost +
+                '}';
+    }
 }

@@ -1,6 +1,8 @@
 package com.epam.brest.courses.rc.dao;
 
+import com.epam.brest.courses.rc.date.AddDateInterval;
 import com.epam.brest.courses.rc.model.Client;
+import com.epam.brest.courses.rc.stub.ClientStub;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -36,6 +38,11 @@ public class ClientDaoImpl implements ClientDao {
     private static final String DELETE = "delete from client where clientId = :clientId";
     private static final String ADD_DATE = "addDate";
     private static final String PASSPORT_NUMBER = "passportNumber";
+    private static final String SELECT_ALL_STUBS = "select clientId, firstName, lastName, addDate from client";
+    private static final String FIND_STUB_BY_ID = "select clientId, firstName, lastName, addDate " +
+            "from client where clientId = :clientId";
+    private static final String SELECT_ALL_STUBS_BY_DATE = "SELECT clientId, firstName, lastName, addDate " +
+            "FROM client WHERE addDate >= :startInterval AND addDate <= :endInterval GROUP BY clientId ";
 
     final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
@@ -51,6 +58,13 @@ public class ClientDaoImpl implements ClientDao {
     }
 
     @Override
+    public Stream<ClientStub> findAllStubs() {
+        LOGGER.debug("findAllStubs()");
+        List<ClientStub> clientStubs = namedParameterJdbcTemplate.query(SELECT_ALL_STUBS, new ClientStubRowMapper());
+        return clientStubs.stream();
+    }
+
+    @Override
     public Optional<Client> findById(Integer clientId) {
         LOGGER.debug("findById({})", clientId);
         MapSqlParameterSource namedParameters = new MapSqlParameterSource(CLIENT_ID, clientId);
@@ -60,12 +74,33 @@ public class ClientDaoImpl implements ClientDao {
     }
 
     @Override
+    public Optional<ClientStub> findStubById(Integer clientId) {
+        LOGGER.debug("findStubById({})", clientId);
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource(CLIENT_ID, clientId);
+        ClientStub clientStub = namedParameterJdbcTemplate.queryForObject(FIND_STUB_BY_ID, parameterSource,
+                BeanPropertyRowMapper.newInstance(ClientStub.class));
+        return Optional.ofNullable(clientStub);
+    }
+
+    @Override
     public Optional<Client> add(Client client) {
         LOGGER.debug("add({})", client);
         return Optional.of(client)
                 .filter(this::isPassportNumberUnique)
                 .map(this::insertClient)
                 .orElseThrow(() -> new IllegalArgumentException("Client with the same number already exist in DB."));
+    }
+
+    @Override
+    public Stream<ClientStub> findStubByDate(AddDateInterval interval) {
+        LOGGER.debug("findStubByDate({}, {})", interval);
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("startInterval", interval.getAddStartInterval());
+        parameterSource.addValue("endInterval", interval.getAddEndInterval());
+        List<ClientStub> clientStubs =
+                namedParameterJdbcTemplate
+                        .query(SELECT_ALL_STUBS_BY_DATE, parameterSource, new ClientDaoImpl.ClientStubRowMapper());
+        return clientStubs.stream();
     }
 
     private boolean isPassportNumberUnique(Client client) {
@@ -99,6 +134,20 @@ public class ClientDaoImpl implements ClientDao {
             client.setLastName(resultSet.getString(LAST_NAME));
             client.setAddDate(resultSet.getDate(ADD_DATE));
             return client;
+        }
+    }
+
+
+    private class ClientStubRowMapper implements RowMapper<ClientStub>{
+
+        @Override
+        public ClientStub mapRow(ResultSet resultSet, int i) throws SQLException {
+            ClientStub clientStub = new ClientStub();
+            clientStub.setClientId(resultSet.getInt(CLIENT_ID));
+            clientStub.setAddDate(resultSet.getDate(ADD_DATE));
+            clientStub.setFirstName(resultSet.getString(FIRST_NAME));
+            clientStub.setLastName(resultSet.getString(LAST_NAME));
+            return clientStub;
         }
     }
 

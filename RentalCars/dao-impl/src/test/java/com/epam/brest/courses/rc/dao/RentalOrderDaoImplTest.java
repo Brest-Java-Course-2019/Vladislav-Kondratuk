@@ -1,6 +1,6 @@
 package com.epam.brest.courses.rc.dao;
 
-import com.epam.brest.courses.rc.model.RegDateInterval;
+import com.epam.brest.courses.rc.date.RegDateInterval;
 import com.epam.brest.courses.rc.model.RentalOrder;
 import com.epam.brest.courses.rc.stub.RentalOrderStub;
 import org.junit.jupiter.api.Test;
@@ -128,9 +128,7 @@ class RentalOrderDaoImplTest {
         RentalOrder newOrder = rentalOrderDao.add(order2).get();
         assertNotNull(newOrder.getOrderId());
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            rentalOrderDao.add(order2);
-        });
+        assertThrows(IllegalArgumentException.class, () -> rentalOrderDao.add(order2));
     }
 
     @Test
@@ -163,8 +161,6 @@ class RentalOrderDaoImplTest {
         RentalOrder order = orders.findFirst().get();
         rentalOrderDao.delete(order.getOrderId());
 
-        assertThrows(DataAccessException.class, () -> {
-            rentalOrderDao.findById(order.getOrderId());
-        });
+        assertThrows(DataAccessException.class, () -> rentalOrderDao.findById(order.getOrderId()));
     }
 }

@@ -1,6 +1,8 @@
 package com.epam.brest.courses.rc.dao;
 
+import com.epam.brest.courses.rc.date.AddDateInterval;
 import com.epam.brest.courses.rc.model.Client;
+import com.epam.brest.courses.rc.stub.ClientStub;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,9 +24,10 @@ import static org.junit.jupiter.api.Assertions.*;
 @Rollback
 class ClientDaoImplTest {
 
+    private static final String STUB_FIRST_NAME = "Bogdan";
     private static final String FIRST_NAME = "Anna";
     private static final String LAST_NAME = "Hrabrova";
-    private static final String ADD_DATE = "2019-01-24";
+    private static final Date ADD_DATE = Date.valueOf("2019-01-24");
     private static final String PASSPORT_NUMBER = "AB75612";
     private static final int FULL_CLIENTS_LIST = 4;
     private static final int CLIENT_ID = 2;
@@ -33,6 +36,13 @@ class ClientDaoImplTest {
     private static final String NEW_PASSPORT_NUMBER = "AB54122";
     private static final String NEW_ADD_DATE = "2019-02-09";
     private static final String EXPECTED_DATE = "2002-04-12";
+    private static final int STUB_CLIENT_ID = 3;
+    private static final String STUB_LAST_NAME = "Chugunov";
+    private static final Date STUB_ADD_DATE = Date.valueOf("2019-02-02");
+    private static final AddDateInterval ADD_DATE_INTERVAL1 = new AddDateInterval("2019-01-15",
+            "2019-01-21");
+    private static final AddDateInterval ADD_DATE_INTERVAL2 = new AddDateInterval("2019-01-22",
+            "2019-02-07");
     @Autowired
     private ClientDao clientDao;
 
@@ -40,6 +50,13 @@ class ClientDaoImplTest {
     void findAll() {
         Stream<Client> clients = clientDao.findAll();
         assertNotNull(clients);
+    }
+
+    @Test
+    void findAllStubs() {
+        Stream<ClientStub> clientsStubs = clientDao.findAllStubs();
+        assertNotNull(clientsStubs);
+        assertTrue(clientsStubs.count() > 0);
     }
 
     @Test
@@ -57,8 +74,27 @@ class ClientDaoImplTest {
         assertEquals(PASSPORT_NUMBER, client.getPassportNumber());
         assertEquals(FIRST_NAME, client.getFirstName());
         assertEquals(LAST_NAME, client.getLastName());
-        assertEquals(Date.valueOf(ADD_DATE),
-                client.getAddDate());
+        assertEquals(ADD_DATE, client.getAddDate());
+    }
+
+    @Test
+    void findStubById() {
+        ClientStub clientStub = clientDao.findStubById(3).get();
+        assertNotNull(clientStub);
+        assertEquals(STUB_CLIENT_ID, clientStub.getClientId().intValue());
+        assertEquals(STUB_ADD_DATE, clientStub.getAddDate());
+        assertEquals(STUB_FIRST_NAME, clientStub.getFirstName());
+        assertEquals(STUB_LAST_NAME, clientStub.getLastName());
+    }
+
+    @Test
+    void findStubByDate() {
+        Stream<ClientStub> clientStub1 = clientDao.findStubByDate(ADD_DATE_INTERVAL1);
+        Stream<ClientStub> clientStub2 = clientDao.findStubByDate(ADD_DATE_INTERVAL2);
+        assertNotNull(clientStub1);
+        assertNotNull(clientStub2);
+        assertEquals(1, clientStub1.count());
+        assertEquals(3, clientStub2.count());
     }
 
     @Test
@@ -87,9 +123,7 @@ class ClientDaoImplTest {
         Client newClient = clientDao.add(client2).get();
         assertNotNull(newClient.getClientId());
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            clientDao.add(client2);
-        });
+        Assertions.assertThrows(IllegalArgumentException.class, () -> clientDao.add(client2));
     }
 
     @Test
@@ -129,8 +163,6 @@ class ClientDaoImplTest {
 
         clientDao.delete(newClient.getClientId());
 
-        Assertions.assertThrows(DataAccessException.class, () -> {
-            clientDao.findById(client.getClientId());
-        });
+        Assertions.assertThrows(DataAccessException.class, () -> clientDao.findById(client.getClientId()));
     }
 }
