@@ -1,0 +1,29 @@
+DROP TABLE IF EXISTS car;
+CREATE TABLE car (
+  carId INT NOT NULL AUTO_INCREMENT,
+  carDescription VARCHAR(90) NOT NULL,
+  carNumber VARCHAR(30) NOT NULL,
+  rentalCost DECIMAL(10,2) NOT NULL DEFAULT 0,
+  PRIMARY KEY (carId)
+);
+
+DROP TABLE IF EXISTS client;
+CREATE TABLE client (
+  clientId INT NOT NULL AUTO_INCREMENT,
+  passportNumber VARCHAR(30) NOT NULL,
+  firstName VARCHAR(45) NOT NULL,
+  lastName VARCHAR(45) NOT NULL,
+  addDate DATE NOT NULL,
+  PRIMARY KEY (clientId)
+);
+
+DROP TABLE IF EXISTS rentalOrder;
+CREATE TABLE rentalOrder (
+  orderId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  regDate DATE NOT NULL,
+  rentalTime DECIMAL(2) NOT NULL DEFAULT 1,
+  carId INT NULL,
+  clientId INT NULL,
+  FOREIGN KEY (clientId) REFERENCES client (clientId),
+  FOREIGN KEY (carId) REFERENCES car (carId)
+);

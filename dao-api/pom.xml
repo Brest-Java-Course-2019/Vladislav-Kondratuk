@@ -11,5 +11,11 @@
 
     <artifactId>dao-api</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.epam.brest.courses.rc</groupId>
+            <artifactId>model</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

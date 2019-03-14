@@ -2,6 +2,9 @@ package com.epam.brest.courses.rc.model;
 
 import java.math.BigDecimal;
 
+/**
+ * Model class of car.
+ */
 public class Car {
 
     /**
