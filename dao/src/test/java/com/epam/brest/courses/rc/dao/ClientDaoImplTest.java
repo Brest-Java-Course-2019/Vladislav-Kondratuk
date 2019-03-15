@@ -27,6 +27,7 @@ class ClientDaoImplTest {
     private static final Date ADD_DATE = Date.valueOf("2019-01-24");
     private static final String PASSPORT_NUMBER = "AB75612";
     private static final int CLIENT_ID = 2;
+    private static final int FULL_CLIENTS_LIST = 4;
     private static final String NEW_FIRST_NAME = "Vlad";
     private static final String NEW_LAST_NAME = "Popov";
     private static final String NEW_PASSPORT_NUMBER = "AB54122";
@@ -52,6 +53,13 @@ class ClientDaoImplTest {
         assertEquals(FIRST_NAME, client.getFirstName());
         assertEquals(LAST_NAME, client.getLastName());
         assertEquals(ADD_DATE, client.getAddDate());
+    }
+
+    @Test
+    void findAllClientListCheckCount() {
+        Stream<Client> clients = clientDao.findAll();
+        assertNotNull(clients);
+        assertEquals(FULL_CLIENTS_LIST, clients.count());
     }
 
     @Test

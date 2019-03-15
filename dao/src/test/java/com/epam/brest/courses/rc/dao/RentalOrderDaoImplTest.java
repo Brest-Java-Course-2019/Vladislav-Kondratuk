@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class RentalOrderDaoImplTest {
 
     private static final int ORDER_ID = 2;
+    private static final int FULL_RENTAL_ORDER_LIST = 4;
     private static final BigDecimal RENTAL_TIME = BigDecimal.valueOf(1);
     private static final BigDecimal NEW_RENTAL_TIME = BigDecimal.valueOf(2);
     private static final String REG_DATE = "2019-01-26";
@@ -52,6 +53,13 @@ class RentalOrderDaoImplTest {
         assertEquals(ORDER_ID, order.getOrderId().intValue());
         assertEquals(RENTAL_TIME, order.getRentalTime());
         assertEquals(Date.valueOf(REG_DATE), order.getRegDate());
+    }
+
+    @Test
+    void findAllRentalOrdersListCheckCount() {
+        Stream<RentalOrder> orders = rentalOrderDao.findAll();
+        assertNotNull(orders);
+        assertEquals(FULL_RENTAL_ORDER_LIST, orders.count());
     }
 
     @Test
