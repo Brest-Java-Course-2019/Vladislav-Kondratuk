@@ -17,7 +17,7 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(locations = {"classpath:test-db.xml", "classpath:test-dao.xml", "classpath:dao.xml"})
+@ContextConfiguration(locations = {"classpath:dao.xml", "classpath:test-dao.xml", "classpath:test-db.xml"})
 @Transactional
 @Rollback
 class RentalOrderDaoImplTest {
@@ -37,13 +37,14 @@ class RentalOrderDaoImplTest {
     private RentalOrderDao rentalOrderDao;
 
     @Test
-    void findAll() {
+    void findAllRentalOrders() {
         Stream<RentalOrder> orders = rentalOrderDao.findAll();
         assertNotNull(orders);
+        assertTrue(orders.count() > 0);
     }
 
     @Test
-    void findById() {
+    void findRentalOrderById() {
         RentalOrder order = rentalOrderDao.findById(2).get();
         assertNotNull(order);
         assertEquals(CLIENT_ID, order.getClientId().intValue());
@@ -54,7 +55,7 @@ class RentalOrderDaoImplTest {
     }
 
     @Test
-    void create() {
+    void addNewRentalOrder() {
         Stream<RentalOrder> orderBeforeInsert = rentalOrderDao.findAll();
 
         RentalOrder order = new RentalOrder();
@@ -70,7 +71,7 @@ class RentalOrderDaoImplTest {
     }
 
     @Test
-    void update() {
+    void updateRentalOrder() {
         RentalOrder order = new RentalOrder();
         order.setClientId(NEW_CLIENT_ID);
         order.setCarId(NEW_CAR_ID);
@@ -94,7 +95,7 @@ class RentalOrderDaoImplTest {
     }
 
     @Test
-    void delete() {
+    void deleteRentalOrder() {
         Stream<RentalOrder> orders = rentalOrderDao.findAll();
         RentalOrder order = orders.findFirst().get();
         rentalOrderDao.delete(order.getOrderId());

@@ -69,10 +69,15 @@ public class RentalOrderDaoImpl implements RentalOrderDao {
     private String deleteOrderSql;
 
     /**
-     * Named parameter JDBC template.
+     * Property namedParameterJdbcTemplate.
      */
-    final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
+    /**
+     * method setNamedParameterJdbcTemplate setter method for namedParameterJdbcTemplate property.
+     *
+     * @param namedParameterJdbcTemplate input value.
+     */
     public RentalOrderDaoImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
@@ -164,6 +169,7 @@ public class RentalOrderDaoImpl implements RentalOrderDao {
     @Override
     public void update(RentalOrder order) {
         Optional.of(namedParameterJdbcTemplate.update(updateOrderSql, new BeanPropertySqlParameterSource(order)))
+                .filter(this::successfullyUpdated)
                 .orElseThrow(() -> new RuntimeException("Failed to update rentalOrder in DB"));
     }
 
@@ -177,7 +183,17 @@ public class RentalOrderDaoImpl implements RentalOrderDao {
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
         mapSqlParameterSource.addValue(ORDER_ID, orderId);
         Optional.of(namedParameterJdbcTemplate.update(deleteOrderSql, mapSqlParameterSource))
+                .filter(this::successfullyUpdated)
                 .orElseThrow(() -> new RuntimeException("Failed to delete rentalOrder from DB"));
     }
 
+    /**
+     * Check how many rows is updated.
+     *
+     * @param numRowsUpdated number of updated rows.
+     * @return true if was updated only one row.
+     */
+    private boolean successfullyUpdated(int numRowsUpdated) {
+        return numRowsUpdated == 1;
+    }
 }
