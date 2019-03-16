@@ -1,5 +1,7 @@
 package com.epam.brest.courses.rc.dao;
 
+import com.epam.brest.courses.rc.dto.RentalOrderDTO;
+import com.epam.brest.courses.rc.filter.RentalOrderDateInterval;
 import com.epam.brest.courses.rc.model.RentalOrder;
 
 import java.util.Optional;
@@ -18,12 +20,35 @@ public interface RentalOrderDao {
     Stream<RentalOrder> findAll();
 
     /**
+     * Get all DTO rental orders.
+     *
+     * @return DTO rental orders stream.
+     */
+    Stream<RentalOrderDTO> findAllDTOs();
+
+    /**
      * Get rental order by ID.
      *
      * @param orderId rental order ID for getting.
      * @return rental order by ID.
      */
     Optional<RentalOrder> findById(Integer orderId);
+
+    /**
+     * Get DTO rental order by ID.
+     *
+     * @param orderId DTO rental order ID for getting.
+     * @return DTO rental order by ID.
+     */
+    Optional<RentalOrderDTO> findDTOById(Integer orderId);
+
+    /**
+     * Gets DTO rental orders between certain dates.
+     *
+     * @param interval date range for compare.
+     * @return DTO rental orders stream filtered by date.
+     */
+    Stream<RentalOrderDTO> findDTOsByDate(RentalOrderDateInterval interval);
 
     /**
      * Add new rental order.

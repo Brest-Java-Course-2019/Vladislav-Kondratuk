@@ -35,6 +35,7 @@ public class CarDaoImpl implements CarDao {
     private static final String CAR_DESCRIPTION = "carDescription";
     private static final String CAR_NUMBER = "carNumber";
     private static final String RENTAL_COST = "rentalCost";
+
     /**
      * SQL Select-all cars String.
      */

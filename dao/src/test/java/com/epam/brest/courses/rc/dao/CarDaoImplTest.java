@@ -28,29 +28,29 @@ class CarDaoImplTest {
     private static final int FULL_CAR_LIST = 3;
     private static final String CAR_DESCRIPTION = "ford focus";
     private static final String CAR_NUMBER = "BY2312";
-    private static final BigDecimal RENTAL_COST = BigDecimal.valueOf(0.7).setScale(2, RoundingMode.CEILING);
+    private static final BigDecimal RENTAL_COST = BigDecimal.valueOf(70).setScale(2, RoundingMode.CEILING);
     private static final String NEW_CAR_DESCRIPTION = "volkswagen passat";
-    private static final BigDecimal NEW_RENTAL_COST = BigDecimal.valueOf(0.8).setScale(2, RoundingMode.CEILING);
+    private static final BigDecimal NEW_RENTAL_COST = BigDecimal.valueOf(80).setScale(2, RoundingMode.CEILING);
 
     @Autowired
     private CarDao carDao;
 
     @Test
-    void findAll() {
+    void findAllCars() {
         Stream<Car> cars = carDao.findAll();
         assertNotNull(cars);
         assertTrue(cars.count() > 0);
     }
 
     @Test
-    void findAllCheckCount(){
+    void findAllCarsListCheckCount(){
         Stream<Car> cars = carDao.findAll();
         assertNotNull(cars);
         assertEquals(FULL_CAR_LIST, cars.count());
     }
 
     @Test
-    void findById() {
+    void findCarById() {
         Car car = carDao.findById(1).get();
         assertNotNull(car);
         assertEquals(CAR_ID, car.getCarId().intValue());
@@ -60,7 +60,7 @@ class CarDaoImplTest {
     }
 
     @Test
-    void create() {
+    void addNewCar() {
         Stream<Car> carsBeforeInsert = carDao.findAll();
 
         Car car = new Car();
@@ -88,7 +88,7 @@ class CarDaoImplTest {
     }
 
     @Test
-    void update() {
+    void updateCar() {
         Car car = new Car();
         car.setCarDescription(NEW_CAR_DESCRIPTION);
         car.setCarNumber(NEW_CAR_NUMBER);
@@ -109,7 +109,7 @@ class CarDaoImplTest {
     }
 
     @Test
-    void delete() {
+    void deleteCarById() {
         Car car = new Car();
         car.setCarDescription(NEW_CAR_DESCRIPTION);
         car.setCarNumber(NEW_CAR_NUMBER);

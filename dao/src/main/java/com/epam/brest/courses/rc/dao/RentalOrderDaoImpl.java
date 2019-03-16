@@ -1,5 +1,7 @@
 package com.epam.brest.courses.rc.dao;
 
+import com.epam.brest.courses.rc.dto.RentalOrderDTO;
+import com.epam.brest.courses.rc.filter.RentalOrderDateInterval;
 import com.epam.brest.courses.rc.model.RentalOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +39,10 @@ public class RentalOrderDaoImpl implements RentalOrderDao {
     private static final String CLIENT_ID = "clientId";
     private static final String CAR_ID = "carId";
     private static final String REG_DATE = "regDate";
+    private static final String CAR_NUMBER = "carNumber";
+    private static final String PASSPORT_NUMBER = "passportNumber";
+    private static final String RENTAL_COST = "rentalCost";
+    private static final String TOTAL_COST = "totalCost";
 
     /**
      * SQL Select-all rental orders String.
@@ -69,6 +75,24 @@ public class RentalOrderDaoImpl implements RentalOrderDao {
     private String deleteOrderSql;
 
     /**
+     * SQL Select-all DTO rental orders String.
+     */
+    @Value("${rentalOrderDTO.selectAll}")
+    private String getAllOrdersDTOSql;
+
+    /**
+     * SQL Select-By-Id DTO rental order String.
+     */
+    @Value("${rentalOrderDTO.selectById}")
+    private String getOrderDTOByIdSql;
+
+    /**
+     * SQL Select-By-Date DTO rental order String.
+     */
+    @Value("${rentalOrderDTO.selectByDate}")
+    private String getOrderDTOByDateSql;
+
+    /**
      * Property namedParameterJdbcTemplate.
      */
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -90,7 +114,21 @@ public class RentalOrderDaoImpl implements RentalOrderDao {
     @Override
     public Stream<RentalOrder> findAll() {
         LOGGER.debug("findAll()");
-        List<RentalOrder> rentalOrderList = namedParameterJdbcTemplate.query(getAllOrdersSql, new RentalOrderRowMapper());
+        List<RentalOrder> rentalOrderList = namedParameterJdbcTemplate
+                .query(getAllOrdersSql, new RentalOrderRowMapper());
+        return rentalOrderList.stream();
+    }
+
+    /**
+     * Get all DTO rental orders
+     *
+     * @return DTO rental orders stream.
+     */
+    @Override
+    public Stream<RentalOrderDTO> findAllDTOs() {
+        LOGGER.debug("findAllDTOs()");
+        List<RentalOrderDTO> rentalOrderList = namedParameterJdbcTemplate
+                .query(getAllOrdersDTOSql, new RentalOrderDTORowMapper());
         return rentalOrderList.stream();
     }
 
@@ -110,6 +148,39 @@ public class RentalOrderDaoImpl implements RentalOrderDao {
     }
 
     /**
+     * Get DTO rental order by ID.
+     *
+     * @param orderId DTO rental order ID for getting.
+     * @return DTO rental order by ID.
+     */
+    @Override
+    public Optional<RentalOrderDTO> findDTOById(Integer orderId) {
+        LOGGER.debug("findById({})", orderId);
+        SqlParameterSource namedParameters = new MapSqlParameterSource(ORDER_ID, orderId);
+        RentalOrderDTO orderDTO = namedParameterJdbcTemplate.queryForObject(getOrderDTOByIdSql, namedParameters,
+                BeanPropertyRowMapper.newInstance(RentalOrderDTO.class));
+        return Optional.ofNullable(orderDTO);
+    }
+
+    /**
+     * Gets DTO rental orders between certain dates.
+     *
+     * @param interval date range for compare.
+     * @return DTO rental orders stream filtered by date.
+     */
+    @Override
+    public Stream<RentalOrderDTO> findDTOsByDate(RentalOrderDateInterval interval) {
+        LOGGER.debug("findDTOsByDate({})", interval);
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("startInterval", interval.getRegStartInterval());
+        parameterSource.addValue("endInterval", interval.getRegEndInterval());
+        List<RentalOrderDTO> rentalOrderList =
+                namedParameterJdbcTemplate
+                        .query(getOrderDTOByDateSql, parameterSource, new RentalOrderDTORowMapper());
+        return rentalOrderList.stream();
+    }
+
+    /**
      * Add new rental order.
      *
      * @param order new rental order.
@@ -120,7 +191,7 @@ public class RentalOrderDaoImpl implements RentalOrderDao {
         LOGGER.debug("add({})", order);
         return Optional.of(order)
                 .map(this::insertRentalOrder)
-                .orElseThrow(() -> new IllegalArgumentException("RentalOrder with the same id already exist in DB."));
+                .orElseThrow(() -> new IllegalArgumentException("Fail to add RentalOrder into DB."));
     }
 
     /**
@@ -158,6 +229,25 @@ public class RentalOrderDaoImpl implements RentalOrderDao {
             rentalOrder.setRentalTime(resultSet.getBigDecimal(RENTAL_TIME));
             rentalOrder.setRegDate(resultSet.getDate(REG_DATE));
             return rentalOrder;
+        }
+    }
+
+    /**
+     * RentalOrderDTORowMapper - for creating models from resultSet.
+     */
+    private class RentalOrderDTORowMapper implements RowMapper<RentalOrderDTO> {
+
+        @Override
+        public RentalOrderDTO mapRow(ResultSet resultSet, int i) throws SQLException {
+            RentalOrderDTO rentalOrderDTO = new RentalOrderDTO();
+            rentalOrderDTO.setOrderId(resultSet.getInt(ORDER_ID));
+            rentalOrderDTO.setPassportNumber(resultSet.getString(PASSPORT_NUMBER));
+            rentalOrderDTO.setCarNumber(resultSet.getString(CAR_NUMBER));
+            rentalOrderDTO.setRegDate(resultSet.getDate(REG_DATE));
+            rentalOrderDTO.setRentalTime(resultSet.getBigDecimal(RENTAL_TIME));
+            rentalOrderDTO.setRentalCost(resultSet.getBigDecimal(RENTAL_COST));
+            rentalOrderDTO.setTotalCost(resultSet.getBigDecimal(TOTAL_COST));
+            return rentalOrderDTO;
         }
     }
 

@@ -56,7 +56,7 @@ class ClientDaoImplTest {
     }
 
     @Test
-    void findAllClientListCheckCount() {
+    void findAllClientsListCheckCount() {
         Stream<Client> clients = clientDao.findAll();
         assertNotNull(clients);
         assertEquals(FULL_CLIENTS_LIST, clients.count());
