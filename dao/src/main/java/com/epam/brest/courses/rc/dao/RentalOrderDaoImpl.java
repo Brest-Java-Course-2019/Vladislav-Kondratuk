@@ -43,6 +43,8 @@ public class RentalOrderDaoImpl implements RentalOrderDao {
     private static final String PASSPORT_NUMBER = "passportNumber";
     private static final String RENTAL_COST = "rentalCost";
     private static final String TOTAL_COST = "totalCost";
+    private static final String START_INTERVAL = "startInterval";
+    private static final String END_INTERVAL = "endInterval";
 
     /**
      * SQL Select-all rental orders String.
@@ -155,7 +157,7 @@ public class RentalOrderDaoImpl implements RentalOrderDao {
      */
     @Override
     public Optional<RentalOrderDTO> findDTOById(Integer orderId) {
-        LOGGER.debug("findById({})", orderId);
+        LOGGER.debug("findDTOById({})", orderId);
         SqlParameterSource namedParameters = new MapSqlParameterSource(ORDER_ID, orderId);
         RentalOrderDTO orderDTO = namedParameterJdbcTemplate.queryForObject(getOrderDTOByIdSql, namedParameters,
                 BeanPropertyRowMapper.newInstance(RentalOrderDTO.class));
@@ -172,8 +174,8 @@ public class RentalOrderDaoImpl implements RentalOrderDao {
     public Stream<RentalOrderDTO> findDTOsByDate(RentalOrderDateInterval interval) {
         LOGGER.debug("findDTOsByDate({})", interval);
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
-        parameterSource.addValue("startInterval", interval.getRegStartInterval());
-        parameterSource.addValue("endInterval", interval.getRegEndInterval());
+        parameterSource.addValue(START_INTERVAL, interval.getRegStartInterval());
+        parameterSource.addValue(END_INTERVAL, interval.getRegEndInterval());
         List<RentalOrderDTO> rentalOrderList =
                 namedParameterJdbcTemplate
                         .query(getOrderDTOByDateSql, parameterSource, new RentalOrderDTORowMapper());

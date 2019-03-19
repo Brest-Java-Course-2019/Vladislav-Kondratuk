@@ -1,5 +1,7 @@
 package com.epam.brest.courses.rc.dao;
 
+import com.epam.brest.courses.rc.dto.ClientDTO;
+import com.epam.brest.courses.rc.filter.ClientDateInterval;
 import com.epam.brest.courses.rc.model.Client;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +38,9 @@ public class ClientDaoImpl implements ClientDao {
     private static final String LAST_NAME = "lastName";
     private static final String PASSPORT_NUMBER = "passportNumber";
     private static final String ADD_DATE = "addDate";
+    private static final String NUMBER_OF_ORDERS = "numberOfOrders";
+    private static final String END_INTERVAL = "endInterval";
+    private static final String START_INTERVAL = "startInterval";
 
     /**
      * SQL Select-all clients String.
@@ -68,10 +73,28 @@ public class ClientDaoImpl implements ClientDao {
     private String deleteClientSql;
 
     /**
+     * SQL Select-all DTO clients String.
+     */
+    @Value("${clientDTO.selectAll}")
+    private String getAllDTOClientsSql;
+
+    /**
      * SQL Check count unique client passport number String.
      */
     @Value("${client.checkCountPassportNumber}")
     private String checkCountPassportNumberSql;
+
+    /**
+     * SQL Select-By-Id DTO client String.
+     */
+    @Value("${clientDTO.selectById}")
+    private String getClientDTOByIdSql;
+
+    /**
+     * SQL Select-By-Date DTO clients String.
+     */
+    @Value("${clientDTO.selectByDate}")
+    private String getClientDTOByDateSql;
 
     /**
      * Property namedParameterJdbcTemplate.
@@ -100,6 +123,18 @@ public class ClientDaoImpl implements ClientDao {
     }
 
     /**
+     * Get all DTO clients.
+     *
+     * @return DTO clients stream.
+     */
+    @Override
+    public Stream<ClientDTO> findAllDTOs() {
+        LOGGER.debug("findAllDTOs()");
+        List<ClientDTO> clientDTOList = namedParameterJdbcTemplate.query(getAllDTOClientsSql, new ClientDTORowMapper());
+        return clientDTOList.stream();
+    }
+
+    /**
      * Get client by ID.
      *
      * @param clientId client ID for getting.
@@ -112,6 +147,39 @@ public class ClientDaoImpl implements ClientDao {
         Client client = namedParameterJdbcTemplate.queryForObject(getClientByIdSql, namedParameters,
                 BeanPropertyRowMapper.newInstance(Client.class));
         return Optional.ofNullable(client);
+    }
+
+    /**
+     * Get DTO client by ID.
+     *
+     * @param clientId DTO client ID for getting.
+     * @return DTO client by ID.
+     */
+    @Override
+    public Optional<ClientDTO> findDTOById(Integer clientId) {
+        LOGGER.debug("findDTOById({})", clientId);
+        MapSqlParameterSource namedParameters = new MapSqlParameterSource(CLIENT_ID, clientId);
+        ClientDTO clientDTO = namedParameterJdbcTemplate.queryForObject(getClientDTOByIdSql, namedParameters,
+                BeanPropertyRowMapper.newInstance(ClientDTO.class));
+        return Optional.ofNullable(clientDTO);
+    }
+
+    /**
+     * Gets DTO clients between certain dates.
+     *
+     * @param interval date range for compare.
+     * @return DTO clients stream filtered by date.
+     */
+    @Override
+    public Stream<ClientDTO> findDTOsByDate(ClientDateInterval interval) {
+        LOGGER.debug("findDTOsByDate({})", interval);
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue(START_INTERVAL, interval.getAddStartInterval());
+        parameterSource.addValue(END_INTERVAL, interval.getAddEndInterval());
+        List<ClientDTO> rentalOrderList =
+                namedParameterJdbcTemplate
+                        .query(getClientDTOByDateSql, parameterSource, new ClientDTORowMapper());
+        return rentalOrderList.stream();
     }
 
     /**
@@ -175,6 +243,23 @@ public class ClientDaoImpl implements ClientDao {
             client.setLastName(resultSet.getString(LAST_NAME));
             client.setAddDate(resultSet.getDate(ADD_DATE));
             return client;
+        }
+    }
+
+    /**
+     * ClientDTORowMapper - for creating models from resultSet.
+     */
+    private class ClientDTORowMapper implements RowMapper<ClientDTO> {
+
+        @Override
+        public ClientDTO mapRow(ResultSet resultSet, int i) throws SQLException {
+            ClientDTO clientDTO = new ClientDTO();
+            clientDTO.setClientId(resultSet.getInt(CLIENT_ID));
+            clientDTO.setFirstName(resultSet.getString(FIRST_NAME));
+            clientDTO.setLastName(resultSet.getString(LAST_NAME));
+            clientDTO.setAddDate(resultSet.getDate(ADD_DATE));
+            clientDTO.setNumberOfOrders(resultSet.getInt(NUMBER_OF_ORDERS));
+            return clientDTO;
         }
     }
 

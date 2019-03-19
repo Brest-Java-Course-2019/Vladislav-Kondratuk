@@ -1,5 +1,7 @@
 package com.epam.brest.courses.rc.dao;
 
+import com.epam.brest.courses.rc.dto.ClientDTO;
+import com.epam.brest.courses.rc.filter.ClientDateInterval;
 import com.epam.brest.courses.rc.model.Client;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -33,6 +35,15 @@ class ClientDaoImplTest {
     private static final String NEW_PASSPORT_NUMBER = "AB54122";
     private static final String NEW_ADD_DATE = "2019-02-09";
     private static final String EXPECTED_DATE = "2002-04-12";
+    private static final int DTO_CLIENT_ID = 1;
+    private static final String DTO_FIRST_NAME = "Alex";
+    private static final String DTO_LAST_NAME = "Petrov";
+    private static final Date DTO_ADD_DATE = Date.valueOf("2019-01-21");
+    private static final int DTO_NUMBER_OF_ORDERS = 1;
+    private static final ClientDateInterval ADD_DATE_INTERVAL1 = new ClientDateInterval
+            ("2019-01-23","2019-02-02");
+    private static final ClientDateInterval ADD_DATE_INTERVAL2 = new ClientDateInterval
+            ("2019-02-06","2019-02-07");
 
     @Autowired
     private ClientDao clientDao;
@@ -42,6 +53,13 @@ class ClientDaoImplTest {
         Stream<Client> clients = clientDao.findAll();
         assertNotNull(clients);
         assertTrue(clients.count() > 0);
+    }
+
+    @Test
+    void findAllDTOs() {
+        Stream<ClientDTO> clientsDTO = clientDao.findAllDTOs();
+        assertNotNull(clientsDTO);
+        assertTrue(clientsDTO.count() > 0);
     }
 
     @Test
@@ -60,6 +78,27 @@ class ClientDaoImplTest {
         Stream<Client> clients = clientDao.findAll();
         assertNotNull(clients);
         assertEquals(FULL_CLIENTS_LIST, clients.count());
+    }
+
+    @Test
+    void findDTOById() {
+        ClientDTO clientDTO = clientDao.findDTOById(1).get();
+        assertNotNull(clientDTO);
+        assertEquals(DTO_CLIENT_ID, clientDTO.getClientId().intValue());
+        assertEquals(DTO_FIRST_NAME, clientDTO.getFirstName());
+        assertEquals(DTO_LAST_NAME, clientDTO.getLastName());
+        assertEquals(DTO_ADD_DATE, clientDTO.getAddDate());
+        assertEquals(DTO_NUMBER_OF_ORDERS, clientDTO.getNumberOfOrders().intValue());
+    }
+
+    @Test
+    void findDTOsByDate() {
+        Stream<ClientDTO> clientDTO1 = clientDao.findDTOsByDate(ADD_DATE_INTERVAL1);
+        Stream<ClientDTO> clientDTO2 = clientDao.findDTOsByDate(ADD_DATE_INTERVAL2);
+        assertNotNull(clientDTO1);
+        assertNotNull(clientDTO2);
+        assertEquals(2, clientDTO1.count());
+        assertEquals(1, clientDTO2.count());
     }
 
     @Test

@@ -17,6 +17,12 @@ public class RentalOrderDateInterval {
      */
     private Date regEndInterval;
 
+    /**
+     * Constructor with date interval parameters.
+     *
+     * @param regStartInterval start interval of registration date.
+     * @param regEndInterval end interval of registration date.
+     */
     public RentalOrderDateInterval(String regStartInterval, String regEndInterval) {
         this.regStartInterval = Date.valueOf(regStartInterval);
         this.regEndInterval = Date.valueOf(regEndInterval);
