@@ -176,10 +176,10 @@ public class ClientDaoImpl implements ClientDao {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource.addValue(START_INTERVAL, interval.getAddStartInterval());
         parameterSource.addValue(END_INTERVAL, interval.getAddEndInterval());
-        List<ClientDTO> rentalOrderList =
+        List<ClientDTO> clientDTOList =
                 namedParameterJdbcTemplate
                         .query(getClientDTOByDateSql, parameterSource, new ClientDTORowMapper());
-        return rentalOrderList.stream();
+        return clientDTOList.stream();
     }
 
     /**

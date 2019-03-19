@@ -97,7 +97,6 @@ public class ClientDTO {
     }
 
     /**
-     *
      * @return Returns the client's number of orders.
      */
     public Integer getNumberOfOrders() {

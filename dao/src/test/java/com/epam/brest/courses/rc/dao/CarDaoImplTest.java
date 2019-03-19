@@ -1,5 +1,7 @@
 package com.epam.brest.courses.rc.dao;
 
+import com.epam.brest.courses.rc.dto.CarDTO;
+import com.epam.brest.courses.rc.filter.CarCostInterval;
 import com.epam.brest.courses.rc.model.Car;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -28,9 +30,22 @@ class CarDaoImplTest {
     private static final int FULL_CAR_LIST = 3;
     private static final String CAR_DESCRIPTION = "ford focus";
     private static final String CAR_NUMBER = "BY2312";
-    private static final BigDecimal RENTAL_COST = BigDecimal.valueOf(70).setScale(2, RoundingMode.CEILING);
+    private static final int DTO_CAR_ID = 2;
+    private static final BigDecimal RENTAL_COST = BigDecimal.valueOf(70)
+            .setScale(2, RoundingMode.CEILING);
     private static final String NEW_CAR_DESCRIPTION = "volkswagen passat";
-    private static final BigDecimal NEW_RENTAL_COST = BigDecimal.valueOf(80).setScale(2, RoundingMode.CEILING);
+    private static final BigDecimal NEW_RENTAL_COST = BigDecimal.valueOf(80)
+            .setScale(2, RoundingMode.CEILING);
+    private static final String DTO_CAR_DESCRIPTION = "bmw m3";
+    private static final BigDecimal DTO_RENTAL_COST = BigDecimal.valueOf(85)
+            .setScale(2, RoundingMode.CEILING);
+    private static final int DTO_NUMBER_OF_ORDERS = 2;
+    private static final CarCostInterval CAR_COST_INTERVAL1 =
+            new CarCostInterval(BigDecimal.valueOf(70).setScale(2, RoundingMode.CEILING),
+                    BigDecimal.valueOf(80).setScale(2, RoundingMode.CEILING));
+    private static final CarCostInterval CAR_COST_INTERVAL2 =
+            new CarCostInterval(BigDecimal.valueOf(80).setScale(2, RoundingMode.CEILING),
+                    BigDecimal.valueOf(90).setScale(2, RoundingMode.CEILING));
 
     @Autowired
     private CarDao carDao;
@@ -40,6 +55,13 @@ class CarDaoImplTest {
         Stream<Car> cars = carDao.findAll();
         assertNotNull(cars);
         assertTrue(cars.count() > 0);
+    }
+
+    @Test
+    void findAllDTOs() {
+        Stream<CarDTO> carsDTO = carDao.findAllDTOs();
+        assertNotNull(carsDTO);
+        assertTrue(carsDTO.count() > 0);
     }
 
     @Test
@@ -57,6 +79,26 @@ class CarDaoImplTest {
         assertEquals(CAR_DESCRIPTION, car.getCarDescription());
         assertEquals(CAR_NUMBER, car.getCarNumber());
         assertEquals(RENTAL_COST, car.getRentalCost());
+    }
+
+    @Test
+    void findDTOById() {
+        CarDTO carDTO = carDao.findDTOById(2).get();
+        assertNotNull(carDTO);
+        assertEquals(DTO_CAR_ID, carDTO.getCarId().intValue());
+        assertEquals(DTO_CAR_DESCRIPTION, carDTO.getCarDescription());
+        assertEquals(DTO_RENTAL_COST, carDTO.getRentalCost());
+        assertEquals(DTO_NUMBER_OF_ORDERS, carDTO.getNumberOfOrders().intValue());
+    }
+
+    @Test
+    void findDTOsByCost() {
+        Stream<CarDTO> carDTO1 = carDao.findDTOsByCost(CAR_COST_INTERVAL1);
+        Stream<CarDTO> carDTO2 = carDao.findDTOsByCost(CAR_COST_INTERVAL2);
+        assertNotNull(carDTO1);
+        assertNotNull(carDTO2);
+        assertEquals(2, carDTO1.count());
+        assertEquals(1, carDTO2.count());
     }
 
     @Test

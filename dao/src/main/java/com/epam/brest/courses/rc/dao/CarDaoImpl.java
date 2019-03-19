@@ -1,5 +1,7 @@
 package com.epam.brest.courses.rc.dao;
 
+import com.epam.brest.courses.rc.dto.CarDTO;
+import com.epam.brest.courses.rc.filter.CarCostInterval;
 import com.epam.brest.courses.rc.model.Car;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +37,7 @@ public class CarDaoImpl implements CarDao {
     private static final String CAR_DESCRIPTION = "carDescription";
     private static final String CAR_NUMBER = "carNumber";
     private static final String RENTAL_COST = "rentalCost";
+    private static final String NUMBER_OF_ORDERS = "numberOfOrders";
 
     /**
      * SQL Select-all cars String.
@@ -73,6 +76,24 @@ public class CarDaoImpl implements CarDao {
     private String checkCountCarNumberSql;
 
     /**
+     * SQL Select-all DTO cars String.
+     */
+    @Value("${carDTO.selectAll}")
+    private String getAllDTOCarsSql;
+
+    /**
+     * SQL Select-By-Id DTO car String.
+     */
+    @Value("${carDTO.selectById}")
+    private String getCarDTOByIdSql;
+
+    /**
+     * SQL Select-By-Cost DTO car String.
+     */
+    @Value("${carDTO.setectByCost}")
+    private String getCarDTOByCostSql;
+
+    /**
      * Property namedParameterJdbcTemplate.
      */
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -99,6 +120,18 @@ public class CarDaoImpl implements CarDao {
     }
 
     /**
+     * Get all DTO cars.
+     *
+     * @return DTO cars stream.
+     */
+    @Override
+    public Stream<CarDTO> findAllDTOs() {
+        LOGGER.debug("findAllDTOs()");
+        List<CarDTO> carDTOList = namedParameterJdbcTemplate.query(getAllDTOCarsSql, new CarDTORowMapper());
+        return carDTOList.stream();
+    }
+
+    /**
      * Get car by ID.
      *
      * @param carId car ID for getting.
@@ -111,6 +144,39 @@ public class CarDaoImpl implements CarDao {
         Car car = namedParameterJdbcTemplate.queryForObject(getCarByIdSql, mapSqlParameterSource,
                 BeanPropertyRowMapper.newInstance(Car.class));
         return Optional.ofNullable(car);
+    }
+
+    /**
+     * Get DTO car by ID.
+     *
+     * @param carId DTO car ID for getting.
+     * @return DTO car by ID.
+     */
+    @Override
+    public Optional<CarDTO> findDTOById(Integer carId) {
+        LOGGER.debug("findDTOById({})", carId);
+        MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource(CAR_ID, carId);
+        CarDTO carDTO = namedParameterJdbcTemplate.queryForObject(getCarDTOByIdSql, mapSqlParameterSource,
+                BeanPropertyRowMapper.newInstance(CarDTO.class));
+        return Optional.ofNullable(carDTO);
+    }
+
+    /**
+     * Gets DTO cars between certain cost.
+     *
+     * @param interval cost range for compare.
+     * @return DTO cars stream filtered by cost.
+     */
+    @Override
+    public Stream<CarDTO> findDTOsByCost(CarCostInterval interval) {
+        LOGGER.debug("findDTOsByDate({})", interval);
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("startInterval", interval.getCostStartInterval());
+        parameterSource.addValue("endInterval", interval.getCostEndInterval());
+        List<CarDTO> carDTOList =
+                namedParameterJdbcTemplate
+                        .query(getCarDTOByCostSql, parameterSource, new CarDTORowMapper());
+        return carDTOList.stream();
     }
 
     /**
@@ -172,6 +238,22 @@ public class CarDaoImpl implements CarDao {
             car.setCarNumber(resultSet.getString(CAR_NUMBER));
             car.setRentalCost(resultSet.getBigDecimal(RENTAL_COST));
             return car;
+        }
+    }
+
+    /**
+     * CarDTORowMapper - for creating models from resultSet.
+     */
+    private class CarDTORowMapper implements RowMapper<CarDTO> {
+
+        @Override
+        public CarDTO mapRow(ResultSet resultSet, int i) throws SQLException {
+            CarDTO carDTO = new CarDTO();
+            carDTO.setCarId(resultSet.getInt(CAR_ID));
+            carDTO.setCarDescription(resultSet.getString(CAR_DESCRIPTION));
+            carDTO.setRentalCost(resultSet.getBigDecimal(RENTAL_COST));
+            carDTO.setNumberOfOrders(resultSet.getInt(NUMBER_OF_ORDERS));
+            return carDTO;
         }
     }
 
