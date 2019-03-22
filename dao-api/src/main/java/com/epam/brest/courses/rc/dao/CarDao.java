@@ -13,21 +13,21 @@ import java.util.stream.Stream;
 public interface CarDao {
 
     /**
-     * Get all cars.
+     * Get all cars from DB.
      *
      * @return cars stream.
      */
     Stream<Car> findAll();
 
     /**
-     * Get all DTO cars.
+     * Get all DTO cars from DB.
      *
      * @return DTO cars stream.
      */
     Stream<CarDTO> findAllDTOs();
 
     /**
-     * Get car by ID.
+     * Get car by ID from DB.
      *
      * @param carId car ID for getting.
      * @return car by ID.
@@ -35,7 +35,7 @@ public interface CarDao {
     Optional<Car> findById(Integer carId);
 
     /**
-     * Get DTO car by ID.
+     * Get DTO car by ID from DB.
      *
      * @param carId DTO car ID for getting.
      * @return DTO car by ID.
@@ -43,7 +43,7 @@ public interface CarDao {
     Optional<CarDTO> findDTOById(Integer carId);
 
     /**
-     * Gets DTO cars between certain cost.
+     * Gets DTO cars between certain cost from DB.
      *
      * @param interval cost range for compare.
      * @return DTO cars stream filtered by cost.
@@ -51,7 +51,7 @@ public interface CarDao {
     Stream<CarDTO> findDTOsByCost(CarCostInterval interval);
 
     /**
-     * Add new car.
+     * Add new car to DB.
      *
      * @param car new car.
      * @return new car.
@@ -59,14 +59,14 @@ public interface CarDao {
     Optional<Car> add(Car car);
 
     /**
-     * Update car.
+     * Update car in DB.
      *
      * @param car car for updating.
      */
     void update(Car car);
 
     /**
-     * Delete car with specified ID.
+     * Delete car with specified ID from DB.
      *
      * @param carId car ID for delete.
      */

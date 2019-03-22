@@ -52,21 +52,21 @@ class RentalOrderDaoImplTest {
     private RentalOrderDao rentalOrderDao;
 
     @Test
-    void findAllRentalOrders() {
+    void shouldFindAllRentalOrders() {
         Stream<RentalOrder> orders = rentalOrderDao.findAll();
         assertNotNull(orders);
         assertTrue(orders.count() > 0);
     }
 
     @Test
-    void findAllDTOs() {
+    void shouldFindAllDTOs() {
         Stream<RentalOrderDTO> ordersDTO = rentalOrderDao.findAllDTOs();
         assertNotNull(ordersDTO);
         assertTrue(ordersDTO.count() > 0);
     }
 
     @Test
-    void findRentalOrderById() {
+    void shouldFindRentalOrderById() {
         RentalOrder order = rentalOrderDao.findById(2).get();
         assertNotNull(order);
         assertEquals(CLIENT_ID, order.getClientId().intValue());
@@ -77,14 +77,14 @@ class RentalOrderDaoImplTest {
     }
 
     @Test
-    void findAllRentalOrdersListCheckCount() {
+    void shouldFindAllRentalOrdersListCheckCount() {
         Stream<RentalOrder> orders = rentalOrderDao.findAll();
         assertNotNull(orders);
         assertEquals(FULL_RENTAL_ORDER_LIST, orders.count());
     }
 
     @Test
-    void findDTOById() {
+    void shouldFindDTOById() {
         RentalOrderDTO orderDTO = rentalOrderDao.findDTOById(1).get();
         assertNotNull(orderDTO);
         assertEquals(orderDTO.getOrderId().intValue(), DTO_ORDER_ID);
@@ -97,7 +97,7 @@ class RentalOrderDaoImplTest {
     }
 
     @Test
-    void findDTOsByDate() {
+    void shouldFindDTOsByDate() {
         Stream<RentalOrderDTO> orderDTO1 = rentalOrderDao.findDTOsByDate(REG_DATE_INTERVAL1);
         Stream<RentalOrderDTO> orderDTO2 = rentalOrderDao.findDTOsByDate(REG_DATE_INTERVAL2);
         assertNotNull(orderDTO1);
@@ -108,7 +108,7 @@ class RentalOrderDaoImplTest {
 
 
     @Test
-    void addNewRentalOrder() {
+    void shouldAddNewRentalOrder() {
         Stream<RentalOrder> orderBeforeInsert = rentalOrderDao.findAll();
 
         RentalOrder order = new RentalOrder();
@@ -124,7 +124,7 @@ class RentalOrderDaoImplTest {
     }
 
     @Test
-    void updateRentalOrder() {
+    void shouldUpdateRentalOrder() {
         RentalOrder order = new RentalOrder();
         order.setClientId(NEW_CLIENT_ID);
         order.setCarId(NEW_CAR_ID);
@@ -148,7 +148,7 @@ class RentalOrderDaoImplTest {
     }
 
     @Test
-    void deleteRentalOrder() {
+    void shouldDeleteRentalOrder() {
         Stream<RentalOrder> orders = rentalOrderDao.findAll();
         RentalOrder order = orders.findFirst().get();
         rentalOrderDao.delete(order.getOrderId());

@@ -51,28 +51,28 @@ class CarDaoImplTest {
     private CarDao carDao;
 
     @Test
-    void findAllCars() {
+    void shouldFindAllCars() {
         Stream<Car> cars = carDao.findAll();
         assertNotNull(cars);
         assertTrue(cars.count() > 0);
     }
 
     @Test
-    void findAllDTOs() {
+    void shouldFindAllDTOs() {
         Stream<CarDTO> carsDTO = carDao.findAllDTOs();
         assertNotNull(carsDTO);
         assertTrue(carsDTO.count() > 0);
     }
 
     @Test
-    void findAllCarsListCheckCount(){
+    void shouldFindAllCarsListCheckCount(){
         Stream<Car> cars = carDao.findAll();
         assertNotNull(cars);
         assertEquals(FULL_CAR_LIST, cars.count());
     }
 
     @Test
-    void findCarById() {
+    void shouldFindCarById() {
         Car car = carDao.findById(1).get();
         assertNotNull(car);
         assertEquals(CAR_ID, car.getCarId().intValue());
@@ -82,7 +82,7 @@ class CarDaoImplTest {
     }
 
     @Test
-    void findDTOById() {
+    void shouldFindDTOById() {
         CarDTO carDTO = carDao.findDTOById(2).get();
         assertNotNull(carDTO);
         assertEquals(DTO_CAR_ID, carDTO.getCarId().intValue());
@@ -92,7 +92,7 @@ class CarDaoImplTest {
     }
 
     @Test
-    void findDTOsByCost() {
+    void shouldFindDTOsByCost() {
         Stream<CarDTO> carDTO1 = carDao.findDTOsByCost(CAR_COST_INTERVAL1);
         Stream<CarDTO> carDTO2 = carDao.findDTOsByCost(CAR_COST_INTERVAL2);
         assertNotNull(carDTO1);
@@ -102,7 +102,7 @@ class CarDaoImplTest {
     }
 
     @Test
-    void addNewCar() {
+    void shouldAddNewCar() {
         Stream<Car> carsBeforeInsert = carDao.findAll();
 
         Car car = new Car();
@@ -118,7 +118,7 @@ class CarDaoImplTest {
     }
 
     @Test
-    void createDuplicateCar() {
+    void shouldCreateDuplicateCarException() {
         Car car2 = new Car();
         car2.setCarDescription(NEW_CAR_DESCRIPTION);
         car2.setCarNumber(NEW_CAR_NUMBER);
@@ -130,7 +130,7 @@ class CarDaoImplTest {
     }
 
     @Test
-    void updateCar() {
+    void shouldUpdateCar() {
         Car car = new Car();
         car.setCarDescription(NEW_CAR_DESCRIPTION);
         car.setCarNumber(NEW_CAR_NUMBER);
@@ -151,7 +151,7 @@ class CarDaoImplTest {
     }
 
     @Test
-    void deleteCarById() {
+    void shouldDeleteCarById() {
         Car car = new Car();
         car.setCarDescription(NEW_CAR_DESCRIPTION);
         car.setCarNumber(NEW_CAR_NUMBER);

@@ -49,21 +49,21 @@ class ClientDaoImplTest {
     private ClientDao clientDao;
 
     @Test
-    void findAllClients() {
+    void shouldFindAllClients() {
         Stream<Client> clients = clientDao.findAll();
         assertNotNull(clients);
         assertTrue(clients.count() > 0);
     }
 
     @Test
-    void findAllDTOs() {
+    void shouldFindAllDTOs() {
         Stream<ClientDTO> clientsDTO = clientDao.findAllDTOs();
         assertNotNull(clientsDTO);
         assertTrue(clientsDTO.count() > 0);
     }
 
     @Test
-    void findClientById() {
+    void shouldFindClientById() {
         Client client = clientDao.findById(2).get();
         assertNotNull(client);
         assertEquals(CLIENT_ID, client.getClientId().intValue());
@@ -74,14 +74,14 @@ class ClientDaoImplTest {
     }
 
     @Test
-    void findAllClientsListCheckCount() {
+    void shouldFindAllClientsListCheckCount() {
         Stream<Client> clients = clientDao.findAll();
         assertNotNull(clients);
         assertEquals(FULL_CLIENTS_LIST, clients.count());
     }
 
     @Test
-    void findDTOById() {
+    void shouldFindDTOById() {
         ClientDTO clientDTO = clientDao.findDTOById(1).get();
         assertNotNull(clientDTO);
         assertEquals(DTO_CLIENT_ID, clientDTO.getClientId().intValue());
@@ -92,7 +92,7 @@ class ClientDaoImplTest {
     }
 
     @Test
-    void findDTOsByDate() {
+    void shouldFindDTOsByDate() {
         Stream<ClientDTO> clientDTO1 = clientDao.findDTOsByDate(ADD_DATE_INTERVAL1);
         Stream<ClientDTO> clientDTO2 = clientDao.findDTOsByDate(ADD_DATE_INTERVAL2);
         assertNotNull(clientDTO1);
@@ -102,7 +102,7 @@ class ClientDaoImplTest {
     }
 
     @Test
-    void addNewClient() {
+    void shouldAddNewClient() {
         Stream<Client> clientBeforeInsert = clientDao.findAll();
 
         Client client = new Client();
@@ -118,7 +118,7 @@ class ClientDaoImplTest {
     }
 
     @Test
-    void createDuplicateClient() {
+    void shouldCreateDuplicateClientException() {
         Client client2 = new Client();
         client2.setPassportNumber(NEW_PASSPORT_NUMBER);
         client2.setFirstName(NEW_FIRST_NAME);
@@ -131,7 +131,7 @@ class ClientDaoImplTest {
     }
 
     @Test
-    void updateClient() {
+    void shouldUpdateClient() {
         Client client = new Client();
         client.setPassportNumber(NEW_PASSPORT_NUMBER);
         client.setFirstName(NEW_FIRST_NAME);
@@ -155,7 +155,7 @@ class ClientDaoImplTest {
     }
 
     @Test
-    void deleteClientById() {
+    void shouldDeleteClientById() {
         Client client = new Client();
         client.setPassportNumber(NEW_PASSPORT_NUMBER);
         client.setFirstName(NEW_FIRST_NAME);
