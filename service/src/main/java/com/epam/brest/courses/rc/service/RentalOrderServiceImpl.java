@@ -60,6 +60,7 @@ public class RentalOrderServiceImpl implements RentalOrderService {
     /**
      * Method findById get rental order by ID.
      *
+     * @param orderId rental order ID for getting.
      * @return order by ID.
      */
     @Override
@@ -67,9 +68,11 @@ public class RentalOrderServiceImpl implements RentalOrderService {
         LOGGER.debug("findById({})", orderId);
         return dao.findById(orderId);
     }
+
     /**
      * Method findById get rental order DTO by ID.
      *
+     * @param orderId DTO rental order ID for getting.
      * @return order DTO by ID.
      */
     @Override
@@ -81,18 +84,20 @@ public class RentalOrderServiceImpl implements RentalOrderService {
     /**
      * Method findDTOsByDate get rental order by Date interval.
      *
+     * @param interval date range for compare.
      * @return order by Date interval.
      */
     @Override
     public Stream<RentalOrderDTO> findDTOsByDate(RentalOrderDateInterval interval) {
-        LOGGER.debug("findDTOById({})", interval);
+        LOGGER.debug("findDTOsByDate({})", interval);
         return dao.findDTOsByDate(interval);
     }
 
     /**
-     * Method findDTOsByDate get rental order by Date interval.
+     * Method add new rental order.
      *
-     * @return order by Date interval.
+     * @param order new rental order.
+     * @return new order.
      */
     @Override
     public Optional<RentalOrder> add(RentalOrder order) {

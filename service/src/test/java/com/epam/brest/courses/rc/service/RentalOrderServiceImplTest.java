@@ -32,15 +32,13 @@ class RentalOrderServiceImplTest {
     private static final Date REG_DATE = Date.valueOf("2001-01-02");
     private static final int ORDER_ID_DTO = 1;
     private static final String PASSPORT_NUMBER_DTO = "AB42123";
-    private static final String CAR_NUMBER = "BY2312";
-    private static final String CAR_NUMBER_DTO = CAR_NUMBER;
+    private static final String CAR_NUMBER_DTO = "BY2312";
     private static final Date REG_DATE_DTO = Date.valueOf("2019-01-22");
     private static final BigDecimal RENTAL_TIME_DTO = BigDecimal.valueOf(2);
     private static final BigDecimal RENTAL_COST_DTO = BigDecimal.valueOf(70);
     private static final BigDecimal TOTAL_COST_DTO = BigDecimal.valueOf(140);
     private static final RentalOrderDateInterval INTERVAL =
             new RentalOrderDateInterval("2019-01-18","2019-01-26");
-
 
     private RentalOrderService service;
 
@@ -95,8 +93,8 @@ class RentalOrderServiceImplTest {
     }
 
     @Test
-    void findAllDTOs() {
-        LOGGER.debug("run test findAllDTOs()");
+    void shouldFindAllDTOs() {
+        LOGGER.debug("run test shouldFindAllDTOs()");
 
         Mockito.when(dao.findAllDTOs()).thenReturn(Stream.of(createOrderDTO()));
 
@@ -119,8 +117,8 @@ class RentalOrderServiceImplTest {
     }
 
     @Test
-    void findDTOById() {
-        LOGGER.debug("run test findDTOById()");
+    void shouldFindDTOById() {
+        LOGGER.debug("run test shouldFindDTOById()");
 
         Mockito.when(dao.findDTOById(Mockito.anyInt())).thenReturn(Optional.of(createOrderDTO()));
 
@@ -131,8 +129,8 @@ class RentalOrderServiceImplTest {
     }
 
     @Test
-    void findDTOsByDate() {
-        LOGGER.debug("run test findDTOsByDate()");
+    void shouldFindDTOsByDate() {
+        LOGGER.debug("run test shouldFindDTOsByDate()");
 
         Mockito.when(dao.findDTOsByDate(Mockito.any(RentalOrderDateInterval.class)))
                 .thenReturn(Stream.of(createOrderDTO()));
@@ -166,7 +164,7 @@ class RentalOrderServiceImplTest {
 
     @Test
     void shouldDeleteRentalOrder() {
-        LOGGER.debug("run test shouldUpdateRentalOrder()");
+        LOGGER.debug("run test shouldDeleteRentalOrder()");
 
         Mockito.doNothing().doThrow(new IllegalStateException()).when(dao).delete(ORDER_ID);
         Mockito.when(dao.findById(ORDER_ID)).thenReturn(Optional.of(createOrder()));
