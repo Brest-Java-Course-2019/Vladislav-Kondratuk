@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/all.css">
+
+    <title>Edit client</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <a class="navbar-brand" href="#"> <img src="img/logo.svg"></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbar"
+            aria-controls="myNavbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="orders.html">Orders</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="clients.html">Clients</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="cars.html">Cars</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<main role="main" class="container">
+    <nav class="d-flex navbar navbar-light bg-light align-items-center p-3 my-3 text-dark-50 bg-purple">
+
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a href="clients.html" type="button" class="btn btn-dark pull-right" data-toggle="tooltip" data-placement="top"
+                   title="Back to Clients">
+                    <i class="fas fa-arrow-left"></i> <span class="d-none d-sm-inline"></span></a>
+            </li>
+        </ul>
+
+        <a class="navbar-brand text-uppercase"><i class="fas fa-user-friends"></i> Edit Client</a>
+
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a href="add-order.html" type="button" class="btn btn-dark pull-right" data-toggle="tooltip" data-placement="top"
+                   title="Save edited Client">
+                    <i class="fa fa-save"></i> <span class="d-none d-sm-inline">Save</span></a>
+            </li>
+        </ul>
+    </nav>
+
+    <form>
+        <div class="form-group">
+            <label for="firstName">First name</label>
+            <input class="form-control" id="firstName" aria-describedby="firstNameHelp" placeholder="Enter client first name">
+            <small id="firstNameHelp" class="form-text text-muted">Client first name.</small>
+        </div>
+        <div class="form-group">
+            <label for="lastName">Last name</label>
+            <input class="form-control" id="lastName" aria-describedby="firstNameHelp" placeholder="Enter client last name">
+            <small id="lastNameHelp" class="form-text text-muted">Client last name.</small>
+        </div>
+        <div class="form-group">
+            <label for="passportNumber">Passport number</label>
+            <input class="form-control" id="passportNumber" aria-describedby="passportNumberHelp"
+                   placeholder="Enter client passport number">
+            <small id="passportNumberHelp" class="form-text text-muted">Client passport number.</small>
+        </div>
+        <div class="form-group">
+            <label for="addingDate">Adding date</label>
+            <input type="date" class="form-control" id="addingDate" aria-describedby="addingDateHelp">
+            <small id="addingDateHelp" class="form-text text-muted">Date of adding a client.</small>
+        </div>
+        <button type="reset" class="btn btn-dark button-date-reset" data-toggle="tooltip" data-placement="top"
+                title="Values reset"><i class="fas fa-times"></i><span class="d-none d-sm-inline"> Cancel</span></button>
+    </form>
+</main>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="js/jquery-3.3.1.slim.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
+</body>
+</html>

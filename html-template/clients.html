@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/all.css">
+
+    <title>Clients list</title>
+</head>
+
+<body>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <a class="navbar-brand" href="#"> <img src="img/logo.svg"></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbar"
+            aria-controls="myNavbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="orders.html">Orders</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="clients.html">Clients</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="cars.html">Cars</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<main role="main" class="container">
+    <nav class="d-flex navbar navbar-light bg-light align-items-center p-3 my-3 text-dark-50 bg-purple">
+        <a class="navbar-brand text-uppercase"><i class="fas fa-user-friends"></i> Clients</a>
+
+        <form class="input-group-prepend" id="date-filter-form">
+            <span class="badge">Date<br>from</span>
+            <input type="date" class="form-control" id="before-date">
+            <span class="badge">Date<br>by</span>
+            <input type="date" class="form-control" id="after-date">
+            <button type="button" class="btn" data-toggle="tooltip" data-placement="top"
+                    title="Accept filter by date"><i class="fas fa-sync"></i></button>
+            <button type="reset" class="btn button-date-reset" data-toggle="tooltip" data-placement="top"
+                    title="Date reset"><i class="fas fa-times"></i></button>
+        </form>
+
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a href="add-client.html" type="button" class="btn btn-dark pull-right" data-toggle="tooltip" data-placement="top"
+                   title="Add Client">
+                    <i class="fa fa-plus"></i> <span class="d-none d-sm-inline">Add</span></a>
+            </li>
+        </ul>
+    </nav>
+
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">First name</th>
+            <th scope="col">Last name</th>
+            <th scope="col">Add date</th>
+            <th scope="col">Number of orders</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>Alex</td>
+            <td>Petrov</td>
+            <td>2018-01-20</td>
+            <td>2</td>
+            <td>
+                <a href="edit-client.html" type="button" class="btn btn-dark" data-toggle="tooltip" data-placement="top"
+                   title="Edit Client">
+                    <i class="fas fa-pen"></i><span  class="d-none d-sm-inline"> Edit</span></a>
+                <span data-toggle="modal" data-target="#deleteConfirm">
+                <button type="button" class="btn btn-dark" data-toggle="tooltip" data-placement="top"
+                        title="Delete Client">
+                    <i class="fas fa-trash-alt"></i><span class="d-none d-sm-inline"> Delete</span></button>
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">2</th>
+            <td>Anna</td>
+            <td>Hrabrova</td>
+            <td>2018-06-12
+            <td>1</td>
+            <td>
+                <a href="edit-client.html" type="button" class="btn btn-dark" data-toggle="tooltip" data-placement="top"
+                   title="Edit Client">
+                    <i class="fas fa-pen"></i><span  class="d-none d-sm-inline"> Edit</span></a>
+                <span data-toggle="modal" data-target="#deleteConfirm">
+                <button type="button" class="btn btn-dark" data-toggle="tooltip" data-placement="top"
+                        title="Delete Client">
+                    <i class="fas fa-trash-alt"></i><span class="d-none d-sm-inline"> Delete</span></button>
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">3</th>
+            <td>Bogdan</td>
+            <td>Chugunov</td>
+            <td>2018-02-07</td>
+            <td>1</td>
+            <td>
+                <a href="edit-client.html" type="button" class="btn btn-dark" data-toggle="tooltip" data-placement="top"
+                   title="Edit Client">
+                    <i class="fas fa-pen"></i><span  class="d-none d-sm-inline"> Edit</span></a>
+                <span data-toggle="modal" data-target="#deleteConfirm">
+                <button type="button" class="btn btn-dark" data-toggle="tooltip" data-placement="top"
+                        title="Delete Client">
+                    <i class="fas fa-trash-alt"></i><span class="d-none d-sm-inline"> Delete</span></button>
+                </span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+
+<!--Confirm delete Modal -->
+<div class="modal fade" id="deleteConfirm" tabindex="-1" role="dialog" aria-labelledby="deleteConfirm"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header alert-danger">
+                <h5 class="modal-title" id="modalLabel">Delete client</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Please confirm delete
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="js/jquery-3.3.1.slim.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+</script>
+</body>
+</html>

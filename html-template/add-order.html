@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/all.css">
+
+    <title>Add order</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <a class="navbar-brand" href="#"> <img src="img/logo.svg"></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbar"
+            aria-controls="myNavbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="orders.html">Orders</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="clients.html">Clients</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="cars.html">Cars</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<main role="main" class="container">
+    <nav class="d-flex navbar navbar-light bg-light align-items-center p-3 my-3 text-dark-50 bg-purple">
+
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a href="orders.html" type="button" class="btn btn-dark pull-right" data-toggle="tooltip" data-placement="top"
+                   title="Back to Orders">
+                    <i class="fas fa-arrow-left"></i> <span class="d-none d-sm-inline"></span></a>
+            </li>
+        </ul>
+
+        <a class="navbar-brand text-uppercase"><i class="fas fa-clipboard-list"></i> New Order</a>
+
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a href="add-order.html" type="button" class="btn btn-dark pull-right" data-toggle="tooltip" data-placement="top"
+                   title="Save new Order">
+                    <i class="fa fa-save"></i> <span class="d-none d-sm-inline">Save</span></a>
+            </li>
+        </ul>
+    </nav>
+
+    <form>
+        <div class="form-group">
+            <label for="clientName">Full client name</label>
+            <select class="form-control" id="clientName">
+                <option>Alex Petrov</option>
+                <option>Anna Hrabrova</option>
+                <option>Bogdan Chugunov</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="carDescription">Car description</label>
+            <select class="form-control" id="carDescription">
+                <option>bmw m3</option>
+                <option>audi a8</option>
+                <option>ford focus</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="rentalTime">Rental time</label>
+            <input class="form-control" id="rentalTime" aria-describedby="rentalTimeHelp" placeholder="Enter car rental time">
+            <small id="rentalTimeHelp" class="form-text text-muted">Rent time is measured in days, the minimum time -
+                one day.
+            </small>
+        </div>
+        <div class="form-group">
+            <label for="registrationDate">Registration date</label>
+            <input type="date" class="form-control" id="registrationDate" aria-describedby="registrationDateHelp">
+        <small id="registrationDateHelp" class="form-text text-muted">Date of registration a rental order.</small>
+        </div>
+        <button type="reset" class="btn btn-dark button-date-reset" data-toggle="tooltip" data-placement="top"
+                title="Values reset"><i class="fas fa-times"></i><span class="d-none d-sm-inline"> Cancel</span></button>
+    </form>
+</main>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="js/jquery-3.3.1.slim.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
+</body>
+</html>
