@@ -73,83 +73,81 @@
         </ul>
     </nav>
 
-    <table class="table table-striped table-bordered">
+    <div class="card table-responsive" th:if="not ${ordersDTO.isEmpty()}">
+        <table class="table table-striped table-bordered">
 
-        <thead class="thead-dark">
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Passport number</th>
-            <th scope="col">Car number</th>
-            <th scope="col">Reg Date</th>
-            <th scope="col">Rental Time</th>
-            <th scope="col">Car rental cost</th>
-            <th scope="col">Total Cost</th>
-            <th scope="col"></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>AB45412</td>
-            <td>BC1423</td>
-            <td>2018-01-20</td>
-            <td>1</td>
-            <td>85.00</td>
-            <td>85.00</td>
-            <td>
-                <a href="edit-order.html"
-                   th:href="@{/edit-order}"
-                   type="button" class="btn btn-dark" data-toggle="tooltip" data-placement="top" title="Edit Order">
-                    <i class="fas fa-pen"></i><span  class="d-none d-sm-inline"> Edit</span></a>
-                <span data-toggle="modal" data-target="#deleteConfirm">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Passport number</th>
+                <th scope="col">Car number</th>
+                <th scope="col">Reg Date</th>
+                <th scope="col">Rental Time</th>
+                <th scope="col">Car rental cost</th>
+                <th scope="col">Total Cost</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="dto : ${ordersDTO}">
+                <td th:text="${dto.passportNumber}">AB45412</td>
+                <td th:text="${dto.carNumber}">BC1423</td>
+                <td th:text="${dto.regDate}">2018-01-20</td>
+                <td th:text="${dto.rentalTime}">1</td>
+                <td th:text="${dto.rentalCost}">85.00</td>
+                <td th:text="${dto.totalCost}">85.00</td>
+                <td>
+                    <a href="edit-order.html"
+                       th:href="@{/edit-order}"
+                       type="button" class="btn btn-dark" data-toggle="tooltip" data-placement="top" title="Edit Order">
+                        <i class="fas fa-pen"></i><span class="d-none d-sm-inline"> Edit</span></a>
+                    <span data-toggle="modal" data-target="#deleteConfirm">
                 <button type="button" class="btn btn-dark" data-toggle="tooltip" data-placement="top"
                         title="Delete Order">
                     <i class="fas fa-trash-alt"></i><span class="d-none d-sm-inline"> Delete</span></button>
                 </span>
-            </td>
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>AB42312</td>
-            <td>AC3132</td>
-            <td>2018-01-22</td>
-            <td>2</td>
-            <td>70.00</td>
-            <td>140.00</td>
-            <td>
-                <a href="edit-order.html"
-                   th:href="@{/edit-order}"
-                   type="button" class="btn btn-dark" data-toggle="tooltip" data-placement="top" title="Edit Order">
-                    <i class="fas fa-pen"></i><span  class="d-none d-sm-inline"> Edit</span></a>
-                <span data-toggle="modal" data-target="#deleteConfirm">
+                </td>
+            </tr>
+            <tr th:remove="all">
+                <td>AB42312</td>
+                <td>AC3132</td>
+                <td>2018-01-22</td>
+                <td>2</td>
+                <td>70.00</td>
+                <td>140.00</td>
+                <td>
+                    <a href="edit-order.html"
+                       th:href="@{/edit-order}"
+                       type="button" class="btn btn-dark" data-toggle="tooltip" data-placement="top" title="Edit Order">
+                        <i class="fas fa-pen"></i><span class="d-none d-sm-inline"> Edit</span></a>
+                    <span data-toggle="modal" data-target="#deleteConfirm">
                 <button type="button" class="btn btn-dark" data-toggle="tooltip" data-placement="top"
                         title="Delete Order">
                     <i class="fas fa-trash-alt"></i><span class="d-none d-sm-inline"> Delete</span></button>
                 </span>
-            </td>
-        </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td>AB45342</td>
-            <td>CD3645</td>
-            <td>2018-01-26</td>
-            <td>2</td>
-            <td>85.00</td>
-            <td>170.00</td>
-            <td>
-                <a href="edit-order.html"
-                   th:href="@{/edit-order}"
-                   type="button" class="btn btn-dark" data-toggle="tooltip" data-placement="top" title="Edit Order">
-                    <i class="fas fa-pen"></i><span  class="d-none d-sm-inline"> Edit</span></a>
-                <span data-toggle="modal" data-target="#deleteConfirm">
+                </td>
+            </tr>
+            <tr th:remove="all">
+                <td>AB45342</td>
+                <td>CD3645</td>
+                <td>2018-01-26</td>
+                <td>2</td>
+                <td>85.00</td>
+                <td>170.00</td>
+                <td>
+                    <a href="edit-order.html"
+                       th:href="@{/edit-order}"
+                       type="button" class="btn btn-dark" data-toggle="tooltip" data-placement="top" title="Edit Order">
+                        <i class="fas fa-pen"></i><span class="d-none d-sm-inline"> Edit</span></a>
+                    <span data-toggle="modal" data-target="#deleteConfirm">
                 <button type="button" class="btn btn-dark" data-toggle="tooltip" data-placement="top"
                         title="Delete Order">
                     <i class="fas fa-trash-alt"></i><span class="d-none d-sm-inline"> Delete</span></button>
                 </span>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </main>
 
 <!--Confirm delete Modal -->
@@ -186,6 +184,7 @@
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
         })
+
 </script>
 </body>
 </html>
