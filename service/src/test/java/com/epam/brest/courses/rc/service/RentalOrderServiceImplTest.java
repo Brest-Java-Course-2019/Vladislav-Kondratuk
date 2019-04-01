@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -37,8 +38,6 @@ class RentalOrderServiceImplTest {
     private static final BigDecimal RENTAL_TIME_DTO = BigDecimal.valueOf(2);
     private static final BigDecimal RENTAL_COST_DTO = BigDecimal.valueOf(70);
     private static final BigDecimal TOTAL_COST_DTO = BigDecimal.valueOf(140);
-    private static final RentalOrderDateInterval INTERVAL =
-            new RentalOrderDateInterval("2019-01-18","2019-01-26");
 
     private RentalOrderService service;
 
@@ -86,8 +85,8 @@ class RentalOrderServiceImplTest {
 
         Mockito.when(dao.findAll()).thenReturn(Stream.of(createOrder()));
 
-        Stream<RentalOrder> orderStream = service.findAll();
-        assertEquals(EXPECTED_NUMBER_OF_ORDERS, orderStream.count());
+        List<RentalOrder> orderList = service.findAll();
+        assertEquals(EXPECTED_NUMBER_OF_ORDERS, orderList.size());
 
         Mockito.verify(dao, Mockito.times(ONCE)).findAll();
     }
@@ -98,8 +97,8 @@ class RentalOrderServiceImplTest {
 
         Mockito.when(dao.findAllDTOs()).thenReturn(Stream.of(createOrderDTO()));
 
-        Stream<RentalOrderDTO> orderDTOStream = service.findAllDTOs();
-        assertEquals(EXPECTED_NUMBER_OF_ORDERS, orderDTOStream.count());
+        List<RentalOrderDTO> dtoList = service.findAllDTOs();
+        assertEquals(EXPECTED_NUMBER_OF_ORDERS, dtoList.size());
 
         Mockito.verify(dao, Mockito.times(ONCE)).findAllDTOs();
     }
@@ -110,8 +109,8 @@ class RentalOrderServiceImplTest {
 
         Mockito.when(dao.findById(Mockito.anyInt())).thenReturn(Optional.of(createOrder()));
 
-        Optional<RentalOrder> rentalOrder = service.findById(ORDER_ID);
-        assertEquals(rentalOrder, Optional.of(createOrder()));
+        RentalOrder rentalOrder = service.findById(ORDER_ID);
+        assertEquals(rentalOrder, createOrder());
 
         Mockito.verify(dao, Mockito.times(ONCE)).findById(Mockito.anyInt());
     }
@@ -122,8 +121,8 @@ class RentalOrderServiceImplTest {
 
         Mockito.when(dao.findDTOById(Mockito.anyInt())).thenReturn(Optional.of(createOrderDTO()));
 
-        Optional<RentalOrderDTO> rentalOrderDTO = service.findDTOById(ORDER_ID_DTO);
-        assertEquals(rentalOrderDTO, Optional.of(createOrderDTO()));
+        RentalOrderDTO rentalOrderDTO = service.findDTOById(ORDER_ID_DTO);
+        assertEquals(rentalOrderDTO, createOrderDTO());
 
         Mockito.verify(dao, Mockito.times(ONCE)).findDTOById(Mockito.anyInt());
     }
@@ -135,10 +134,10 @@ class RentalOrderServiceImplTest {
         Mockito.when(dao.findDTOsByDate(Mockito.any(RentalOrderDateInterval.class)))
                 .thenReturn(Stream.of(createOrderDTO()));
 
-        Stream<RentalOrderDTO> rentalOrderDTO = service.findDTOsByDate(INTERVAL);
+        List<RentalOrderDTO> rentalOrderDTO = service.findDTOsByDate("2019-01-18", "2019-01-26");
         assertNotNull(rentalOrderDTO);
 
-        Mockito.verify(dao, Mockito.times(ONCE)).findDTOsByDate(INTERVAL);
+        Mockito.verify(dao, Mockito.times(ONCE)).findDTOsByDate(Mockito.any(RentalOrderDateInterval.class));
     }
 
     @Test
@@ -146,10 +145,7 @@ class RentalOrderServiceImplTest {
         LOGGER.debug("run test shouldAddNewRentalOrder()");
 
         Mockito.when(dao.add(Mockito.any(RentalOrder.class))).thenReturn(Optional.of(createOrder()));
-
-        Optional<RentalOrder> rentalOrder = service.add(createOrder());
-        assertEquals(rentalOrder, Optional.of(createOrder()));
-
+        service.add(createOrder());
         Mockito.verify(dao, Mockito.times(ONCE)).add(createOrder());
     }
 

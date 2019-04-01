@@ -8,8 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.stream.Collectors;
-
 /**
  * RentalOrder controller.
  */
@@ -36,8 +34,7 @@ public class RentalOrderController {
     @GetMapping(value = "/orders")
     public final String getOrdersPage(Model model) {
         LOGGER.debug("findAll({})", model);
-        model.addAttribute("ordersDTO", orderService.findAllDTOs()
-                .collect(Collectors.toList()));
+        model.addAttribute("ordersDTO", orderService.findAllDTOs());
         return "orders";
     }
 

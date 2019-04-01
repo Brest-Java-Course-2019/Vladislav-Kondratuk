@@ -1,5 +1,7 @@
 package com.epam.brest.courses.rc.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.math.BigDecimal;
 import java.sql.Date;
 
@@ -31,6 +33,7 @@ public class RentalOrder {
     /**
      * The rental order registration date.
      */
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
     private Date regDate;
 
     /**

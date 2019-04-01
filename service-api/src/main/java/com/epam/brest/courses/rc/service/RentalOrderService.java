@@ -1,11 +1,9 @@
 package com.epam.brest.courses.rc.service;
 
 import com.epam.brest.courses.rc.dto.RentalOrderDTO;
-import com.epam.brest.courses.rc.filter.RentalOrderDateInterval;
 import com.epam.brest.courses.rc.model.RentalOrder;
 
-import java.util.Optional;
-import java.util.stream.Stream;
+import java.util.List;
 
 /**
  * Service interface of rental order.
@@ -15,16 +13,16 @@ public interface RentalOrderService {
     /**
      * Get all rental orders from DAO.
      *
-     * @return rental orders stream.
+     * @return rental orders list.
      */
-    Stream<RentalOrder> findAll();
+    List<RentalOrder> findAll();
 
     /**
      * Get all DTO rental orders from DAO.
      *
-     * @return DTO rental orders stream.
+     * @return DTO rental orders list.
      */
-    Stream<RentalOrderDTO> findAllDTOs();
+    List<RentalOrderDTO> findAllDTOs();
 
     /**
      * Get rental order by ID from DAO.
@@ -32,7 +30,7 @@ public interface RentalOrderService {
      * @param orderId rental order ID for getting.
      * @return rental order by ID.
      */
-    Optional<RentalOrder> findById(Integer orderId);
+    RentalOrder findById(Integer orderId);
 
     /**
      * Get DTO rental order by ID from DAO.
@@ -40,23 +38,23 @@ public interface RentalOrderService {
      * @param orderId DTO rental order ID for getting.
      * @return DTO rental order by ID.
      */
-    Optional<RentalOrderDTO> findDTOById(Integer orderId);
+    RentalOrderDTO findDTOById(Integer orderId);
 
     /**
      * Gets DTO rental orders between certain dates from DAO.
      *
-     * @param interval date range for compare.
-     * @return DTO rental orders stream filtered by date.
+     * @param startDate interval start date.
+     * @param endDate interval end date.
+     * @return DTO rental orders filtered by date.
      */
-    Stream<RentalOrderDTO> findDTOsByDate(RentalOrderDateInterval interval);
+    List<RentalOrderDTO> findDTOsByDate(final String startDate, final String endDate);
 
     /**
      * Add new rental order to DAO.
      *
      * @param order new rental order.
-     * @return new rental order.
      */
-    Optional<RentalOrder> add(RentalOrder order);
+     void add(RentalOrder order);
 
     /**
      * Update rental order in DAO.

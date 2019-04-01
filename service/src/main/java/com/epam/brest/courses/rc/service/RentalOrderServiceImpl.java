@@ -8,8 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-import java.util.stream.Stream;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Implementation of RentalOrderService. Gets data from dao and database.
@@ -41,9 +41,9 @@ public class RentalOrderServiceImpl implements RentalOrderService {
      * @return stream of all rental orders.
      */
     @Override
-    public Stream<RentalOrder> findAll() {
+    public List<RentalOrder> findAll() {
         LOGGER.debug("findAll()");
-        return dao.findAll();
+        return dao.findAll().collect(Collectors.toList());
     }
 
     /**
@@ -52,9 +52,9 @@ public class RentalOrderServiceImpl implements RentalOrderService {
      * @return stream of all rental orders DTO.
      */
     @Override
-    public Stream<RentalOrderDTO> findAllDTOs() {
+    public List<RentalOrderDTO> findAllDTOs() {
         LOGGER.debug("findAllDTOs()");
-        return dao.findAllDTOs();
+        return dao.findAllDTOs().collect(Collectors.toList());
     }
 
     /**
@@ -64,9 +64,10 @@ public class RentalOrderServiceImpl implements RentalOrderService {
      * @return order by ID.
      */
     @Override
-    public Optional<RentalOrder> findById(Integer orderId) {
+    public RentalOrder findById(Integer orderId) {
         LOGGER.debug("findById({})", orderId);
-        return dao.findById(orderId);
+        return dao.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Failed to get rental order from DB"));
     }
 
     /**
@@ -76,33 +77,35 @@ public class RentalOrderServiceImpl implements RentalOrderService {
      * @return order DTO by ID.
      */
     @Override
-    public Optional<RentalOrderDTO> findDTOById(Integer orderId) {
+    public RentalOrderDTO findDTOById(Integer orderId) {
         LOGGER.debug("findDTOById({})", orderId);
-        return dao.findDTOById(orderId);
+        return dao.findDTOById(orderId)
+                .orElseThrow(() -> new RuntimeException("Failed to get rental order dto from DB"));
     }
 
     /**
-     * Method findDTOsByDate get rental order by Date interval.
+     * Method findDTOsByDate get rental order by Date interval
      *
-     * @param interval date range for compare.
-     * @return order by Date interval.
+     * @param startDate interval start date.
+     * @param endDate interval end date.
+     * @return DTO rental orders stream filtered by date.
      */
     @Override
-    public Stream<RentalOrderDTO> findDTOsByDate(RentalOrderDateInterval interval) {
-        LOGGER.debug("findDTOsByDate({})", interval);
-        return dao.findDTOsByDate(interval);
+    public List<RentalOrderDTO> findDTOsByDate(final String startDate, final String endDate) {
+        LOGGER.debug("findDTOsByDate({}, {})", startDate, endDate);
+        return dao.findDTOsByDate(
+                new RentalOrderDateInterval(startDate, endDate)).collect(Collectors.toList());
     }
 
     /**
      * Method add new rental order.
      *
-     * @param order new rental order.
-     * @return new order.
+     * @param order new rental order..
      */
     @Override
-    public Optional<RentalOrder> add(RentalOrder order) {
+    public void add(RentalOrder order) {
         LOGGER.debug("add({})", order);
-        return dao.add(order);
+        dao.add(order);
     }
 
     /**

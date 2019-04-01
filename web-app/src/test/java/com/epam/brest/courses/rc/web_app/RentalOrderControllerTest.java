@@ -31,12 +31,15 @@ class RentalOrderControllerTest {
     }
 
     @Test
-    void getOrdersPage() throws Exception {
+    void shouldGetOrdersPage() throws Exception {
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/orders")
         ).andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("<title>Orders list</title>")))
+                .andExpect(MockMvcResultMatchers.content().contentType("text/html;charset=UTF-8"))
+                .andExpect(MockMvcResultMatchers.view().name("orders"))
+                .andExpect(MockMvcResultMatchers.content().string(Matchers.
+                        containsString("<title>Orders list</title>")))
                 ;
     }
 
@@ -46,7 +49,8 @@ class RentalOrderControllerTest {
                 MockMvcRequestBuilders.get("/add-order")
         ).andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("<title>Add order</title>")))
+                .andExpect(MockMvcResultMatchers.content().string(Matchers
+                        .containsString("<title>Add order</title>")))
         ;
     }
 
@@ -56,7 +60,8 @@ class RentalOrderControllerTest {
                 MockMvcRequestBuilders.get("/edit-order")
         ).andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("<title>Edit order</title>")))
+                .andExpect(MockMvcResultMatchers.content()
+                        .string(Matchers.containsString("<title>Edit order</title>")))
         ;
     }
 }
