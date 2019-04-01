@@ -22,7 +22,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.util.Arrays;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -64,8 +63,8 @@ class RentalOrderRestControllerTest {
 
     @Test
     void shouldFindAllRentalOrders() throws Exception {
-        Mockito.when(rentalOrderService.findAll()).thenReturn(Arrays.asList(createOrder(0, "0")
-                , createOrder(1, "1")));
+        Mockito.when(rentalOrderService.findAll()).thenReturn(Arrays.asList(createOrder(0)
+                , createOrder(1)));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/orders/all")
                 .accept(MediaType.APPLICATION_JSON_UTF8))
@@ -74,12 +73,10 @@ class RentalOrderRestControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].orderId", Matchers.is(0)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].clientId", Matchers.is(0)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].carId", Matchers.is(0)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].regDate", Matchers.is("2019-01-09")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].rentalTime", Matchers.is(1)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].orderId", Matchers.is(1)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].clientId", Matchers.is(1)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].carId", Matchers.is(1)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].regDate", Matchers.is("2019-01-10")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].rentalTime", Matchers.is(2)))
                 ;
 
@@ -98,14 +95,12 @@ class RentalOrderRestControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].orderId", Matchers.is(0)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].passportNumber", Matchers.is("AB42120")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].carNumber", Matchers.is("AC4120")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].regDate", Matchers.is("2019-01-09")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].rentalTime", Matchers.is(2)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].rentalCost", Matchers.is(70)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].totalCost", Matchers.is(140)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].orderId", Matchers.is(1)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].passportNumber", Matchers.is("AB42121")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].carNumber", Matchers.is("AC4121")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].regDate", Matchers.is("2019-01-10")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].rentalTime", Matchers.is(3)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].rentalCost", Matchers.is(71)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].totalCost", Matchers.is(141)))
@@ -116,7 +111,7 @@ class RentalOrderRestControllerTest {
 
     @Test
     void shouldFindRentalOrderById() throws Exception {
-        Mockito.when(rentalOrderService.findById(Mockito.anyInt())).thenReturn(createOrder(1, "1"));
+        Mockito.when(rentalOrderService.findById(Mockito.anyInt())).thenReturn(createOrder(1));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/orders/order/1")
                 .accept(MediaType.APPLICATION_JSON_UTF8))
@@ -125,7 +120,6 @@ class RentalOrderRestControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.orderId", Matchers.is(1)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.clientId", Matchers.is(1)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.carId", Matchers.is(1)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.regDate", Matchers.is("2019-01-10")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.rentalTime", Matchers.is(2)))
                 ;
 
@@ -144,7 +138,6 @@ class RentalOrderRestControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.orderId", Matchers.is(1)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.passportNumber", Matchers.is("AB42121")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.carNumber", Matchers.is("AC4121")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.regDate", Matchers.is("2019-01-10")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.rentalTime", Matchers.is(3)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.rentalCost", Matchers.is(71)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.totalCost", Matchers.is(141)))
@@ -168,14 +161,12 @@ class RentalOrderRestControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].orderId", Matchers.is(0)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].passportNumber", Matchers.is("AB42120")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].carNumber", Matchers.is("AC4120")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].regDate", Matchers.is("2019-01-09")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].rentalTime", Matchers.is(2)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].rentalCost", Matchers.is(70)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].totalCost", Matchers.is(140)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].orderId", Matchers.is(1)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].passportNumber", Matchers.is("AB42121")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].carNumber", Matchers.is("AC4121")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].regDate", Matchers.is("2019-01-10")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].rentalTime", Matchers.is(3)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].rentalCost", Matchers.is(71)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].totalCost", Matchers.is(141)))
@@ -192,7 +183,7 @@ class RentalOrderRestControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders.post("/orders")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(mapper.writeValueAsString(createOrder(1, "1")))
+                .content(mapper.writeValueAsString(createOrder(1)))
                 .accept(MediaType.APPLICATION_JSON_UTF8)
         ).andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
@@ -208,7 +199,7 @@ class RentalOrderRestControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders.put("/orders")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(mapper.writeValueAsString(createOrder(1, "1")))
+                .content(mapper.writeValueAsString(createOrder(1)))
                 .accept(MediaType.APPLICATION_JSON_UTF8)
         ).andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
@@ -224,7 +215,7 @@ class RentalOrderRestControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/orders/order/1")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(mapper.writeValueAsString(createOrder(1, "1")))
+                .content(mapper.writeValueAsString(createOrder(1)))
                 .accept(MediaType.APPLICATION_JSON_UTF8)
         ).andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
@@ -233,12 +224,11 @@ class RentalOrderRestControllerTest {
         Mockito.verify(rentalOrderService, Mockito.times(ONCE)).delete(Mockito.anyInt());
     }
 
-    private RentalOrder createOrder(int index, String stringIndex) {
+    private RentalOrder createOrder(int index) {
         RentalOrder order = new RentalOrder();
         order.setOrderId(index);
         order.setClientId(index);
         order.setCarId(index);
-        order.setRegDate(Date.valueOf("2019-01-1" + stringIndex));
         order.setRentalTime(BigDecimal.valueOf(1 + index));
         return order;
     }
@@ -248,7 +238,6 @@ class RentalOrderRestControllerTest {
         orderDTO.setOrderId(index);
         orderDTO.setPassportNumber("AB4212" + stringIndex);
         orderDTO.setCarNumber("AC412" + stringIndex);
-        orderDTO.setRegDate(Date.valueOf("2019-01-1" + stringIndex));
         orderDTO.setRentalTime(BigDecimal.valueOf(2 + index));
         orderDTO.setRentalCost(BigDecimal.valueOf(70 + index));
         orderDTO.setTotalCost(BigDecimal.valueOf(140 + index));
