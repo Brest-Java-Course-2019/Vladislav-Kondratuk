@@ -1,5 +1,7 @@
 package com.epam.brest.courses.rc.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.sql.Date;
 
 /**
@@ -25,6 +27,7 @@ public class ClientDTO {
     /**
      * The client's adding date.
      */
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
     private Date addDate;
 
     /**

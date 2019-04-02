@@ -38,7 +38,7 @@ public class RentalOrderServiceImpl implements RentalOrderService {
     /**
      * Method findAll gets all rental orders.
      *
-     * @return stream of all rental orders.
+     * @return list of all rental orders.
      */
     @Override
     public List<RentalOrder> findAll() {
@@ -49,7 +49,7 @@ public class RentalOrderServiceImpl implements RentalOrderService {
     /**
      * Method findAllDTOs gets all rental orders DTO.
      *
-     * @return stream of all rental orders DTO.
+     * @return list of all rental orders DTO.
      */
     @Override
     public List<RentalOrderDTO> findAllDTOs() {
@@ -88,7 +88,7 @@ public class RentalOrderServiceImpl implements RentalOrderService {
      *
      * @param startDate interval start date.
      * @param endDate interval end date.
-     * @return DTO rental orders stream filtered by date.
+     * @return DTO rental orders list filtered by date.
      */
     @Override
     public List<RentalOrderDTO> findDTOsByDate(final String startDate, final String endDate) {

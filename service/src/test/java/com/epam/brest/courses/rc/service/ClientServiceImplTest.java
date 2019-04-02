@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -81,8 +82,8 @@ class ClientServiceImplTest {
 
         Mockito.when(dao.findAll()).thenReturn(Stream.of(createClient()));
 
-        Stream<Client> clientStream = service.findAll();
-        assertEquals(EXPECTED_NUMBER_OF_CLIENTS, clientStream.count());
+        List<Client> clientStream = service.findAll();
+        assertEquals(EXPECTED_NUMBER_OF_CLIENTS, clientStream.size());
 
         Mockito.verify(dao, Mockito.times(ONCE)).findAll();
     }
@@ -93,8 +94,8 @@ class ClientServiceImplTest {
 
         Mockito.when(dao.findAllDTOs()).thenReturn(Stream.of(createClientDTO()));
 
-        Stream<ClientDTO> clientDTOStream = service.findAllDTOs();
-        assertEquals(EXPECTED_NUMBER_OF_CLIENTS, clientDTOStream.count());
+        List<ClientDTO> clientDTOStream = service.findAllDTOs();
+        assertEquals(EXPECTED_NUMBER_OF_CLIENTS, clientDTOStream.size());
 
         Mockito.verify(dao, Mockito.times(ONCE)).findAllDTOs();
     }
@@ -105,8 +106,8 @@ class ClientServiceImplTest {
 
         Mockito.when(dao.findById(Mockito.anyInt())).thenReturn(Optional.of(createClient()));
 
-        Optional<Client> client = service.findById(CLIENT_ID);
-        assertEquals(client, Optional.of(createClient()));
+        Client client = service.findById(CLIENT_ID);
+        assertEquals(client, createClient());
 
         Mockito.verify(dao, Mockito.times(ONCE)).findById(Mockito.anyInt());
     }
@@ -117,8 +118,8 @@ class ClientServiceImplTest {
 
         Mockito.when(dao.findDTOById(Mockito.anyInt())).thenReturn(Optional.of(createClientDTO()));
 
-        Optional<ClientDTO> clientDTO = service.findDTOById(CLIENT_ID_DTO);
-        assertEquals(clientDTO, Optional.of(createClientDTO()));
+        ClientDTO clientDTO = service.findDTOById(CLIENT_ID_DTO);
+        assertEquals(clientDTO, createClientDTO());
 
         Mockito.verify(dao, Mockito.times(ONCE)).findDTOById(Mockito.anyInt());
     }
@@ -130,10 +131,10 @@ class ClientServiceImplTest {
         Mockito.when(dao.findDTOsByDate(Mockito.any(ClientDateInterval.class)))
                 .thenReturn(Stream.of(createClientDTO()));
 
-        Stream<ClientDTO> clientDTOStream = service.findDTOsByDate(INTERVAL);
-        assertNotNull(clientDTOStream);
+        List<ClientDTO> clientDTOS = service.findDTOsByDate("2019-01-20","2019-01-22");
+        assertNotNull(clientDTOS);
 
-        Mockito.verify(dao, Mockito.times(ONCE)).findDTOsByDate(INTERVAL);
+        Mockito.verify(dao, Mockito.times(ONCE)).findDTOsByDate(Mockito.any(ClientDateInterval.class));
     }
 
     @Test
@@ -141,10 +142,7 @@ class ClientServiceImplTest {
         LOGGER.debug("run test shouldAddNewClient()");
 
         Mockito.when(dao.add(Mockito.any(Client.class))).thenReturn(Optional.of(createClient()));
-
-        Optional<Client> client = service.add(createClient());
-        assertEquals(client, Optional.of(createClient()));
-
+        service.add(createClient());
         Mockito.verify(dao, Mockito.times(ONCE)).add(createClient());
     }
 

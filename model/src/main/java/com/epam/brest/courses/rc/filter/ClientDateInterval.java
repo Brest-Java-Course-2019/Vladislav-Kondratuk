@@ -1,5 +1,7 @@
 package com.epam.brest.courses.rc.filter;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.sql.Date;
 
 /**
@@ -10,11 +12,13 @@ public class ClientDateInterval {
     /**
      * The start interval of adding date, for search filter.
      */
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
     private Date addStartInterval;
 
     /**
      * The end interval of adding date, for search filter.
      */
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
     private Date addEndInterval;
 
     /**

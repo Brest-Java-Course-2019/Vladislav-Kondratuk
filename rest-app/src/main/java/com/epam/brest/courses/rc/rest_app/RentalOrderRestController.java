@@ -92,7 +92,7 @@ public class RentalOrderRestController implements RentalOrderService {
     @RequestMapping(value = "/dto/{startDate}/{endDate}", method = RequestMethod.GET)
     public List<RentalOrderDTO> findDTOsByDate(@PathVariable(value = "startDate") final String startDate,
                                                @PathVariable(value = "endDate") final String endDate) {
-        LOGGER.debug("getPublicationDTOsByDate({}, {})", startDate, endDate);
+        LOGGER.debug("findDTOsByDate({}, {})", startDate, endDate);
         return rentalOrderService.findDTOsByDate(startDate, endDate);
     }
 
@@ -100,7 +100,8 @@ public class RentalOrderRestController implements RentalOrderService {
      * Adds new rental order.
      * @param order new rental order.
      *
-     *  curl -H "Content-Type: application/json" -X POST -d '{"orderId":"5","clientId":"1","carId":"2", "rentalTime":"1", "regDate":"2019-01-01"}' -v http://localhost:8088/orders
+     *  curl -H "Content-Type: application/json" -X POST -d '{"orderId":"5","clientId":"1","carId":"2",
+     *              "rentalTime":"1","regDate":"2019-01-01"}' -v http://localhost:8088/orders
      */
     @Override
     @RequestMapping(method = RequestMethod.POST)
@@ -113,7 +114,8 @@ public class RentalOrderRestController implements RentalOrderService {
      * Update rental order.
      * @param order rental order for updating.
      *
-     *  curl -H "Content-Type: application/json" -X PUT -d '{"orderId":"5","clientId":"2","carId":"3", "rentalTime":"3", "regDate":"2019-01-01"}' -v http://localhost:8088/orders
+     *  curl -H "Content-Type: application/json" -X PUT -d '{"orderId":"5","clientId":"2","carId":"3",
+     *              "rentalTime":"3","regDate":"2019-01-01"}' -v http://localhost:8088/orders
      */
     @Override
     @RequestMapping(method = RequestMethod.PUT)

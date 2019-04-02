@@ -1,11 +1,9 @@
 package com.epam.brest.courses.rc.service;
 
 import com.epam.brest.courses.rc.dto.ClientDTO;
-import com.epam.brest.courses.rc.filter.ClientDateInterval;
 import com.epam.brest.courses.rc.model.Client;
 
-import java.util.Optional;
-import java.util.stream.Stream;
+import java.util.List;
 
 /**
  * Service interface of client.
@@ -15,16 +13,16 @@ public interface ClientService {
     /**
      * Get all clients from DAO.
      *
-     * @return clients stream.
+     * @return clients list.
      */
-    Stream<Client> findAll();
+    List<Client> findAll();
 
     /**
      * Get all DTO clients from DAO.
      *
-     * @return DTO clients stream.
+     * @return DTO clients list.
      */
-    Stream<ClientDTO> findAllDTOs();
+    List<ClientDTO> findAllDTOs();
 
     /**
      * Get client by ID from DAO.
@@ -32,7 +30,7 @@ public interface ClientService {
      * @param clientId client ID for getting.
      * @return client by ID.
      */
-    Optional<Client> findById(Integer clientId);
+    Client findById(Integer clientId);
 
     /**
      * Get DTO client by ID from DAO.
@@ -40,23 +38,23 @@ public interface ClientService {
      * @param clientId DTO client ID for getting.
      * @return DTO client by ID.
      */
-    Optional<ClientDTO> findDTOById(Integer clientId);
+    ClientDTO findDTOById(Integer clientId);
 
     /**
      * Gets DTO clients between certain dates from DAO.
      *
-     * @param interval date range for compare.
-     * @return DTO clients stream filtered by date.
+     * @param startDate interval start date.
+     * @param endDate interval end date.
+     * @return DTO rental orders filtered by date.
      */
-    Stream<ClientDTO> findDTOsByDate(ClientDateInterval interval);
+    List<ClientDTO> findDTOsByDate(String startDate, String endDate);
 
     /**
      * Add new client to DAO.
      *
      * @param client new client.
-     * @return new client.
      */
-    Optional<Client> add(Client client);
+    void add(Client client);
 
     /**
      * Update client in DAO.

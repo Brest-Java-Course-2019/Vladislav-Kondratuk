@@ -8,8 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-import java.util.stream.Stream;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Implementation of ClientService. Gets data from dao and database.
@@ -38,23 +38,23 @@ public class ClientServiceImpl implements ClientService {
     /**
      * Method findAll gets all clients.
      *
-     * @return stream of all clients.
+     * @return list of all clients.
      */
     @Override
-    public Stream<Client> findAll() {
+    public List<Client> findAll() {
         LOGGER.debug("findAll()");
-        return dao.findAll();
+        return dao.findAll().collect(Collectors.toList());
     }
 
     /**
      * Method findAllDTOs gets all clients DTO.
      *
-     * @return stream of all clients DTO.
+     * @return list of all clients DTO.
      */
     @Override
-    public Stream<ClientDTO> findAllDTOs() {
+    public List<ClientDTO> findAllDTOs() {
         LOGGER.debug("findAllDTOs()");
-        return dao.findAllDTOs();
+        return dao.findAllDTOs().collect(Collectors.toList());
     }
 
     /**
@@ -63,9 +63,10 @@ public class ClientServiceImpl implements ClientService {
      * @return client by ID.
      */
     @Override
-    public Optional<Client> findById(Integer clientId) {
+    public Client findById(Integer clientId) {
         LOGGER.debug("findById({})", clientId);
-        return dao.findById(clientId);
+        return dao.findById(clientId)
+                .orElseThrow(() -> new RuntimeException("Failed to get client from DB"));
     }
 
     /**
@@ -74,33 +75,36 @@ public class ClientServiceImpl implements ClientService {
      * @return client DTO by ID.
      */
     @Override
-    public Optional<ClientDTO> findDTOById(Integer clientId) {
+    public ClientDTO findDTOById(Integer clientId) {
         LOGGER.debug("findDTOById({})", clientId);
-        return dao.findDTOById(clientId);
+        return dao.findDTOById(clientId)
+                .orElseThrow(() -> new RuntimeException("Failed to get client dto from DB"));
     }
 
     /**
      * Method findDTOsByDate get clients by Date interval.
      *
-     * @param interval date range for compare.
-     * @return clients by Date interval.
+     * Gets DTO client filtered by date.
+     * @param startDate interval start date.
+     * @param endDate interval end date.
+     * @return DTO client list filtered by date
      */
     @Override
-    public Stream<ClientDTO> findDTOsByDate(ClientDateInterval interval) {
-        LOGGER.debug("findDTOsByDate({})", interval);
-        return dao.findDTOsByDate(interval);
+    public List<ClientDTO> findDTOsByDate(final String startDate, final String endDate) {
+        LOGGER.debug("findDTOsByDate({}, {})", startDate, endDate);
+        return dao.findDTOsByDate(
+                new ClientDateInterval(startDate, endDate)).collect(Collectors.toList());
     }
 
     /**
      * Method add new client.
      *
      * @param client new client.
-     * @return new client.
      */
     @Override
-    public Optional<Client> add(Client client) {
+    public void add(Client client) {
         LOGGER.debug("add({})", client);
-        return dao.add(client);
+        dao.add(client);
     }
 
     /**

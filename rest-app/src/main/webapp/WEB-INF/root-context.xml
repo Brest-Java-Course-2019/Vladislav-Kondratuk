@@ -60,6 +60,14 @@
         <constructor-arg ref="rentalOrderDao"/>
     </bean>
 
+    <bean id="clientDao" class="com.epam.brest.courses.rc.dao.ClientDaoImpl">
+        <constructor-arg ref="namedParameterJdbcTemplate"/>
+    </bean>
+
+    <bean id="clientService" class="com.epam.brest.courses.rc.service.ClientServiceImpl">
+        <constructor-arg ref="clientDao"/>
+    </bean>
+
     <context:property-placeholder location="classpath:application.properties"/>
 
 </beans>

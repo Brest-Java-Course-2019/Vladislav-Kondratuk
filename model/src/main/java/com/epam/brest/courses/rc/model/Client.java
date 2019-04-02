@@ -1,5 +1,7 @@
 package com.epam.brest.courses.rc.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.sql.Date;
 
 /**
@@ -30,6 +32,7 @@ public class Client {
     /**
      * The client's adding date.
      */
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
     private Date addDate;
 
     /**
