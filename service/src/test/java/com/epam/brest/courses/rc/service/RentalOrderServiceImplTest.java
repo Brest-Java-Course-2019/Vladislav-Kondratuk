@@ -38,6 +38,8 @@ class RentalOrderServiceImplTest {
     private static final BigDecimal RENTAL_TIME_DTO = BigDecimal.valueOf(2);
     private static final BigDecimal RENTAL_COST_DTO = BigDecimal.valueOf(70);
     private static final BigDecimal TOTAL_COST_DTO = BigDecimal.valueOf(140);
+    private static final String START_DATE = "2019-01-18";
+    private static final String END_DATE = "2019-01-26";
 
     private RentalOrderService service;
 
@@ -134,7 +136,7 @@ class RentalOrderServiceImplTest {
         Mockito.when(dao.findDTOsByDate(Mockito.any(RentalOrderDateInterval.class)))
                 .thenReturn(Stream.of(createOrderDTO()));
 
-        List<RentalOrderDTO> rentalOrderDTO = service.findDTOsByDate("2019-01-18", "2019-01-26");
+        List<RentalOrderDTO> rentalOrderDTO = service.findDTOsByDate(START_DATE, END_DATE);
         assertNotNull(rentalOrderDTO);
 
         Mockito.verify(dao, Mockito.times(ONCE)).findDTOsByDate(Mockito.any(RentalOrderDateInterval.class));

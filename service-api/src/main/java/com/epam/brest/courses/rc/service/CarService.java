@@ -1,11 +1,10 @@
 package com.epam.brest.courses.rc.service;
 
 import com.epam.brest.courses.rc.dto.CarDTO;
-import com.epam.brest.courses.rc.filter.CarCostInterval;
 import com.epam.brest.courses.rc.model.Car;
 
-import java.util.Optional;
-import java.util.stream.Stream;
+import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Service interface of car.
@@ -15,16 +14,16 @@ public interface CarService {
     /**
      * Get all cars from DAO.
      *
-     * @return cars stream.
+     * @return cars list.
      */
-    Stream<Car> findAll();
+    List<Car> findAll();
 
     /**
      * Get all DTO cars from DAO.
      *
-     * @return DTO cars stream.
+     * @return DTO cars list.
      */
-    Stream<CarDTO> findAllDTOs();
+    List<CarDTO> findAllDTOs();
 
     /**
      * Get car by ID from DAO.
@@ -32,7 +31,7 @@ public interface CarService {
      * @param carId car ID for getting.
      * @return car by ID.
      */
-    Optional<Car> findById(Integer carId);
+    Car findById(Integer carId);
 
     /**
      * Get DTO car by ID from DAO.
@@ -40,23 +39,23 @@ public interface CarService {
      * @param carId DTO car ID for getting.
      * @return DTO car by ID.
      */
-    Optional<CarDTO> findDTOById(Integer carId);
+    CarDTO findDTOById(Integer carId);
 
     /**
      * Gets DTO cars between certain cost from DAO.
      *
-     * @param interval cost range for compare.
-     * @return DTO cars stream filtered by cost.
+     * @param startCost interval start cost.
+     * @param endCost interval end cost.
+     * @return DTO cars list filtered by cost.
      */
-    Stream<CarDTO> findDTOsByCost(CarCostInterval interval);
+    List<CarDTO> findDTOsByCost(BigDecimal startCost, BigDecimal endCost);
 
     /**
      * Add new car to DAO.
      *
      * @param car new car.
-     * @return new car.
      */
-    Optional<Car> add(Car car);
+    void add(Car car);
 
     /**
      * Update car in DAO.

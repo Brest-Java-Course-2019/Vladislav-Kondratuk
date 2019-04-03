@@ -35,8 +35,8 @@ class ClientServiceImplTest {
     private static final String LAST_NAME_DTO = "Petrov";
     private static final Date ADD_DATE_DTO = Date.valueOf("2019-01-21");
     private static final int NUMBER_OF_ORDERS_DTO = 1;
-    private static final ClientDateInterval INTERVAL = new ClientDateInterval
-            ("2019-01-20","2019-01-22");
+    private static final String START_DATE = "2019-01-20";
+    private static final String END_DATE = "2019-01-22";
 
     private ClientService service;
 
@@ -131,7 +131,7 @@ class ClientServiceImplTest {
         Mockito.when(dao.findDTOsByDate(Mockito.any(ClientDateInterval.class)))
                 .thenReturn(Stream.of(createClientDTO()));
 
-        List<ClientDTO> clientDTOS = service.findDTOsByDate("2019-01-20","2019-01-22");
+        List<ClientDTO> clientDTOS = service.findDTOsByDate(START_DATE, END_DATE);
         assertNotNull(clientDTOS);
 
         Mockito.verify(dao, Mockito.times(ONCE)).findDTOsByDate(Mockito.any(ClientDateInterval.class));

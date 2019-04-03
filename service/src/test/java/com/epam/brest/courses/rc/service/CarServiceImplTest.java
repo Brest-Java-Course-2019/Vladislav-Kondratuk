@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -32,9 +33,8 @@ class CarServiceImplTest {
     private static final BigDecimal RENTAL_COST_DTO = BigDecimal.valueOf(75);
     private static final int NUMBER_OF_ORDERS_DTO = 1;
     private static final int EXPECTED_NUMBER_OF_CARS = 1;
-    private static final CarCostInterval INTERVAL =
-            new CarCostInterval(BigDecimal.valueOf(70),
-                    BigDecimal.valueOf(80));
+    private static final BigDecimal START_COST = BigDecimal.valueOf(70);
+    private static final BigDecimal END_COST = BigDecimal.valueOf(80);
 
     private CarService service;
 
@@ -78,8 +78,8 @@ class CarServiceImplTest {
 
         Mockito.when(dao.findAll()).thenReturn(Stream.of(createCar()));
 
-        Stream<Car> carStream = service.findAll();
-        assertEquals(EXPECTED_NUMBER_OF_CARS, carStream.count());
+        List<Car> carList = service.findAll();
+        assertEquals(EXPECTED_NUMBER_OF_CARS, carList.size());
 
         Mockito.verify(dao, Mockito.times(ONCE)).findAll();
     }
@@ -90,8 +90,8 @@ class CarServiceImplTest {
 
         Mockito.when(dao.findAllDTOs()).thenReturn(Stream.of(createCarDTO()));
 
-        Stream<CarDTO> carDTOStream = service.findAllDTOs();
-        assertEquals(EXPECTED_NUMBER_OF_CARS, carDTOStream.count());
+        List<CarDTO> carDTOList = service.findAllDTOs();
+        assertEquals(EXPECTED_NUMBER_OF_CARS, carDTOList.size());
 
         Mockito.verify(dao, Mockito.times(ONCE)).findAllDTOs();
     }
@@ -102,8 +102,8 @@ class CarServiceImplTest {
 
         Mockito.when(dao.findById(Mockito.anyInt())).thenReturn(Optional.of(createCar()));
 
-        Optional<Car> car = service.findById(CAR_ID);
-        assertEquals(car, Optional.of(createCar()));
+        Car car = service.findById(CAR_ID);
+        assertEquals(car, createCar());
 
         Mockito.verify(dao, Mockito.times(ONCE)).findById(Mockito.anyInt());
     }
@@ -114,8 +114,8 @@ class CarServiceImplTest {
 
         Mockito.when(dao.findDTOById(Mockito.anyInt())).thenReturn(Optional.of(createCarDTO()));
 
-        Optional<CarDTO> carDTO = service.findDTOById(CAR_ID_DTO);
-        assertEquals(carDTO, Optional.of(createCarDTO()));
+        CarDTO carDTO = service.findDTOById(CAR_ID_DTO);
+        assertEquals(carDTO, createCarDTO());
 
         Mockito.verify(dao, Mockito.times(ONCE)).findDTOById(Mockito.anyInt());
     }
@@ -127,10 +127,10 @@ class CarServiceImplTest {
         Mockito.when(dao.findDTOsByCost(Mockito.any(CarCostInterval.class)))
                 .thenReturn(Stream.of(createCarDTO()));
 
-        Stream<CarDTO> carDTOStream = service.findDTOsByCost(INTERVAL);
-        assertNotNull(carDTOStream);
+        List<CarDTO> carDTOList = service.findDTOsByCost(START_COST, END_COST);
+        assertNotNull(carDTOList);
 
-        Mockito.verify(dao, Mockito.times(ONCE)).findDTOsByCost(INTERVAL);
+        Mockito.verify(dao, Mockito.times(ONCE)).findDTOsByCost(Mockito.any(CarCostInterval.class));
     }
 
     @Test
@@ -138,10 +138,7 @@ class CarServiceImplTest {
         LOGGER.debug("run test shouldAddNewCar()");
 
         Mockito.when(dao.add(Mockito.any(Car.class))).thenReturn(Optional.of(createCar()));
-
-        Optional<Car> car = service.add(createCar());
-        assertEquals(car, Optional.of(createCar()));
-
+        service.add(createCar());
         Mockito.verify(dao, Mockito.times(ONCE)).add(createCar());
     }
 

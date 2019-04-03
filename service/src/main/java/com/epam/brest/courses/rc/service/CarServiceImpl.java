@@ -8,8 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-import java.util.stream.Stream;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Implementation of CarService. Gets data from dao and database.
@@ -38,22 +39,22 @@ public class CarServiceImpl implements CarService {
     /**
      * Method findAll gets all cars.
      *
-     * @return stream of all cars.
+     * @return list of all cars.
      */
     @Override
-    public Stream<Car> findAll() {
+    public List<Car> findAll() {
         LOGGER.debug("findAll()");
-        return dao.findAll();    }
+        return dao.findAll().collect(Collectors.toList());    }
 
     /**
      * Method findAllDTOs gets all cars DTO.
      *
-     * @return stream of all cars DTO.
+     * @return list of all cars DTO.
      */
     @Override
-    public Stream<CarDTO> findAllDTOs() {
+    public List<CarDTO> findAllDTOs() {
         LOGGER.debug("findAllDTOs()");
-        return dao.findAllDTOs();
+        return dao.findAllDTOs().collect(Collectors.toList());
     }
 
     /**
@@ -62,9 +63,10 @@ public class CarServiceImpl implements CarService {
      * @return car by ID.
      */
     @Override
-    public Optional<Car> findById(Integer carId) {
+    public Car findById(Integer carId) {
         LOGGER.debug("findById({})", carId);
-        return dao.findById(carId);
+        return dao.findById(carId)
+                .orElseThrow(() -> new RuntimeException("Failed to get car from DB"));
     }
 
     /**
@@ -73,33 +75,34 @@ public class CarServiceImpl implements CarService {
      * @return car DTO by ID.
      */
     @Override
-    public Optional<CarDTO> findDTOById(Integer carId) {
+    public CarDTO findDTOById(Integer carId) {
         LOGGER.debug("findDTOById({})", carId);
-        return dao.findDTOById(carId);
+        return dao.findDTOById(carId)
+                .orElseThrow(() -> new RuntimeException("Failed to get car DTO from DB"));
     }
 
     /**
      * Method findDTOsByCost get cars by cost interval.
      *
-     * @param interval cost range for compare.
-     * @return cars by cost interval.
+     * @param startCost interval start cost.
+     * @param endCost interval end cost.
+     * @return DTO cars List filtered by cost.
      */
     @Override
-    public Stream<CarDTO> findDTOsByCost(CarCostInterval interval) {
-        LOGGER.debug("findDTOsByCost({})", interval);
-        return dao.findDTOsByCost(interval);
+    public List<CarDTO> findDTOsByCost(BigDecimal startCost, BigDecimal endCost) {
+        LOGGER.debug("findDTOsByCost({}, {})", startCost, endCost);
+        return dao.findDTOsByCost(new CarCostInterval(startCost, endCost)).collect(Collectors.toList());
     }
 
     /**
      * Method add new car.
      *
      * @param car new car.
-     * @return new car.
      */
     @Override
-    public Optional<Car> add(Car car) {
+    public void add(Car car) {
         LOGGER.debug("add({})", car);
-        return dao.add(car);
+        dao.add(car);
     }
 
     /**

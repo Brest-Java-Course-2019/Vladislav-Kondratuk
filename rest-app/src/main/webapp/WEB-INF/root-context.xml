@@ -68,6 +68,14 @@
         <constructor-arg ref="clientDao"/>
     </bean>
 
+    <bean id="carDao" class="com.epam.brest.courses.rc.dao.CarDaoImpl">
+        <constructor-arg ref="namedParameterJdbcTemplate"/>
+    </bean>
+
+    <bean id="carService" class="com.epam.brest.courses.rc.service.CarServiceImpl">
+        <constructor-arg ref="carDao"/>
+    </bean>
+
     <context:property-placeholder location="classpath:application.properties"/>
 
 </beans>
