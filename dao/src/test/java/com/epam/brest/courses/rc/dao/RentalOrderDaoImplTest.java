@@ -67,7 +67,7 @@ class RentalOrderDaoImplTest {
 
     @Test
     void shouldFindRentalOrderById() {
-        RentalOrder order = rentalOrderDao.findById(2).get();
+        RentalOrder order = rentalOrderDao.findById(2);
         assertNotNull(order);
         assertEquals(CLIENT_ID, order.getClientId().intValue());
         assertEquals(CAR_ID, order.getCarId().intValue());
@@ -85,7 +85,7 @@ class RentalOrderDaoImplTest {
 
     @Test
     void shouldFindDTOById() {
-        RentalOrderDTO orderDTO = rentalOrderDao.findDTOById(1).get();
+        RentalOrderDTO orderDTO = rentalOrderDao.findDTOById(1);
         assertNotNull(orderDTO);
         assertEquals(orderDTO.getOrderId().intValue(), DTO_ORDER_ID);
         assertEquals(orderDTO.getPassportNumber(), DTO_PASSPORT_NUMBER);
@@ -139,7 +139,7 @@ class RentalOrderDaoImplTest {
         order.setRegDate(Date.valueOf(UNEXPECTED_REG_DATE));
         rentalOrderDao.update(order);
 
-        RentalOrder updatedOrder = rentalOrderDao.findById(order.getOrderId()).get();
+        RentalOrder updatedOrder = rentalOrderDao.findById(order.getOrderId());
 
         assertEquals(NEW_CLIENT_ID + 1, updatedOrder.getClientId().intValue());
         assertEquals(NEW_CAR_ID + 1, updatedOrder.getCarId().intValue());

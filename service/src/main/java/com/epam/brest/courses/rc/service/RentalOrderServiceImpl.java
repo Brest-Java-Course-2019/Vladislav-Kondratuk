@@ -66,8 +66,7 @@ public class RentalOrderServiceImpl implements RentalOrderService {
     @Override
     public RentalOrder findById(Integer orderId) {
         LOGGER.debug("findById({})", orderId);
-        return dao.findById(orderId)
-                .orElseThrow(() -> new RuntimeException("Failed to get rental order from DB"));
+        return dao.findById(orderId);
     }
 
     /**
@@ -79,8 +78,7 @@ public class RentalOrderServiceImpl implements RentalOrderService {
     @Override
     public RentalOrderDTO findDTOById(Integer orderId) {
         LOGGER.debug("findDTOById({})", orderId);
-        return dao.findDTOById(orderId)
-                .orElseThrow(() -> new RuntimeException("Failed to get rental order dto from DB"));
+        return dao.findDTOById(orderId);
     }
 
     /**

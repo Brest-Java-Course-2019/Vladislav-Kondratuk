@@ -109,7 +109,7 @@ class RentalOrderServiceImplTest {
     void shouldFindRentalOrderById() {
         LOGGER.debug("run test shouldFindRentalOrderById()");
 
-        Mockito.when(dao.findById(Mockito.anyInt())).thenReturn(Optional.of(createOrder()));
+        Mockito.when(dao.findById(Mockito.anyInt())).thenReturn(createOrder());
 
         RentalOrder rentalOrder = service.findById(ORDER_ID);
         assertEquals(rentalOrder, createOrder());
@@ -121,7 +121,7 @@ class RentalOrderServiceImplTest {
     void shouldFindDTOById() {
         LOGGER.debug("run test shouldFindDTOById()");
 
-        Mockito.when(dao.findDTOById(Mockito.anyInt())).thenReturn(Optional.of(createOrderDTO()));
+        Mockito.when(dao.findDTOById(Mockito.anyInt())).thenReturn(createOrderDTO());
 
         RentalOrderDTO rentalOrderDTO = service.findDTOById(ORDER_ID_DTO);
         assertEquals(rentalOrderDTO, createOrderDTO());
@@ -165,7 +165,7 @@ class RentalOrderServiceImplTest {
         LOGGER.debug("run test shouldDeleteRentalOrder()");
 
         Mockito.doNothing().doThrow(new IllegalStateException()).when(dao).delete(ORDER_ID);
-        Mockito.when(dao.findById(ORDER_ID)).thenReturn(Optional.of(createOrder()));
+        Mockito.when(dao.findById(ORDER_ID)).thenReturn(createOrder());
         service.delete(ORDER_ID);
         Mockito.verify(dao,Mockito.times(ONCE)).delete(ORDER_ID);
     }

@@ -141,12 +141,11 @@ public class RentalOrderDaoImpl implements RentalOrderDao {
      * @return rental order by ID.
      */
     @Override
-    public Optional<RentalOrder> findById(Integer orderId) {
+    public RentalOrder findById(Integer orderId) {
         LOGGER.debug("findById({})", orderId);
         SqlParameterSource namedParameters = new MapSqlParameterSource(ORDER_ID, orderId);
-        RentalOrder rentalOrder = namedParameterJdbcTemplate.queryForObject(getOrderByIdSql, namedParameters,
+        return namedParameterJdbcTemplate.queryForObject(getOrderByIdSql, namedParameters,
                 BeanPropertyRowMapper.newInstance(RentalOrder.class));
-        return Optional.ofNullable(rentalOrder);
     }
 
     /**
@@ -156,12 +155,11 @@ public class RentalOrderDaoImpl implements RentalOrderDao {
      * @return DTO rental order by ID.
      */
     @Override
-    public Optional<RentalOrderDTO> findDTOById(Integer orderId) {
+    public RentalOrderDTO findDTOById(Integer orderId) {
         LOGGER.debug("findDTOById({})", orderId);
         SqlParameterSource namedParameters = new MapSqlParameterSource(ORDER_ID, orderId);
-        RentalOrderDTO orderDTO = namedParameterJdbcTemplate.queryForObject(getOrderDTOByIdSql, namedParameters,
+        return namedParameterJdbcTemplate.queryForObject(getOrderDTOByIdSql, namedParameters,
                 BeanPropertyRowMapper.newInstance(RentalOrderDTO.class));
-        return Optional.ofNullable(orderDTO);
     }
 
     /**

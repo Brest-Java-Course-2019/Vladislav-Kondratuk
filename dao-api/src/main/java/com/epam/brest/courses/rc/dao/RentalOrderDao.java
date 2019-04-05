@@ -32,7 +32,7 @@ public interface RentalOrderDao {
      * @param orderId rental order ID for getting.
      * @return rental order by ID.
      */
-    Optional<RentalOrder> findById(Integer orderId);
+    RentalOrder findById(Integer orderId);
 
     /**
      * Get DTO rental order by ID from DB.
@@ -40,7 +40,7 @@ public interface RentalOrderDao {
      * @param orderId DTO rental order ID for getting.
      * @return DTO rental order by ID.
      */
-    Optional<RentalOrderDTO> findDTOById(Integer orderId);
+    RentalOrderDTO findDTOById(Integer orderId);
 
     /**
      * Gets DTO rental orders between certain dates from DB.
