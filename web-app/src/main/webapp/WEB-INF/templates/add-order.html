@@ -62,41 +62,50 @@
 
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a href="#" type="button" class="btn btn-dark pull-right" data-toggle="tooltip" data-placement="top"
-                   title="Save new Order">
+                <a href="orders.html"
+                   th:href="@{/orders}"
+                   th:onclick="@{document.forms['orderForm'].submit(); return false;}"
+                   type="button" class="btn btn-dark pull-right" data-toggle="tooltip" data-placement="top"
+                   title="Save edited Order">
                     <i class="fa fa-save"></i> <span class="d-none d-sm-inline">Save</span></a>
             </li>
         </ul>
     </nav>
 
-    <form>
+    <form id="orderForm"
+          action="orders.html"
+          th:action="@{${#httpServletRequest.servletPath}}"
+          th:object="${order}"
+          th:method="@{post}">
+
+        <input id="field_orderId"
+               type="hidden"
+               th:field="*{orderId}"/>
+
         <div class="form-group">
-            <label for="clientName">Full client name</label>
-            <select class="form-control" id="clientName">
-                <option>Alex Petrov</option>
-                <option>Anna Hrabrova</option>
-                <option>Bogdan Chugunov</option>
-            </select>
+            <label for="clientId">Client ID</label>
+            <input class="form-control" id="clientId" aria-describedby="clientIdHelp"
+                   th:field="*{clientId}">
+            <small id="clientIdHelp" class="form-text text-muted">Client ID.</small>
         </div>
         <div class="form-group">
-            <label for="carDescription">Car description</label>
-            <select class="form-control" id="carDescription">
-                <option>bmw m3</option>
-                <option>audi a8</option>
-                <option>ford focus</option>
-            </select>
+            <label for="carId">Car ID</label>
+            <input class="form-control" id="carId" aria-describedby="carIdHelp"
+                   th:field="*{carId}">
+            <small id="carIdHelp" class="form-text text-muted">Car ID.</small>
         </div>
         <div class="form-group">
             <label for="rentalTime">Rental time</label>
-            <input class="form-control" id="rentalTime" aria-describedby="rentalTimeHelp" placeholder="Enter car rental time">
-            <small id="rentalTimeHelp" class="form-text text-muted">Rent time is measured in days, the minimum time -
-                one day.
+            <input class="form-control" id="rentalTime" aria-describedby="rentalTimeHelp" th:field="*{rentalTime}">
+            <small id="rentalTimeHelp" class="form-text text-muted">Rent time is measured in days,
+                the minimum time - one day.
             </small>
         </div>
         <div class="form-group">
             <label for="registrationDate">Registration date</label>
-            <input type="date" class="form-control" id="registrationDate" aria-describedby="registrationDateHelp">
-        <small id="registrationDateHelp" class="form-text text-muted">Date of registration a rental order.</small>
+            <input type="date" class="form-control" id="registrationDate" aria-describedby="registrationDateHelp"
+                   th:field="*{regDate}">
+            <small id="registrationDateHelp" class="form-text text-muted">Date of registration a rental order.</small>
         </div>
         <button type="reset" class="btn btn-dark button-date-reset" data-toggle="tooltip" data-placement="top"
                 title="Values reset"><i class="fas fa-times"></i><span class="d-none d-sm-inline"> Cancel</span></button>

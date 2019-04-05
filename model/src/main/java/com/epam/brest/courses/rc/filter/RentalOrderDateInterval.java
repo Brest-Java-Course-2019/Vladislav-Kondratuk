@@ -3,11 +3,14 @@ package com.epam.brest.courses.rc.filter;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.sql.Date;
+import java.util.Calendar;
 
 /**
  * Filter class of rental order registration date interval.
  */
 public class RentalOrderDateInterval {
+
+    private static final String MINIMAL_DATE = "2019-01-01";
 
     /**
      * The start interval of registration date, for search filter.
@@ -30,6 +33,11 @@ public class RentalOrderDateInterval {
     public RentalOrderDateInterval(String regStartInterval, String regEndInterval) {
         this.regStartInterval = Date.valueOf(regStartInterval);
         this.regEndInterval = Date.valueOf(regEndInterval);
+    }
+
+    public RentalOrderDateInterval() {
+        this.regStartInterval = Date.valueOf(MINIMAL_DATE);
+        this.regEndInterval = new Date(Calendar.getInstance().getTime().getTime());
     }
 
     /**
