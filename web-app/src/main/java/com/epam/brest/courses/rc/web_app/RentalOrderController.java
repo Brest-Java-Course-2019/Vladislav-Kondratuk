@@ -3,14 +3,19 @@ package com.epam.brest.courses.rc.web_app;
 import com.epam.brest.courses.rc.filter.RentalOrderDateInterval;
 import com.epam.brest.courses.rc.model.RentalOrder;
 import com.epam.brest.courses.rc.service.RentalOrderService;
+import com.epam.brest.courses.rc.web_app.validators.RentalOrderValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import javax.validation.Valid;
 
 /**
  * RentalOrder controller.
@@ -28,6 +33,12 @@ public class RentalOrderController {
      */
     @Autowired
     private RentalOrderService orderService;
+
+    /**
+     * Validator.
+     */
+    @Autowired
+    private RentalOrderValidator orderValidator;
 
     /**
      * Goto orders list page.
@@ -61,14 +72,21 @@ public class RentalOrderController {
     /**
      * Persist new rental order into persistence storage.
      *
+     * @param result binding result.
      * @param order new rental order.
      * @return view redirect back to orders page.
      */
     @PostMapping(value = "/add-order")
-    public String addRentalOrder(RentalOrder order) {
-        LOGGER.debug("addRentalOrder({})", order);
-        this.orderService.add(order);
-        return "redirect:/orders";
+    public String addRentalOrder(@Valid @ModelAttribute("order") RentalOrder order,
+                                 BindingResult result) {
+        LOGGER.debug("addRentalOrder({}, {})", order, result);
+        orderValidator.validate(order, result);
+        if (result.hasErrors()) {
+            return "add-order";
+        } else {
+            this.orderService.add(order);
+            return "redirect:/orders";
+        }
     }
 
     /**
@@ -89,14 +107,21 @@ public class RentalOrderController {
     /**
      * Update rental order into persistence storage.
      *
+     * @param result binding result.
      * @param order rental order for updating.
      * @return view redirect back to orders page.
      */
     @PostMapping(value = "/edit-order/{orderId}")
-    public String updateRentalOrder(RentalOrder order) {
-        LOGGER.debug("updateRentalOrder({})", order);
-        this.orderService.update(order);
-        return "redirect:/orders";
+    public String updateRentalOrder(@Valid @ModelAttribute("order") RentalOrder order,
+                                    BindingResult result) {
+        LOGGER.debug("updateRentalOrder({}, {})", order, result);
+        orderValidator.validate(order, result);
+        if (result.hasErrors()) {
+            return "edit-order";
+        } else {
+            this.orderService.update(order);
+            return "redirect:/orders";
+        }
     }
 
     /**

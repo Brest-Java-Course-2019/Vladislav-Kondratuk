@@ -72,42 +72,67 @@
         </ul>
     </nav>
 
-    <form id="orderForm"
-          action="orders.html"
-          th:action="@{${#httpServletRequest.servletPath}}"
-          th:object="${order}"
-          th:method="@{post}">
+    <section id="add-order">
+        <form id="orderForm"
+              action="orders.html"
+              th:action="@{${#httpServletRequest.servletPath}}"
+              th:object="${order}"
+              th:method="@{post}">
 
-        <input id="field_orderId"
-               type="hidden"
-               th:field="*{orderId}"/>
+            <input id="field_orderId"
+                   type="hidden"
+                   th:field="*{orderId}"/>
 
-        <div class="form-group">
-            <label for="clientId">Edit client ID</label>
-            <input class="form-control" id="clientId" aria-describedby="clientIdHelp"
-                   th:field="*{clientId}">
-            <small id="clientIdHelp" class="form-text text-muted">Client ID.</small>
-        </div>
-        <div class="form-group">
-            <label for="carId">Edit car ID</label>
-            <input class="form-control" id="carId" aria-describedby="carIdHelp"
-                   th:field="*{carId}">
-            <small id="carIdHelp" class="form-text text-muted">Car ID.</small>
-        </div>
-        <div class="form-group">
-            <label for="rentalTime">Edit rental time</label>
-            <input class="form-control" id="rentalTime" aria-describedby="rentalTimeHelp" th:field="*{rentalTime}">
-            <small id="rentalTimeHelp" class="form-text text-muted">Rent time is measured in days,
-                the minimum time - one day.
-            </small>
-        </div>
-        <div class="form-group">
-            <label for="registrationDate">Edit registration date</label>
-            <input type="date" class="form-control" id="registrationDate" aria-describedby="registrationDateHelp"
-                   th:field="*{regDate}">
-            <small id="registrationDateHelp" class="form-text text-muted">Date of registration a rental order.</small>
-        </div>
-    </form>
+            <div class="form-group">
+                <label for="clientId">Client ID</label>
+                <input class="form-control"
+                       th:class="${#fields.hasErrors('clientId')} ? 'form-control is-invalid' : 'form-control'"
+                       id="clientId" aria-describedby="clientIdHelp"
+                       th:field="*{clientId}">
+                <small id="clientIdHelp" class="form-text text-muted">Client ID.</small>
+                <div th:if="${#fields.hasErrors('clientId')}"
+                     class="invalid-feedback"
+                     th:errors="*{clientId}">[errors]</div>
+            </div>
+            <div class="form-group">
+                <label for="carId">Car ID</label>
+                <input class="form-control"
+                       th:class="${#fields.hasErrors('carId')} ? 'form-control is-invalid' : 'form-control'"
+                       id="carId" aria-describedby="carIdHelp"
+                       th:field="*{carId}">
+                <small id="carIdHelp" class="form-text text-muted">Car ID.</small>
+                <div th:if="${#fields.hasErrors('carId')}"
+                     class="invalid-feedback"
+                     th:errors="*{carId}">[errors]</div>
+            </div>
+            <div class="form-group">
+                <label for="rentalTime">Rental time</label>
+                <input class="form-control"
+                       th:class="${#fields.hasErrors('rentalTime')} ? 'form-control is-invalid' : 'form-control'"
+                       id="rentalTime" aria-describedby="rentalTimeHelp" th:field="*{rentalTime}">
+                <small id="rentalTimeHelp" class="form-text text-muted">Rent time is measured in days,
+                    the minimum time - one day.
+                </small>
+                <div th:if="${#fields.hasErrors('rentalTime')}"
+                     class="invalid-feedback"
+                     th:errors="*{rentalTime}">[errors]</div>
+            </div>
+            <div class="form-group">
+                <label for="registrationDate">Registration date</label>
+                <input type="date" class="form-control"
+                       th:class="${#fields.hasErrors('regDate')} ? 'form-control is-invalid' : 'form-control'"
+                       id="registrationDate" aria-describedby="registrationDateHelp"
+                       th:field="*{regDate}">
+                <small id="registrationDateHelp" class="form-text text-muted">Date of registration a rental order.</small>
+                <div th:if="${#fields.hasErrors('regDate')}"
+                     class="invalid-feedback"
+                     th:errors="*{regDate}">[errors]</div>
+            </div>
+            </div>
+            <button type="reset" class="btn btn-dark button-date-reset" data-toggle="tooltip" data-placement="top"
+                    title="Values reset"><i class="fas fa-times"></i><span class="d-none d-sm-inline"> Cancel</span></button>
+        </form>
+    </section>
 </main>
 
 <!-- Optional JavaScript -->

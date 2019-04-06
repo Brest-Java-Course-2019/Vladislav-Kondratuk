@@ -99,6 +99,10 @@ class RentalOrderControllerTest {
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/add-order")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .param("clientId", "1")
+                        .param("carId", "1")
+                        .param("rentalTime", "2")
+                        .param("regDate", "2000-01-01")
         ).andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isFound())
                 .andExpect(MockMvcResultMatchers.redirectedUrl("/orders"))
@@ -115,12 +119,50 @@ class RentalOrderControllerTest {
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/edit-order/1")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .param("clientId", "1")
+                        .param("carId", "1")
+                        .param("rentalTime", "2")
+                        .param("regDate", "2000-01-01")
         ).andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isFound())
                 .andExpect(MockMvcResultMatchers.redirectedUrl("/orders"))
         ;
 
         Mockito.verify(rentalOrderService, Mockito.times(ONCE)).update(Mockito.any(RentalOrder.class));
+    }
+
+    @Test
+    void shouldGetAddRentalOrderValidationError() throws Exception {
+        Mockito.doNothing().doThrow(new IllegalStateException())
+                .when(rentalOrderService).add(createOrder(ZERO));
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/add-order")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .param("carId", "1")
+                        .param("rentalTime", "2")
+                        .param("regDate", "2000-01-01")
+        ).andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("clientId"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+        ;
+    }
+
+    @Test
+    void shouldGetUpdateRentalOrderValidationError() throws Exception {
+        Mockito.doNothing().doThrow(new IllegalStateException())
+                .when(rentalOrderService).update(createOrder(ZERO));
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/edit-order/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .param("carId", "1")
+                        .param("rentalTime", "2")
+                        .param("regDate", "2000-01-01")
+        ).andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("clientId"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+        ;
     }
 
     @Test
