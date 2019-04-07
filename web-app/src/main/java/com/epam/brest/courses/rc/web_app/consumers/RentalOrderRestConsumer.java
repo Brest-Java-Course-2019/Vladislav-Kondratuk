@@ -36,7 +36,7 @@ public class RentalOrderRestConsumer implements RentalOrderService {
 
     @Override
     public List<RentalOrderDTO> findAllDTOs() {
-        LOGGER.debug("findAllStubs()");
+        LOGGER.debug("findAllDTOs()");
         ResponseEntity responseEntity = restTemplate.getForEntity(url + "/all-dto", List.class);
         return  (List<RentalOrderDTO>) responseEntity.getBody();
     }

@@ -166,7 +166,7 @@ class RentalOrderControllerTest {
     }
 
     @Test
-    void shouldDeleteDepartmentById() throws Exception {
+    void shouldDeleteRentalOrderById() throws Exception {
         Mockito.doNothing().doThrow(new IllegalStateException())
                 .when(rentalOrderService).delete(Mockito.anyInt());
 

@@ -3,11 +3,17 @@ package com.epam.brest.courses.rc.filter;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.sql.Date;
+import java.util.Calendar;
 
 /**
  * Filter class of client's adding date interval.
  */
 public class ClientDateInterval {
+
+    /**
+     * Minimal date interval.
+     */
+    private static final String MINIMAL_DATE = "2019-01-01";
 
     /**
      * The start interval of adding date, for search filter.
@@ -30,6 +36,14 @@ public class ClientDateInterval {
     public ClientDateInterval(String addStartInterval, String addEndInterval) {
         this.addStartInterval = Date.valueOf(addStartInterval);
         this.addEndInterval = Date.valueOf(addEndInterval);
+    }
+
+    /**
+     * Constructor with default date interval parameters.
+     */
+    public ClientDateInterval() {
+        this.addStartInterval = Date.valueOf(MINIMAL_DATE);
+        this.addEndInterval = new Date(Calendar.getInstance().getTime().getTime());
     }
 
     /**

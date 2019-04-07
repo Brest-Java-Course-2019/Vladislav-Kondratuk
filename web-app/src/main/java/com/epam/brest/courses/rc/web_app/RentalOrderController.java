@@ -132,7 +132,7 @@ public class RentalOrderController {
      * @return view with use model attributes.
      */
     @GetMapping(value = "/order/{orderId}/delete")
-    public final String deleteDepartmentById(@PathVariable Integer orderId, Model model) {
+    public final String deleteRentalOrdertById(@PathVariable Integer orderId, Model model) {
         LOGGER.debug("delete({},{})", orderId, model);
         this.orderService.delete(orderId);
         return "redirect:/orders";

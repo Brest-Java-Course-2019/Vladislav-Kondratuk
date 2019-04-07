@@ -10,6 +10,9 @@ import java.util.Calendar;
  */
 public class RentalOrderDateInterval {
 
+    /**
+     * Minimal date interval.
+     */
     private static final String MINIMAL_DATE = "2019-01-01";
 
     /**
@@ -35,6 +38,9 @@ public class RentalOrderDateInterval {
         this.regEndInterval = Date.valueOf(regEndInterval);
     }
 
+    /**
+     * Constructor with default date interval parameters.
+     */
     public RentalOrderDateInterval() {
         this.regStartInterval = Date.valueOf(MINIMAL_DATE);
         this.regEndInterval = new Date(Calendar.getInstance().getTime().getTime());

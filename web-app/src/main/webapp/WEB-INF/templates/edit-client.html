@@ -62,38 +62,76 @@
 
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a href="#" type="button" class="btn btn-dark pull-right" data-toggle="tooltip" data-placement="top"
+                <a href="clients.html"
+                   th:href="@{/clients}"
+                   th:onclick="@{document.forms['clientForm'].submit(); return false;}"
+                   type="button" class="btn btn-dark pull-right" data-toggle="tooltip" data-placement="top"
                    title="Save edited Client">
                     <i class="fa fa-save"></i> <span class="d-none d-sm-inline">Save</span></a>
             </li>
         </ul>
     </nav>
 
-    <form>
-        <div class="form-group">
-            <label for="firstName">First name</label>
-            <input class="form-control" id="firstName" aria-describedby="firstNameHelp" placeholder="Enter client first name">
-            <small id="firstNameHelp" class="form-text text-muted">Client first name.</small>
-        </div>
-        <div class="form-group">
-            <label for="lastName">Last name</label>
-            <input class="form-control" id="lastName" aria-describedby="firstNameHelp" placeholder="Enter client last name">
-            <small id="lastNameHelp" class="form-text text-muted">Client last name.</small>
-        </div>
-        <div class="form-group">
-            <label for="passportNumber">Passport number</label>
-            <input class="form-control" id="passportNumber" aria-describedby="passportNumberHelp"
-                   placeholder="Enter client passport number">
-            <small id="passportNumberHelp" class="form-text text-muted">Client passport number.</small>
-        </div>
-        <div class="form-group">
-            <label for="addingDate">Adding date</label>
-            <input type="date" class="form-control" id="addingDate" aria-describedby="addingDateHelp">
-            <small id="addingDateHelp" class="form-text text-muted">Date of adding a client.</small>
-        </div>
-        <button type="reset" class="btn btn-dark button-date-reset" data-toggle="tooltip" data-placement="top"
-                title="Values reset"><i class="fas fa-times"></i><span class="d-none d-sm-inline"> Cancel</span></button>
-    </form>
+    <section id="edit-client">
+        <form id="clientForm"
+              action="clients.html"
+              th:action="@{${#httpServletRequest.servletPath}}"
+              th:object="${client}"
+              th:method="@{post}">
+
+            <input id="field_clientId"
+                   type="hidden"
+                   th:field="*{clientId}"/>
+
+            <div class="form-group">
+                <label for="passportNumber">Passport number</label>
+                <input class="form-control"
+                       th:class="${#fields.hasErrors('passportNumber')} ? 'form-control is-invalid' : 'form-control'"
+                       id="passportNumber" aria-describedby="passportNumberHelp"
+                       th:field="*{passportNumber}">
+                <small id="passportNumberHelp" class="form-text text-muted">Client passport number.</small>
+                <div th:if="${#fields.hasErrors('passportNumber')}"
+                     class="invalid-feedback"
+                     th:errors="*{passportNumber}">[errors]</div>
+            </div>
+            <div class="form-group">
+                <label for="firstName">First name</label>
+                <input class="form-control"
+                       th:class="${#fields.hasErrors('firstName')} ? 'form-control is-invalid' : 'form-control'"
+                       id="firstName" aria-describedby="firstNameHelp"
+                       th:field="*{firstName}">
+                <small id="firstNameHelp" class="form-text text-muted">Client first name.</small>
+                <div th:if="${#fields.hasErrors('firstName')}"
+                     class="invalid-feedback"
+                     th:errors="*{firstName}">[errors]</div>
+            </div>
+            <div class="form-group">
+                <label for="lastName">Last name</label>
+                <input class="form-control"
+                       th:class="${#fields.hasErrors('lastName')} ? 'form-control is-invalid' : 'form-control'"
+                       id="lastName" aria-describedby="firstNameHelp"
+                       th:field="*{lastName}">
+                <small id="lastNameHelp" class="form-text text-muted">Client last name.</small>
+                <div th:if="${#fields.hasErrors('lastName')}"
+                     class="invalid-feedback"
+                     th:errors="*{lastName}">[errors]</div>
+            </div>
+            <div class="form-group">
+                <label for="addingDate">Adding date</label>
+                <input type="date" class="form-control"
+                       th:class="${#fields.hasErrors('addDate')} ? 'form-control is-invalid' : 'form-control'"
+                       id="addingDate" aria-describedby="addingDateHelp"
+                       th:field="*{addDate}">
+                <small id="addingDateHelp" class="form-text text-muted">Date of adding a client.</small>
+                <div th:if="${#fields.hasErrors('addDate')}"
+                     class="invalid-feedback"
+                     th:errors="*{addDate}">[errors]</div>
+            </div>
+            <button type="reset" class="btn btn-dark button-date-reset" data-toggle="tooltip" data-placement="top"
+                    title="Values reset"><i class="fas fa-times"></i><span class="d-none d-sm-inline"> Cancel</span>
+            </button>
+        </form>
+    </section>
 </main>
 
 <!-- Optional JavaScript -->
@@ -108,6 +146,7 @@
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()
     })
+
 </script>
 </body>
 </html>
