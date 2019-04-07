@@ -32,32 +32,46 @@
 
     <context:component-scan base-package="com.epam.brest.courses.rc"/>
 
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="org.h2.Driver"/>
-        <property name="url" value="jdbc:h2:mem:test_db;MODE=MYSQL;DB_CLOSE_DELAY=-1"/>
-        <property name="username" value=""/>
-        <property name="password" value=""/>
+    <!--    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
+    <!--        <property name="driverClassName" value="org.h2.Driver"/>-->
+    <!--        <property name="url" value="jdbc:h2:mem:test_db;MODE=MYSQL;DB_CLOSE_DELAY=-1"/>-->
+    <!--        <property name="username" value=""/>-->
+    <!--        <property name="password" value=""/>-->
+    <!--    </bean>-->
+
+    <!--    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">-->
+    <!--        <property name="dataSource" ref="dataSource"/>-->
+    <!--    </bean>-->
+
+    <!--    <jdbc:initialize-database>-->
+    <!--        <jdbc:script location="classpath:create-tables.sql"/>-->
+    <!--        <jdbc:script location="classpath:data-scripts.sql"/>-->
+    <!--    </jdbc:initialize-database>-->
+
+    <!--    <bean id="namedParameterJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">-->
+    <!--        <constructor-arg name="dataSource" ref="dataSource"/>-->
+    <!--    </bean>-->
+
+    <!--    <bean id="rentalOrderDao" class="com.epam.brest.courses.rc.dao.RentalOrderDaoImpl">-->
+    <!--        <constructor-arg ref="namedParameterJdbcTemplate"/>-->
+    <!--    </bean>-->
+
+    <!--    <bean id="rentalOrderService" class="com.epam.brest.courses.rc.service.RentalOrderServiceImpl">-->
+    <!--        <constructor-arg ref="rentalOrderDao"/>-->
+    <!--    </bean>-->
+
+    <bean id="rentalOrderService" class="com.epam.brest.courses.rc.web_app.consumers.RentalOrderRestConsumer">
+        <constructor-arg index="0" value="http://localhost:8088/orders"/>
+        <constructor-arg index="1" ref="restTemplate"/>
     </bean>
 
-    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="dataSource"/>
-    </bean>
-
-    <jdbc:initialize-database>
-        <jdbc:script location="classpath:create-tables.sql"/>
-        <jdbc:script location="classpath:data-scripts.sql"/>
-    </jdbc:initialize-database>
-
-    <bean id="namedParameterJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
-        <constructor-arg name="dataSource" ref="dataSource"/>
-    </bean>
-
-    <bean id="rentalOrderDao" class="com.epam.brest.courses.rc.dao.RentalOrderDaoImpl">
-        <constructor-arg ref="namedParameterJdbcTemplate"/>
-    </bean>
-
-    <bean id="rentalOrderService" class="com.epam.brest.courses.rc.service.RentalOrderServiceImpl">
-        <constructor-arg ref="rentalOrderDao"/>
+    <bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+        <property name="messageConverters">
+            <list>
+                <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+            </list>
+        </property>
+        <!--<property name="errorHandler" ref="customResponseErrorHandler"/>-->
     </bean>
 
     <context:property-placeholder location="classpath:application.properties"/>
@@ -65,12 +79,12 @@
     <!-- Thymeleaf Template Resolver -->
     <bean id="templateResolver"
           class="org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver">
-        <property name="prefix" value="/WEB-INF/templates/" />
-        <property name="suffix" value=".html" />
-        <property name="templateMode" value="HTML" />
+        <property name="prefix" value="/WEB-INF/templates/"/>
+        <property name="suffix" value=".html"/>
+        <property name="templateMode" value="HTML"/>
         <!-- Template cache is true by default. Set to false if you want             -->
         <!-- templates to be automatically updated when modified.                    -->
-        <property name="cacheable" value="false" />
+        <property name="cacheable" value="false"/>
     </bean>
 
     <!-- Thymeleaf Template Engine (Spring5-specific version) -->
@@ -78,15 +92,15 @@
           class="org.thymeleaf.spring5.SpringTemplateEngine">
         <property name="templateResolvers">
             <set>
-                <ref bean="templateResolver" />
+                <ref bean="templateResolver"/>
             </set>
         </property>
     </bean>
 
     <!-- Thymeleaf View Resolver - implementation of Spring's ViewResolver interface -->
     <bean id="viewResolver" class="org.thymeleaf.spring5.view.ThymeleafViewResolver">
-        <property name="templateEngine" ref="templateEngine" />
-        <property name="characterEncoding" value="UTF-8" />
+        <property name="templateEngine" ref="templateEngine"/>
+        <property name="characterEncoding" value="UTF-8"/>
     </bean>
 
     <bean id="messageSource"

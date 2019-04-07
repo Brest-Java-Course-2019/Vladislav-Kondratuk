@@ -14,6 +14,10 @@
         <constructor-arg value="com.epam.brest.courses.rc.service.RentalOrderService"/>
     </bean>
 
+<!--    <bean id="mapper" class="com.fasterxml.jackson.databind.ObjectMapper"/>-->
+
+<!--    <bean id="restTemplate" class="org.springframework.web.client.RestTemplate"/>-->
+
     <context:component-scan base-package="com.epam.brest.courses.rc.web_app"/>
 
 </beans>
