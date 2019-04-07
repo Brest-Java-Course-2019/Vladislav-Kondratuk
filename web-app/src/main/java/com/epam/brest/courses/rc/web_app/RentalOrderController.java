@@ -48,7 +48,7 @@ public class RentalOrderController {
      */
     @GetMapping(value = "/orders")
     public final String getOrdersPage(Model model) {
-        LOGGER.debug("findAll({})", model);
+        LOGGER.debug("getOrdersPage({})", model);
         RentalOrderDateInterval interval = new RentalOrderDateInterval();
         model.addAttribute("ordersDTO", orderService.findAllDTOs());
         model.addAttribute("interval", interval);
@@ -132,8 +132,8 @@ public class RentalOrderController {
      * @return view with use model attributes.
      */
     @GetMapping(value = "/order/{orderId}/delete")
-    public final String deleteRentalOrdertById(@PathVariable Integer orderId, Model model) {
-        LOGGER.debug("delete({},{})", orderId, model);
+    public final String deleteRentalOrderById(@PathVariable Integer orderId, Model model) {
+        LOGGER.debug("deleteRentalOrderById({},{})", orderId, model);
         this.orderService.delete(orderId);
         return "redirect:/orders";
     }

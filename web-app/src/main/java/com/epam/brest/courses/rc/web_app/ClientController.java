@@ -48,7 +48,7 @@ public class ClientController {
      */
     @GetMapping(value = "/clients")
     public final String getClientsPage(Model model) {
-        LOGGER.debug("findAll({})", model);
+        LOGGER.debug("getClientsPage({})", model);
         ClientDateInterval interval = new ClientDateInterval();
         model.addAttribute("clientsDTO", clientService.findAllDTOs());
         model.addAttribute("interval", interval);
@@ -114,7 +114,7 @@ public class ClientController {
     @PostMapping(value = "/edit-client/{clientId}")
     public String updateClient(@Valid @ModelAttribute("client") Client client,
                                     BindingResult result) {
-        LOGGER.debug("updateRentalOrder({}, {})", client, result);
+        LOGGER.debug("updateClient({}, {})", client, result);
         clientValidator.validate(client, result);
         if (result.hasErrors()) {
             return "edit-client";
@@ -133,7 +133,7 @@ public class ClientController {
      */
     @GetMapping(value = "/client/{clientId}/delete")
     public final String deleteClientById(@PathVariable Integer clientId, Model model) {
-        LOGGER.debug("delete({},{})", clientId, model);
+        LOGGER.debug("deleteClientById({},{})", clientId, model);
         this.clientService.delete(clientId);
         return "redirect:/clients";
     }

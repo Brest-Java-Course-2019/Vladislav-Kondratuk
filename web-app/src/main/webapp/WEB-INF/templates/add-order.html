@@ -87,7 +87,7 @@
             <label for="clientId">Client ID</label>
             <input class="form-control"
                    th:class="${#fields.hasErrors('clientId')} ? 'form-control is-invalid' : 'form-control'"
-                   id="clientId" aria-describedby="clientIdHelp"
+                   id="clientId" aria-describedby="clientIdHelp" placeholder="Enter client ID"
                    th:field="*{clientId}">
             <small id="clientIdHelp" class="form-text text-muted">Client ID.</small>
             <div th:if="${#fields.hasErrors('clientId')}"
@@ -98,7 +98,7 @@
             <label for="carId">Car ID</label>
             <input class="form-control"
                    th:class="${#fields.hasErrors('carId')} ? 'form-control is-invalid' : 'form-control'"
-                   id="carId" aria-describedby="carIdHelp"
+                   id="carId" aria-describedby="carIdHelp" placeholder="Enter car ID"
                    th:field="*{carId}">
             <small id="carIdHelp" class="form-text text-muted">Car ID.</small>
             <div th:if="${#fields.hasErrors('carId')}"
@@ -109,7 +109,8 @@
             <label for="rentalTime">Rental time</label>
             <input class="form-control"
                    th:class="${#fields.hasErrors('rentalTime')} ? 'form-control is-invalid' : 'form-control'"
-                   id="rentalTime" aria-describedby="rentalTimeHelp" th:field="*{rentalTime}">
+                   id="rentalTime" aria-describedby="rentalTimeHelp" placeholder="Enter rental time"
+                   th:field="*{rentalTime}">
             <small id="rentalTimeHelp" class="form-text text-muted">Rent time is measured in days,
                 the minimum time - one day.
             </small>

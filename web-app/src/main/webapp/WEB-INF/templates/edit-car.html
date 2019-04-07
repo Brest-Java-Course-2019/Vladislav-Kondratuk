@@ -61,34 +61,65 @@
 
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a href="#" type="button" class="btn btn-dark pull-right" data-toggle="tooltip" data-placement="top"
+                <a href="cars.html"
+                   th:href="@{/cars}"
+                   th:onclick="@{document.forms['carForm'].submit(); return false;}"
+                   type="button" class="btn btn-dark pull-right" data-toggle="tooltip" data-placement="top"
                    title="Save edited Car">
                     <i class="fa fa-save"></i> <span class="d-none d-sm-inline">Save</span></a>
             </li>
         </ul>
     </nav>
 
-    <form>
-        <div class="form-group">
-            <label for="carDescription">Car description</label>
-            <input class="form-control" id="carDescription" aria-describedby="carDescriptionHelp"
-                   placeholder="Enter car description">
-            <small id="carDescriptionHelp" class="form-text text-muted">Name of the brand and model of car.</small>
-        </div>
-        <div class="form-group">
-            <label for="carNumber">Car number</label>
-            <input class="form-control" id="carNumber" aria-describedby="carNumberHelp"
-                   placeholder="Enter car number">
-            <small id="carNumberHelp" class="form-text text-muted">Car registration number.</small>
-        </div>
-        <div class="form-group">
-            <label for="rentalCost">Rental cost</label>
-            <input class="form-control" id="rentalCost" aria-describedby="rentalCostHelp" placeholder="Enter car rental cost">
-            <small id="rentalCostHelp" class="form-text text-muted">Rental cost in Belarusian rubles</small>
-        </div>
-        <button type="reset" class="btn btn-dark button-date-reset" data-toggle="tooltip" data-placement="top"
-                title="Values reset"><i class="fas fa-times"></i><span class="d-none d-sm-inline"> Cancel</span></button>
-    </form>
+    <section id="edit-car">
+        <form id="carForm"
+              action="cars.html"
+              th:action="@{${#httpServletRequest.servletPath}}"
+              th:object="${car}"
+              th:method="@{post}">
+
+            <input id="field_carId"
+                   type="hidden"
+                   th:field="*{carId}"/>
+
+            <div class="form-group">
+                <label for="carDescription">Car description</label>
+                <input class="form-control"
+                       th:class="${#fields.hasErrors('carDescription')} ? 'form-control is-invalid' : 'form-control'"
+                       id="carDescription" aria-describedby="carDescriptionHelp" placeholder="Enter car description"
+                       th:field="*{carDescription}">
+                <small id="carDescriptionHelp" class="form-text text-muted">Name of the brand and model of car.</small>
+                <div th:if="${#fields.hasErrors('carDescription')}"
+                     class="invalid-feedback"
+                     th:errors="*{carDescription}">[errors]
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="carNumber">Car number</label>
+                <input class="form-control"
+                       th:class="${#fields.hasErrors('carNumber')} ? 'form-control is-invalid' : 'form-control'"
+                       id="carNumber" aria-describedby="carNumberHelp" placeholder="Enter car number"
+                       th:field="*{carNumber}">
+                <small id="carNumberHelp" class="form-text text-muted">Car registration number.</small>
+                <div th:if="${#fields.hasErrors('carNumber')}"
+                     class="invalid-feedback"
+                     th:errors="*{carNumber}">[errors]
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="rentalCost">Rental cost</label>
+                <input class="form-control"
+                       th:class="${#fields.hasErrors('rentalCost')} ? 'form-control is-invalid' : 'form-control'"
+                       id="rentalCost" aria-describedby="rentalCostHelp" placeholder="Enter car rental cost"
+                       th:field="*{rentalCost}">
+                <small id="rentalCostHelp" class="form-text text-muted">Rental cost in Belarusian rubles</small>
+                <div th:if="${#fields.hasErrors('rentalCost')}"
+                     class="invalid-feedback"
+                     th:errors="*{rentalCost}">[errors]
+                </div>
+            </div>
+        </form>
+    </section>
 </main>
 
 <!-- Optional JavaScript -->

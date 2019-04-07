@@ -87,7 +87,7 @@
                 <label for="passportNumber">Passport number</label>
                 <input class="form-control"
                        th:class="${#fields.hasErrors('passportNumber')} ? 'form-control is-invalid' : 'form-control'"
-                       id="passportNumber" aria-describedby="passportNumberHelp"
+                       id="passportNumber" aria-describedby="passportNumberHelp" placeholder="Enter passport number"
                        th:field="*{passportNumber}">
                 <small id="passportNumberHelp" class="form-text text-muted">Client passport number.</small>
                 <div th:if="${#fields.hasErrors('passportNumber')}"
@@ -98,7 +98,7 @@
                 <label for="firstName">First name</label>
                 <input class="form-control"
                        th:class="${#fields.hasErrors('firstName')} ? 'form-control is-invalid' : 'form-control'"
-                       id="firstName" aria-describedby="firstNameHelp"
+                       id="firstName" aria-describedby="firstNameHelp" placeholder="Enter client first name"
                        th:field="*{firstName}">
                 <small id="firstNameHelp" class="form-text text-muted">Client first name.</small>
                 <div th:if="${#fields.hasErrors('firstName')}"
@@ -109,7 +109,7 @@
                 <label for="lastName">Last name</label>
                 <input class="form-control"
                        th:class="${#fields.hasErrors('lastName')} ? 'form-control is-invalid' : 'form-control'"
-                       id="lastName" aria-describedby="firstNameHelp"
+                       id="lastName" aria-describedby="firstNameHelp" placeholder="Enter client last name"
                        th:field="*{lastName}">
                 <small id="lastNameHelp" class="form-text text-muted">Client last name.</small>
                 <div th:if="${#fields.hasErrors('lastName')}"

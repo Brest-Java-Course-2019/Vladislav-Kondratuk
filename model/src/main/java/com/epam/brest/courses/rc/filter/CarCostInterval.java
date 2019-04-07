@@ -1,12 +1,14 @@
 package com.epam.brest.courses.rc.filter;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /**
  * Filter class of car rental cost interval.
  */
 public class CarCostInterval {
 
+    public static final BigDecimal DEFAULT_COST = BigDecimal.valueOf(0).setScale(2, RoundingMode.CEILING);
     /**
      * The start interval of rental cost, for search filter.
      */
@@ -26,6 +28,14 @@ public class CarCostInterval {
     public CarCostInterval(BigDecimal costStartInterval, BigDecimal costEndInterval) {
         this.costStartInterval = costStartInterval;
         this.costEndInterval = costEndInterval;
+    }
+
+    /**
+     * Constructor with default cost interval parameters.
+     */
+    public CarCostInterval() {
+        this.costStartInterval = DEFAULT_COST;
+        this.costEndInterval = DEFAULT_COST;
     }
 
     /**
