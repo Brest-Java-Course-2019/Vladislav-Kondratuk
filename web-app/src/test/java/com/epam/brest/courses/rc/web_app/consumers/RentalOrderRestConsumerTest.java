@@ -2,18 +2,16 @@ package com.epam.brest.courses.rc.web_app.consumers;
 
 //import com.epam.brest.courses.rc.dto.RentalOrderDTO;
 //import com.epam.brest.courses.rc.model.RentalOrder;
-//import com.fasterxml.jackson.databind.ObjectMapper;
-//import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.Test;
 //import org.junit.jupiter.api.extension.ExtendWith;
+//import org.mockito.Mockito;
 //import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.http.HttpMethod;
+//import org.springframework.beans.factory.annotation.Qualifier;
 //import org.springframework.http.HttpStatus;
-//import org.springframework.http.MediaType;
+//import org.springframework.http.ResponseEntity;
 //import org.springframework.test.context.ContextConfiguration;
 //import org.springframework.test.context.junit.jupiter.SpringExtension;
-//import org.springframework.test.web.client.ExpectedCount;
-//import org.springframework.test.web.client.MockRestServiceServer;
+//import org.springframework.test.context.web.WebAppConfiguration;
 //import org.springframework.web.client.RestTemplate;
 //
 //import java.math.BigDecimal;
@@ -22,43 +20,37 @@ package com.epam.brest.courses.rc.web_app.consumers;
 //
 //import static org.junit.jupiter.api.Assertions.assertEquals;
 //import static org.junit.jupiter.api.Assertions.assertNotNull;
-//import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
-//import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
-//import static org.springframework.test.web.client.response.MockRestResponseCreators.withStatus;
 //
 //@ExtendWith(SpringExtension.class)
-//@ContextConfiguration(locations = {"classpath:web-spring-test.xml"})
+//@WebAppConfiguration
+//@ContextConfiguration(locations = "file:src/main/webapp/WEB-INF/root-context.xml")
 //class RentalOrderRestConsumerTest {
 //
 //    private static final int ZERO = 0;
 //    private static final int ONE = 1;
 //
 //    @Autowired
-//    private RestTemplate restTemplate = new RestTemplate();
+//    private RestTemplate restTemplate;
 //
-//    private MockRestServiceServer mockServer;
-//    private ObjectMapper mapper = new ObjectMapper();
+//    @Autowired
+//    private RentalOrderRestConsumer rentalOrderService;
 //
-//    @BeforeEach
-//    void init() {
-//        mockServer = MockRestServiceServer.bindTo(restTemplate).build();
+//    @Test
+//    @SuppressWarnings("unchecked")
+//    void shouldGetAllRentalOrders() {
+//        List<RentalOrder> orderList = Arrays.asList(createOrder(ZERO), createOrder(ONE));
+//        ResponseEntity responseEntity = new ResponseEntity(orderList, HttpStatus.OK);
+//
+//        Mockito.when(restTemplate.getForEntity("http://localhost:8088/orders",
+//                RentalOrder.class)).thenReturn(responseEntity);
+//        List<RentalOrder> orderList1 = rentalOrderService.findAll();
+//        assertNotNull(orderList1);
+//        assertEquals(orderList1.size(),2);
 //    }
 //
 //    @Test
 //    void findAll() throws Exception {
-//        List<RentalOrder> orders = Arrays.asList(createOrder(ZERO)
-//                , createOrder(ONE));
 //
-//        mockServer.expect(ExpectedCount.once(),
-//                requestTo("http://localhost:8088/orders/all"))
-//                .andExpect(method(HttpMethod.GET))
-//                .andRespond(withStatus(HttpStatus.OK)
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .body(mapper.writeValueAsString(orders))
-//                );
-//
-//        assertNotNull(orders);
-//        assertEquals(2, orders.size());
 //    }
 //
 //    @Test
