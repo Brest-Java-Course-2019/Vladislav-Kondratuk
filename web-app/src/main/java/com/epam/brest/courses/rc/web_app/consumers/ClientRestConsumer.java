@@ -59,7 +59,10 @@ public class ClientRestConsumer implements ClientService {
 
     @Override
     public List<ClientDTO> findDTOsByDate(String startDate, String endDate) {
-        return null;
+        LOGGER.debug("findDTOsByDate()");
+        ResponseEntity responseEntity = restTemplate.getForEntity(url + "/dto/" + startDate
+                + "/" + endDate, List.class);
+        return  (List<ClientDTO>) responseEntity.getBody();
     }
 
     @Override

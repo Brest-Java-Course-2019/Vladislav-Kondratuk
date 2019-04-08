@@ -8,7 +8,7 @@ import java.math.RoundingMode;
  */
 public class CarCostInterval {
 
-    public static final BigDecimal DEFAULT_COST = BigDecimal.valueOf(0).setScale(2, RoundingMode.CEILING);
+    private static final BigDecimal DEFAULT_COST = BigDecimal.valueOf(0).setScale(2, RoundingMode.CEILING);
     /**
      * The start interval of rental cost, for search filter.
      */

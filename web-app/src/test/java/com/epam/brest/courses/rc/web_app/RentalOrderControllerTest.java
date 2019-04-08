@@ -22,12 +22,15 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Collections;
 
 @ExtendWith(SpringExtension.class)
 @WebAppConfiguration
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/root-context.xml", "classpath:web-spring-test.xml"})
 class RentalOrderControllerTest {
 
+    private static final String START_DATE = "2019-01-08";
+    private static final String END_DATE = "2019-01-11";
     private static final int ONCE = 1;
     private static final int ZERO = 0;
     private static final int ONE = 1;
@@ -178,6 +181,45 @@ class RentalOrderControllerTest {
         ;
 
         Mockito.verify(rentalOrderService, Mockito.times(ONCE)).delete(Mockito.anyInt());
+    }
+
+    @Test
+    void shouldGetFilterOrdersValidationErrorPage() throws Exception {
+        Mockito.when(rentalOrderService.findAllDTOs())
+                .thenReturn(Arrays.asList(createOrderDTO(ZERO), createOrderDTO(ONE)));
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/filter-orders")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .param("regStartInterval", "")
+        ).andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("regEndInterval"))
+                .andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("regStartInterval"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType("text/html;charset=UTF-8"))
+                .andExpect(MockMvcResultMatchers.view().name("orders"))
+                .andExpect(MockMvcResultMatchers.content().string(Matchers.
+                        containsString("<title>Orders list</title>")))
+        ;
+    }
+
+    @Test
+    void shouldGetFilterOrdersPage() throws Exception {
+        Mockito.when(rentalOrderService.findDTOsByDate(START_DATE, END_DATE))
+                .thenReturn(Collections.singletonList(createOrderDTO(ONE)));
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/filter-orders")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .param("regStartInterval", START_DATE)
+                        .param("regEndInterval", END_DATE)
+        ).andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType("text/html;charset=UTF-8"))
+                .andExpect(MockMvcResultMatchers.view().name("orders"))
+                .andExpect(MockMvcResultMatchers.content().string(Matchers.
+                        containsString("<title>Orders list</title>")))
+        ;
     }
 
     private RentalOrder createOrder(int index) {

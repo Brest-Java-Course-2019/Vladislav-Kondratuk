@@ -3,6 +3,7 @@ package com.epam.brest.courses.rc.web_app;
 import com.epam.brest.courses.rc.filter.CarCostInterval;
 import com.epam.brest.courses.rc.model.Car;
 import com.epam.brest.courses.rc.service.CarService;
+import com.epam.brest.courses.rc.web_app.validators.CarCostIntervalValidator;
 import com.epam.brest.courses.rc.web_app.validators.CarValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
 
 /**
  * Car controller.
@@ -41,6 +43,12 @@ public class CarController {
     private CarValidator carValidator;
 
     /**
+     * Date validator.
+     */
+    @Autowired
+    private CarCostIntervalValidator intervalValidator;
+
+    /**
      * Goto cars list page.
      *
      * @param model model add attributes used for rendering view.
@@ -50,7 +58,7 @@ public class CarController {
     public final String getCarsPage(Model model) {
         LOGGER.debug("getCarsPage({})", model);
         CarCostInterval interval = new CarCostInterval();
-        model.addAttribute("carsDTO", carService.findAllDTOs());
+        model.addAttribute("cars", carService.findAllDTOs());
         model.addAttribute("interval", interval);
         return "cars";
     }
@@ -136,5 +144,30 @@ public class CarController {
         LOGGER.debug("deleteCarById({},{})", carId, model);
         this.carService.delete(carId);
         return "redirect:/cars";
+    }
+
+    /**
+     * Goto filtered cars by date.
+     *
+     * @param interval date range for compare.
+     * @param result binding result.
+     * @param model model add attributes used for rendering view.
+     * @return view with use model attributes.
+     */
+    @PostMapping(value = "/filter-cars")
+    public final String filterClients(@Valid @ModelAttribute("interval") CarCostInterval interval,
+                                      BindingResult result,
+                                      Model model) {
+        BigDecimal startCost = interval.getCostStartInterval();
+        BigDecimal endCost = interval.getCostEndInterval();
+        LOGGER.debug("filterClients({})", interval);
+        intervalValidator.validate(interval, result);
+        model.addAttribute("interval", interval);
+        if (result.hasErrors()) {
+            model.addAttribute("cars", carService.findAllDTOs());
+        } else {
+            model.addAttribute("cars", carService.findDTOsByCost(startCost, endCost));
+        }
+        return "cars";
     }
 }

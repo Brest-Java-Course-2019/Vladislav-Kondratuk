@@ -3,6 +3,7 @@ package com.epam.brest.courses.rc.web_app;
 import com.epam.brest.courses.rc.filter.RentalOrderDateInterval;
 import com.epam.brest.courses.rc.model.RentalOrder;
 import com.epam.brest.courses.rc.service.RentalOrderService;
+import com.epam.brest.courses.rc.web_app.validators.RentalOrderDateIntervalValidator;
 import com.epam.brest.courses.rc.web_app.validators.RentalOrderValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +42,12 @@ public class RentalOrderController {
     private RentalOrderValidator orderValidator;
 
     /**
+     * Date validator.
+     */
+    @Autowired
+    private RentalOrderDateIntervalValidator intervalValidator;
+
+    /**
      * Goto orders list page.
      *
      * @param model model add attributes used for rendering view.
@@ -50,7 +57,7 @@ public class RentalOrderController {
     public final String getOrdersPage(Model model) {
         LOGGER.debug("getOrdersPage({})", model);
         RentalOrderDateInterval interval = new RentalOrderDateInterval();
-        model.addAttribute("ordersDTO", orderService.findAllDTOs());
+        model.addAttribute("orders", orderService.findAllDTOs());
         model.addAttribute("interval", interval);
         return "orders";
     }
@@ -136,5 +143,30 @@ public class RentalOrderController {
         LOGGER.debug("deleteRentalOrderById({},{})", orderId, model);
         this.orderService.delete(orderId);
         return "redirect:/orders";
+    }
+
+    /**
+     * Goto filtered rental orders by date.
+     *
+     * @param interval date range for compare.
+     * @param result binding result.
+     * @param model model add attributes used for rendering view.
+     * @return view with use model attributes.
+     */
+    @PostMapping(value = "/filter-orders")
+    public final String filterOrders(@Valid @ModelAttribute("interval") RentalOrderDateInterval interval,
+                                     BindingResult result,
+                                     Model model) {
+        String startDate = interval.getRegStartInterval().toString();
+        String endDate = interval.getRegEndInterval().toString();
+        LOGGER.debug("filterOrders({})", interval);
+        intervalValidator.validate(interval, result);
+        model.addAttribute("interval", interval);
+        if (result.hasErrors()) {
+            model.addAttribute("orders", orderService.findAllDTOs());
+        } else {
+            model.addAttribute("orders", orderService.findDTOsByDate(startDate, endDate));
+        }
+        return "orders";
     }
 }

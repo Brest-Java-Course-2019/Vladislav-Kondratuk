@@ -60,7 +60,10 @@ public class CarRestConsumer implements CarService {
 
     @Override
     public List<CarDTO> findDTOsByCost(BigDecimal startCost, BigDecimal endCost) {
-        return null;
+        LOGGER.debug("findDTOsByCost()");
+        ResponseEntity responseEntity = restTemplate.getForEntity(url + "/dto/" + startCost
+                + "/" + endCost, List.class);
+        return  (List<CarDTO>) responseEntity.getBody();
     }
 
     @Override

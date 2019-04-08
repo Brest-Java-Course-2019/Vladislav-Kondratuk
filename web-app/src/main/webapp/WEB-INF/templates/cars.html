@@ -51,19 +51,22 @@
     <nav class="d-flex navbar navbar-light bg-light align-items-center p-3 my-3 text-dark-50 bg-purple">
         <a class="navbar-brand text-uppercase"><i class="fas fa-car"></i> Cars</a>
 
-        <form class="input-group-prepend" id="date-filter-form"
-              action="car.html"
-              th:action="@{${#httpServletRequest.servletPath}}"
+        <form id="filterForm"
+              action="cars.html"
+              th:action="@{/filter-cars}"
               th:object="${interval}"
               th:method="@{post}">
             <span class="badge">Cost<br>from</span>
-            <input class="form-control" id="before-cost" th:value="*{costStartInterval}">
+            <input type="number" id="before-cost" step=".01"
+                   th:field="*{costStartInterval}">
             <span class="badge">Cost<br>by</span>
-            <input class="form-control" id="after-cost" th:value="*{costEndInterval}">
-            <button type="button" class="btn" data-toggle="tooltip" data-placement="top"
-                    title="Accept filter by cost"><i class="fas fa-sync"></i></button>
-            <button type="reset" class="btn button-date-reset" data-toggle="tooltip" data-placement="top"
-                    title="Cost reset"><i class="fas fa-times"></i></button>
+            <input type="number" id="after-cost" step=".01"
+                   th:field="*{costEndInterval}">
+            <a href="cars.html"
+               th:href="@{/filter-cars}"
+               th:onclick="@{document.forms['filterForm'].submit(); return false;}"
+               type="button" class="btn" data-toggle="tooltip" data-placement="top"
+               title="Accept filter by date"><i class="fas fa-sync"></i></a>
         </form>
 
         <ul class="navbar-nav">
@@ -89,7 +92,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="dto : ${carsDTO}">
+        <tr th:each="dto : ${cars}">
             <td th:text="${dto.carId}">1</td>
             <td th:text="${dto.carDescription}">bmw m3</td>
             <td th:text="${dto.rentalCost}">70.00</td>

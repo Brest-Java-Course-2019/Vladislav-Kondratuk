@@ -51,19 +51,22 @@
     <nav class="d-flex navbar navbar-light bg-light align-items-center p-3 my-3 text-dark-50 bg-purple">
         <a class="navbar-brand text-uppercase"><i class="fas fa-clipboard-list"></i> Orders</a>
 
-        <form class="input-group-prepend" id="date-filter-form"
+        <form id="filterForm"
               action="orders.html"
-              th:action="@{${#httpServletRequest.servletPath}}"
+              th:action="@{/filter-orders}"
               th:object="${interval}"
               th:method="@{post}">
             <span class="badge">Date<br>from</span>
-            <input type="date" class="form-control" id="start-date" th:value="*{regStartInterval}">
+            <input type="date" id="start-date" max="3000-12-31" min="2019-01-01"
+                   th:field="*{regStartInterval}">
             <span class="badge">Date<br>by</span>
-            <input type="date" class="form-control" id="end-date" th:value="*{regEndInterval}">
-            <button type="button" class="btn" data-toggle="tooltip" data-placement="top"
-                    title="Accept filter by date"><i class="fas fa-sync"></i></button>
-            <button type="reset" class="btn button-date-reset" data-toggle="tooltip" data-placement="top"
-                    title="Date reset"><i class="fas fa-times"></i></button>
+            <input type="date" id="end-date" max="3000-12-31" min="2019-01-01"
+                   th:field="*{regEndInterval}">
+            <a href="orders.html"
+               th:href="@{/filter-orders}"
+               th:onclick="@{document.forms['filterForm'].submit(); return false;}"
+               type="button" class="btn" data-toggle="tooltip" data-placement="top"
+               title="Accept filter by date"><i class="fas fa-sync"></i></a>
         </form>
 
         <ul class="navbar-nav">
@@ -92,7 +95,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="dto : ${ordersDTO}">
+            <tr th:each="dto : ${orders}">
                 <td th:text="${dto.passportNumber}">AB45412</td>
                 <td th:text="${dto.carNumber}">BC1423</td>
                 <td th:text="${dto.regDate}">2018-01-20</td>
@@ -104,9 +107,10 @@
                        th:href="@{|/edit-order/${dto.orderId}|}"
                        type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Edit Order">
                         <i class="fas fa-pen"></i><span class="d-none d-sm-inline"> Edit</span></a>
-                    <span data-toggle="modal" data-target="#deleteConfirm" th:attr="data-id=${dto.orderId},data-name=${dto.passportNumber}">
+                    <span data-toggle="modal" data-target="#deleteConfirm"
+                          th:attr="data-id=${dto.orderId},data-name=${dto.passportNumber}">
                 <a type="button" class="btn" data-toggle="tooltip" data-placement="top"
-                        title="Delete Order">
+                   title="Delete Order">
                     <i class="fas fa-trash-alt"></i><span class="d-none d-sm-inline"> Delete</span></a>
                 </span>
                 </td>

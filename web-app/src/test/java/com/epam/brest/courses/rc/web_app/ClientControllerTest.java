@@ -21,11 +21,15 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 @ExtendWith(SpringExtension.class)
 @WebAppConfiguration
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/root-context.xml", "classpath:web-spring-test.xml"})
 class ClientControllerTest {
+
+    private static final String START_DATE = "2019-01-08";
+    private static final String END_DATE = "2019-01-11";
 
     private static final int ONCE = 1;
     private static final int ZERO = 0;
@@ -178,6 +182,45 @@ class ClientControllerTest {
         ;
 
         Mockito.verify(clientService, Mockito.times(ONCE)).delete(Mockito.anyInt());
+    }
+
+    @Test
+    void shouldGetFilterOrdersValidationErrorPage() throws Exception {
+        Mockito.when(clientService.findAllDTOs())
+                .thenReturn(Arrays.asList(createClientDTO(ZERO), createClientDTO(ONE)));
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/filter-clients")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .param("addStartInterval", "")
+        ).andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("addEndInterval"))
+                .andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("addStartInterval"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType("text/html;charset=UTF-8"))
+                .andExpect(MockMvcResultMatchers.view().name("clients"))
+                .andExpect(MockMvcResultMatchers.content().string(Matchers.
+                        containsString("<title>Clients list</title>")))
+        ;
+    }
+
+    @Test
+    void shouldGetFilterOrdersPage() throws Exception {
+        Mockito.when(clientService.findDTOsByDate(START_DATE, END_DATE))
+                .thenReturn(Collections.singletonList(createClientDTO(ONE)));
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/filter-clients")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .param("addStartInterval", START_DATE)
+                        .param("addEndInterval", END_DATE)
+        ).andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType("text/html;charset=UTF-8"))
+                .andExpect(MockMvcResultMatchers.view().name("clients"))
+                .andExpect(MockMvcResultMatchers.content().string(Matchers.
+                        containsString("<title>Clients list</title>")))
+        ;
     }
 
     private Client createClient(int index) {

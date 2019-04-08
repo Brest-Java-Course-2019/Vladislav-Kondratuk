@@ -22,11 +22,15 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Collections;
 
 @ExtendWith(SpringExtension.class)
 @WebAppConfiguration
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/root-context.xml", "classpath:web-spring-test.xml"})
 class CarControllerTest {
+
+    private static final BigDecimal START_COST = BigDecimal.valueOf(70);
+    private static final BigDecimal END_COST = BigDecimal.valueOf(80);
 
     private static final int ONCE = 1;
     private static final int ZERO = 0;
@@ -175,6 +179,45 @@ class CarControllerTest {
         ;
 
         Mockito.verify(carService, Mockito.times(ONCE)).delete(Mockito.anyInt());
+    }
+
+    @Test
+    void shouldGetFilterOrdersValidationErrorPage() throws Exception {
+        Mockito.when(carService.findAllDTOs())
+                .thenReturn(Arrays.asList(createCarDTO(ZERO), createCarDTO(ONE)));
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/filter-cars")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .param("costStartInterval", "")
+        ).andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("costStartInterval"))
+                .andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("costEndInterval"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType("text/html;charset=UTF-8"))
+                .andExpect(MockMvcResultMatchers.view().name("cars"))
+                .andExpect(MockMvcResultMatchers.content().string(Matchers.
+                        containsString("<title>Cars list</title>")))
+        ;
+    }
+
+    @Test
+    void shouldGetFilterOrdersPage() throws Exception {
+        Mockito.when(carService.findDTOsByCost(START_COST, END_COST))
+                .thenReturn(Collections.singletonList(createCarDTO(ONE)));
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/filter-cars")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .param("costStartInterval", "70")
+                        .param("costEndInterval", "80")
+        ).andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType("text/html;charset=UTF-8"))
+                .andExpect(MockMvcResultMatchers.view().name("cars"))
+                .andExpect(MockMvcResultMatchers.content().string(Matchers.
+                        containsString("<title>Cars list</title>")))
+        ;
     }
 
     private Car createCar(int index) {

@@ -3,6 +3,7 @@ package com.epam.brest.courses.rc.web_app;
 import com.epam.brest.courses.rc.filter.ClientDateInterval;
 import com.epam.brest.courses.rc.model.Client;
 import com.epam.brest.courses.rc.service.ClientService;
+import com.epam.brest.courses.rc.web_app.validators.ClientDateIntervalValidator;
 import com.epam.brest.courses.rc.web_app.validators.ClientValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +42,12 @@ public class ClientController {
     private ClientValidator clientValidator;
 
     /**
+     * Date validator.
+     */
+    @Autowired
+    private ClientDateIntervalValidator intervalValidator;
+
+    /**
      * Goto clients list page.
      *
      * @param model model add attributes used for rendering view.
@@ -50,7 +57,7 @@ public class ClientController {
     public final String getClientsPage(Model model) {
         LOGGER.debug("getClientsPage({})", model);
         ClientDateInterval interval = new ClientDateInterval();
-        model.addAttribute("clientsDTO", clientService.findAllDTOs());
+        model.addAttribute("clients", clientService.findAllDTOs());
         model.addAttribute("interval", interval);
         return "clients";
     }
@@ -136,5 +143,30 @@ public class ClientController {
         LOGGER.debug("deleteClientById({},{})", clientId, model);
         this.clientService.delete(clientId);
         return "redirect:/clients";
+    }
+
+    /**
+     * Goto filtered clients by date.
+     *
+     * @param interval date range for compare.
+     * @param result binding result.
+     * @param model model add attributes used for rendering view.
+     * @return view with use model attributes.
+     */
+    @PostMapping(value = "/filter-clients")
+    public final String filterClients(@Valid @ModelAttribute("interval") ClientDateInterval interval,
+                                     BindingResult result,
+                                     Model model) {
+        String startDate = interval.getAddStartInterval().toString();
+        String endDate = interval.getAddEndInterval().toString();
+        LOGGER.debug("filterClients({})", interval);
+        intervalValidator.validate(interval, result);
+        model.addAttribute("interval", interval);
+        if (result.hasErrors()) {
+            model.addAttribute("clients", clientService.findAllDTOs());
+        } else {
+            model.addAttribute("clients", clientService.findDTOsByDate(startDate, endDate));
+        }
+        return "clients";
     }
 }

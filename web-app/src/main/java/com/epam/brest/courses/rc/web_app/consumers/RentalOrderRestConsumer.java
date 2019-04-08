@@ -59,7 +59,10 @@ public class RentalOrderRestConsumer implements RentalOrderService {
 
     @Override
     public List<RentalOrderDTO> findDTOsByDate(String startDate, String endDate) {
-        return null;
+        LOGGER.debug("findDTOsByDate()");
+        ResponseEntity responseEntity = restTemplate.getForEntity(url + "/dto/" + startDate
+                + "/" + endDate, List.class);
+        return  (List<RentalOrderDTO>) responseEntity.getBody();
     }
 
     @Override
