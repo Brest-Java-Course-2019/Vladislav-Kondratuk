@@ -13,14 +13,19 @@
     <link rel="stylesheet"
           href="../../resources/static/css/all.css"
           th:href="@{/resources/static/css/all.css}">
+    <link rel="shortcut icon" type="image/x-icon"
+          href="../../resources/static/img/favicon.svg"
+          th:href="@{/resources/static/img/favicon.svg}"/>
 
     <title>Clients list</title>
 </head>
 
 <body>
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-    <a class="navbar-brand" href="#"> <img src="../../resources/static/img/logo.svg"
-                                           th:src="@{/resources/static/img/logo.svg}"></a>
+    <a class="navbar-brand" href="clients.html"
+       th:href="@{/clients}">
+        <img src="../../resources/static/img/logo.svg"
+             th:src="@{/resources/static/img/logo.svg}"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbar"
             aria-controls="myNavbar" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -103,10 +108,9 @@
                        th:href="@{|/edit-client/${dto.clientId}|}"
                        type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Edit Client">
                         <i class="fas fa-pen"></i><span class="d-none d-sm-inline"> Edit</span></a>
-                    <span data-toggle="modal" data-target="#deleteConfirm"
-                          th:attr="data-id=${dto.clientId},data-name=${dto.lastName}">
-                <a type="button" class="btn" data-toggle="tooltip" data-placement="top"
-                   title="Delete Client">
+                    <span data-toggle="modal" data-target="#deleteConfirm">
+                <a type="button" class="open-DelDialog btn" data-toggle="tooltip" data-placement="top"
+                   th:attr="data-id=${dto.clientId}" title="Delete Client">
                     <i class="fas fa-trash-alt"></i><span class="d-none d-sm-inline"> Delete</span></a>
                 </span>
                 </td>
@@ -165,11 +169,12 @@
                 </button>
             </div>
             <div class="modal-body">
-                Please confirm delete
+                Please confirm delete client
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <a type="button" class="btn btn-danger" id="deleteUrl" href="#">Delete</a>
+                <a type="button" class="btn btn-danger" id="deleteUrl" href="#"
+                   th:href="@{/delete/{iddd}(iddd=${id})}" >Delete</a>
             </div>
         </div>
     </div>
@@ -187,13 +192,13 @@
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
         })
-
-          $('#deleteConfirm').on('show.bs.modal', function (event) {
-            var target = $(event.relatedTarget)
-            $(this).find('.modal-body').text('Please confirm delete client: "' + target.data('name') + '"')
-            document.getElementById('deleteUrl').href = '/client/' + target.data('id') + '/delete';
-        })
-
+</script>
+<script th:inline="javascript">
+    $(document).on("click", ".open-DelDialog", function () {
+        var url=[[@{/client}]]+"/";
+        var clientId = $(this).data('id');
+        $(".modal-footer #deleteUrl").attr("href",url+ clientId+'/delete');
+    });
 </script>
 </body>
 </html>

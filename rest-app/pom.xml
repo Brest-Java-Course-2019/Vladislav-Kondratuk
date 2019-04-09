@@ -85,5 +85,7 @@
                 </configuration>
             </plugin>
         </plugins>
+
+        <finalName>rest-rental-cars</finalName>
     </build>
 </project>

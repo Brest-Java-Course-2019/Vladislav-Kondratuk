@@ -12,17 +12,19 @@ Test Java project to study technologies such as git, maven, continuous integrati
         install jdk8
 
         install maven3+
+        
+        install tomcat
 
         install git
 
-Apache Maven 3.5.2, java 1.8 and local git required for build
-You can get it at:
+Apache Maven 3.5.2, Apache Tomcat 9.0.13, java 1.8, and local git required for build,
+you can get it at:
 
         https://www.oracle.com
 
         http://maven.apache.org
 
-        https://git-scm.com/
+        https://tomcat.apache.org
 
 #### Check environment configuration
 
@@ -33,11 +35,12 @@ You can get it at:
         $ mvn -version
 
 ### Installing
-Download project from github
-
-       git clone https://github.com/Brest-Java-Course-2019/Vladislav-Kondratuk.git
+Choose directory for project, download project from github:
+ 
+       $ git clone https://github.com/Brest-Java-Course-2019/Vladislav-Kondratuk.git
 
 #### Build project
+Run terminal command in project directory:
 
         $ mvn clean install
 
@@ -47,11 +50,66 @@ Download project from github
 
         $ mvn site:site
 
-        check: <project>/target/site/index.html
+   check for reports: 
+        
+        ../<project>/target/site/index.html
+
+#### Use tomcat server for WEB RESTful application test
+   After project was build for web-app go to: 
+        
+        ../<project>/web-app/target/rental-cars.war
+        
+   and copy "rental-cars.war" to tomcat /webapps directory
+        
+        ../tomcat/webapps/rental-cars.war
+        
+   for rest-app go to: 
+          
+        ../<project>/rest-app/target/rest-rental-cars.war
+          
+   and copy "rest-rental-cars.war" to tomcat /webapps directory
+          
+        ../tomcat/webapps/rest-rental-cars.war
+        
+   the web application should be available at:
+        
+         http://localhost:8080/rental-cars/
+         
+#### Use embedded jetty server for WEB RESTful application test
+For run web-app, rest-app at jetty server you need go to:
+        
+        ../<project>/web-app/target/src/main/resources/application.properties
+        
+   and change some values for jetty server at "application.properties": 
+        
+        port=8088
+        point.orders=orders
+        point.clients=clients
+        point.cars=cars
+   
+   after this you need to rebuild project:
+   
+        $ mvn clean install
+        
+   if you want again use tomcat server change values back to:
+   
+        port=8080
+        point.orders=rest-rental-cars/orders
+        point.clients=rest-rental-cars/clients
+        point.cars=rest-rental-cars/cars
+   
+   Run terminal commands in project directory:
+
+        $ mvn -pl web-app/ jetty:run
+
+        $ mvn -pl rest-app/ jetty:run
+
+   Once started, the application should be available at:
+
+        http://localhost:8090
 
 #### Use embedded jetty server for REST application test
-
-        Run terminal in <project> directory:
+   Run terminal command in project directory:
 
         $ mvn -pl rest-app/ jetty:run
 
@@ -59,7 +117,7 @@ Download project from github
 
         http://localhost:8088
 
-        Try CURL:
+   Try CURL:
 
         Get all orders:
         $ curl -X GET -v http://localhost:8088/orders/all
@@ -87,19 +145,6 @@ Download project from github
 
         ...
 
-#### Use embedded jetty server for WEB RESTful application test
-        RESTful Web application are basically REST Architecture, it takes two servers to work.
-
-        Run terminal in <project> directory:
-
-        $ mvn -pl web-app/ jetty:run
-
-        $ mvn -pl rest-app/ jetty:run
-
-        Once started, the application should be available at:
-
-        http://localhost:8090
-
 #### Travis CI integration
 
         Visit <https://travis-ci.org/Brest-Java-Course-2019/Vladislav-Kondratuk>
@@ -109,6 +154,4 @@ Download project from github
         Visit <https://coveralls.io/github/Brest-Java-Course-2019/Vladislav-Kondratuk>
 
 --------
->Produced by Vladiskav Kondratuk
-Brest Java Courses
-2019
+>Produced by Vladiskav Kondratuk <br> Brest Java Courses    2019

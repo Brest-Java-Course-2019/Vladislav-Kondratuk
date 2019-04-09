@@ -25,7 +25,7 @@
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
             <list>
-                <value>classpath:sql.properties</value>
+                <value>classpath:application.properties</value>
             </list>
         </property>
     </bean>
@@ -61,17 +61,17 @@
     <!--    </bean>-->
 
     <bean id="rentalOrderService" class="com.epam.brest.courses.rc.web_app.consumers.RentalOrderRestConsumer">
-        <constructor-arg index="0" value="http://localhost:8088/orders"/>
+        <constructor-arg index="0" value="${protocol}://${host}:${port}/${point.orders}"/>
         <constructor-arg index="1" ref="restTemplate"/>
     </bean>
 
     <bean id="clientService" class="com.epam.brest.courses.rc.web_app.consumers.ClientRestConsumer">
-        <constructor-arg index="0" value="http://localhost:8088/clients"/>
+        <constructor-arg index="0" value="${protocol}://${host}:${port}/${point.clients}"/>
         <constructor-arg index="1" ref="restTemplate"/>
     </bean>
 
     <bean id="carService" class="com.epam.brest.courses.rc.web_app.consumers.CarRestConsumer">
-        <constructor-arg index="0" value="http://localhost:8088/cars"/>
+        <constructor-arg index="0" value="${protocol}://${host}:${port}/${point.cars}"/>
         <constructor-arg index="1" ref="restTemplate"/>
     </bean>
 
@@ -84,7 +84,7 @@
         <!--<property name="errorHandler" ref="customResponseErrorHandler"/>-->
     </bean>
 
-    <context:property-placeholder location="classpath:application.properties"/>
+<!--    <context:property-placeholder location="classpath:application.properties"/>-->
 
     <!-- Thymeleaf Template Resolver -->
     <bean id="templateResolver"
