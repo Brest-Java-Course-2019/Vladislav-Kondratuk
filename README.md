@@ -55,7 +55,13 @@ Run terminal command in project directory:
         ../<project>/target/site/index.html
 
 #### Use tomcat server for WEB RESTful application test
-   After project was build for web-app go to: 
+   After project was build you can go to:
+   
+        http://localhost:8080/manager/html/
+        
+   and choose .war files for deploy web-app, rest-app in deploy section. 
+   
+   Another way to do this for web-app go to: 
         
         ../<project>/web-app/target/rental-cars.war
         
@@ -63,7 +69,7 @@ Run terminal command in project directory:
         
         ../tomcat/webapps/rental-cars.war
         
-   for rest-app go to: 
+   for rest-app go to:
           
         ../<project>/rest-app/target/rest-rental-cars.war
           
@@ -75,32 +81,20 @@ Run terminal command in project directory:
         
          http://localhost:8080/rental-cars/
          
+   if you wanna shutdown or stop tomcat server go to:
+   
+        http://localhost:8080/manager/html/
+   
+   choose app click to "undeploy" for shutdown and removing, or click to "stop" for stopping app.
+   Also you can remove rest-app.war, web-app.war files from:
+        
+        ../tomcat/webapps/
+        
+   for shutdown and removing this apps from tomcat server.
 #### Use embedded jetty server for WEB RESTful application test
-For run web-app, rest-app at jetty server you need go to:
+You need to run these commands in different tabs or terminal windows:
         
-        ../<project>/web-app/target/src/main/resources/application.properties
-        
-   and change some values for jetty server at "application.properties": 
-        
-        port=8088
-        point.orders=orders
-        point.clients=clients
-        point.cars=cars
-   
-   after this you need to rebuild project:
-   
-        $ mvn clean install
-        
-   if you want again use tomcat server change values back to:
-   
-        port=8080
-        point.orders=rest-rental-cars/orders
-        point.clients=rest-rental-cars/clients
-        point.cars=rest-rental-cars/cars
-   
-   Run terminal commands in project directory:
-
-        $ mvn -pl web-app/ jetty:run
+        $ mvn -pl web-app/ jetty:run -P jetty
 
         $ mvn -pl rest-app/ jetty:run
 
@@ -108,6 +102,9 @@ For run web-app, rest-app at jetty server you need go to:
 
         http://localhost:8090
 
+   if you wanna shutdown jetty server, go to terminal tab or window
+   you wanna stop and press "CTRL+C".
+    
 #### Use embedded jetty server for REST application test
    Run terminal command in project directory:
 

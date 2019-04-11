@@ -88,7 +88,52 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+
+        <profile>
+            <id>tomcat</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>rc</name>
+                    <value>tomcat</value>
+                </property>
+            </activation>
+            <properties>
+                <port>8080</port>
+                <point.orders>rest-rental-cars/orders</point.orders>
+                <point.clients>rest-rental-cars/clients</point.clients>
+                <point.cars>rest-rental-cars/cars</point.cars>
+            </properties>
+
+        </profile>
+
+        <profile>
+            <id>jetty</id>
+            <activation>
+                <property>
+                    <name>rc</name>
+                    <value>jetty</value>
+                </property>
+            </activation>
+            <properties>
+                <port>8088</port>
+                <point.orders>orders</point.orders>
+                <point.clients>clients</point.clients>
+                <point.cars>cars</point.cars>
+            </properties>
+        </profile>
+
+    </profiles>
+
     <build>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
 
         <plugins>
             <!-- Embedded Jetty HTTP Server for testing web application -->
